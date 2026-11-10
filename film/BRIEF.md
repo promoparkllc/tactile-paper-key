@@ -1,6 +1,6 @@
 # BRIEF · "From object to interface" — explainer film for Tactile — Paper Key
 
-Storyboard v2 · 2026-11-09 · Promopark Studio · status: **Stage 3 · FINAL 27.5 s rendered + QC 2026-11-10 (dock size B, fan levels, S7 reframed) → motion: re-capture, recomposite, music cut → Mux**
+Storyboard v2 · 2026-11-09 · Promopark Studio · status: **Stage 3 · FINAL 27.5 s rendered + QC 2026-11-10 (dock size B, fan levels, S7 reframed, latch rim of skin 7eef74a); render/final/out is final → motion: re-capture, recomposite, music cut → Mux**
 
 ## 1. Objective
 
@@ -42,7 +42,7 @@ any product; no logos, no brand text.
 | Display | 244 × 44, r 22, 0.6 proud | black ceramic #151413 (roughness 0.12, coat 1.0 / 0.05) + emissive text Geist Mono 600/500 "PLAY 1.0×  0:37  1:51" + 6 px accent dot | `.tactile-pill` |
 | Seek / volume | 2 wide, 1.2 deep ink channel; 4 wide flush inlays (accent fill, buffer #888177, ink volume fill) | — | `.tactile-fader` |
 | Fader caps | 14 × 32 r 5, 2 proud; 4 ribs 8 × 1.5 (accent cap), 2 ink ribs + ring (bone volume cap) | accent / key | `.tactile-fader-cap` |
-| LED | Ø 5, 5 from the key's top edge, emissive accent when lit | — | `.tactile-led` |
+| Latch rim (since skin 7eef74a; was an LED, then a latch bar) | a latched key (captions on) trades its 1.25 ink ring for a 2 wide accent ring at the very edge and sits 1 lower; glyph ink, face key | accent #D9531E | `--tactile-rim-w: 2px`, `--tactile-latch-travel: 1px` |
 | Glaze caps (shot 3) | 5 × Ø 52 plain caps with the ring | graphite #34343A · stone #A8A49D · bone #F3F0EB · orange #D9531E · yellow #E4C94A | `--media-accent-color` |
 
 Every piece has a rig (empty at the dock top) and an object attribute `flat` (0 → 1). `flat` mixes the physical BSDF
@@ -637,8 +637,8 @@ bar 13 × 2.5, 6 px above the key's bottom edge, accent when captions are on; mu
 volume 0.75 (0.6 shows `low`).
 
 **Object = UI, so the whole object changed** (1 px = 1 mm): keys 44, play 76 × 44, pill 230.92 × 36 r18, caps
-12 × 26 with 3 / 2 ribs of 6 × 1.5, body 68 tall, the captions LED is now the latch bar under the glyph. Every shot
-re-renders. Framings tuned on 52 mm keys scale by `K_KEY = 44/52` (hook, press, fan distances and offsets); S2 keeps
+12 × 26 with 3 / 2 ribs of 6 × 1.5, body 68 tall, the captions LED became the latch bar under the glyph (and, with skin 7eef74a, the 2 px accent rim: see
+the latch rim section). Every shot re-renders. Framings tuned on 52 mm keys scale by `K_KEY = 44/52` (hook, press, fan distances and offsets); S2 keeps
 its raking view with the target moved to x 845 / +45 mm and 16° so the key anchors stay inside the frame at f91
 (`anchors_s2.json`: cap f77–180, display f78–180, body f76–180, key_ring f71–180, key_travel f70–180).
 
@@ -705,13 +705,13 @@ luma 106.6; brand #D9531E = 17° / 108):
 | Frame | Piece | sRGB | hue | Δhue | luma | Δluma |
 | --- | --- | --- | --- | --- | --- | --- |
 | 241 | fan orange cap (dome) | 202,87,41 | 17.1° | +1.5° | 108.1 | +1.4 % |
-| 320 | latch bar (captions key) | 183,91,58 | 15.8° | +0.2° | 108.2 | +1.5 % |
+| 320 | latch bar (captions key; replaced by the rim below) | 183,91,58 | 15.8° | +0.2° | 108.2 | +1.5 % |
 | 481 | seek cap (start of slide) | 191,95,69 | 12.8° | −2.8° | 113.5 | +6.5 % |
 | 526 | seek cap (stop, reference) | 183,89,56 | 15.6° | 0 | 106.6 | 0 |
 | 540 | seek cap (before the groove flattens) | 186,89,53 | 16.2° | +0.6° | 107.0 | +0.4 % |
 | 600 | display dot | 197,86,34 | 19.1° | +3.5° | 105.8 | −0.8 % |
 
-All within ±4° / ±10 %, the same values as the 26 s final within 0.2° / 0.5 %. Latch bar over f318–337: luma
+All within ±4° / ±10 %, the same values as the 26 s final within 0.2° / 0.5 %. Latch bar (then) over f318–337: luma
 107.2–108.2 (spread 0.9 % of mean), hue 15.4–16.1°. New sample: the seek fill at f481 (inlay 30 mm into the track)
 reads 184,128,114 · hue 12.0° · luma +30 %: a defocused foreground strip under the S6 key light at a raking angle,
 not a calibration target (the fill's hex is exact in the flat frames through pass B).
@@ -738,6 +738,91 @@ showing, Tab at 688 / 710 / 732; recomposite on `render/final/out` (825 frames);
 `wipe_edge.json` current; new music cut for 27.5 s, dry end on the last downbeat (B(52) = 26.0 s inside the end card,
 last beat B(55) = 27.5 s). Then Mux (new playback ID in `apps/preview/src/frame/player.ts`).
 
+
+### Stage 3 · latch rim (2026-11-10) · skin 7eef74a
+
+**Ask.** The latched captions key no longer has an LED bar: a 2 px rim in the accent colour around the key, the glyph
+ink, the key 1 px down (stone adds a 1 px ink keyline, the film stays on bone). Take the bar out of the model, put the
+rim in (2 px at the 44 px scale → 2 mm, like the 1.25 ring), re-render the frames where the key is latched, QC the
+rim's accent against the seek cap and the flat frame against a *new* live capture, update the texts, tell film/motion.
+
+**Measured on the live skin after 7eef74a** (Playwright on the capture page, 1200 × 675, t = 22.5 s of the 27.5 s
+film, `--volume 0.8`, captions showing; scratchpad `measure_dock3.mjs`, screenshot `dock_live3.png`): captions key
+box 1012–1056 × 596–640 (`translate: 0 1px`: 1 px lower than mute / settings / fullscreen at 595), computed border
+`2px rgb(217, 83, 30)`, background still `#F3F0EB`, box-shadow `0 1px 0 #C2BBB1`; accent pixels on row 618 at
+1012–1013 and 1054–1055, on column 1034 at 596–597 and 638–639 (2 px, inside the 44 px box). The play key (playing =
+latched) sits at 36–112 × 596–640, also 1 px down.
+
+**Model.** No separate rim piece: the captions key's ledge (1.25, ink) and the rounded face edge just inside it are
+built with two materials that carry a second UI colour mixed in by the object attribute `latch` (0 → 1, `InkLatch` =
+ink → accent, `KeyLatch` = key → accent, flat emission exact in pass B), and its edge radius is `RIM_W − OUTLINE` =
+0.75 so ledge + edge = **2.0 mm** seen from above (1.25 ink ring + 0.75 face when unlatched, as every other key). The
+top n-gon keeps the key material (it inherits the edge band's by construction). `latch` keys 0 → 1 on f305–309, the
+old LED window (130 ms after the press; `--tactile-dur-rim` 150 ms). The key stays **1 mm lower** after the press
+(`DOCK_TOP − LATCH_TRAVEL`, the 0.6 overshoot relative to it) and, while it flattens (346–376), the 1 mm travel
+becomes the UI's `translate: 0 1px`: 1 mm down the screen (−y) and back onto the UI plane, inside its eccentric well
+(the 2 mm shade crescent under it becomes 1 mm, as the latched box-shadow). The play key takes the same 1 px drop at
+the morph (f661, playing = latched). The LED object, its `lit` keys and material, and the hook's light-linking entry
+are gone; `scenes.json` keeps `events.led` as an alias of the new `events.latch` (305–309) for the motion layer.
+
+**Rim accent while 3D.** The rim exists only under the S4–S5 window sun (latched f305, a drawing from f376). With the
+accent's physical base and the key's own gain it whitened (229,185,171 at f320, +81 %); with the seek cap's S4–S5 gain
+(0.74, 0.68, 0.18) it read +30 %; the latch colour therefore has its own gain `LATCH_GAIN` (object attribute
+`latch_gain`), matte materials (spec 0.15, rough 0.6) against the sun's highlight, calibrated on f320 / f340 renders
+(scratchpad `rim_probe.py`, eight points around the ledge): **(0.41, 0.37, 0.14) → ledge 200,86,35 = hue 18.4° / luma
+106.6** against the cap's 15.6° / 106.6, uniform around the key at f340 (±1 luma); at f320 the far edge (top of the
+frame, out of focus against the sunlit dock) blends toward bone, and the shaded face edge reads darker (163,59,4), the
+3D shading. `accent_report.py` samples the rim on the key's left side (−21.4, 0, 1.5), in focus in S4.
+
+**Flat frame f676 against the new capture** (pass B at 100 %, scratchpad `ring_check.py`, accent-pixel runs in
+1200-px CSS units): rim row 618 **1012–1013 / 1054–1055**, column 1034 **596–597 / 638–639**, bbox 1012–1055 ×
+596–639: identical to the DOM; play key 37–110 × 597–640 (same), the ink rings of mute / settings / fullscreen
+unchanged.
+
+**Re-render.** The LED was a dark slot in the key's face whenever the key was unlatched, so taking it out changes every
+frame that shows the captions key, not only the latched window: probed per frame (scratchpad `cc_vis.py`, the key's
+ring projected into the camera) the key is in frame on **1–71, 80–187, 271–465, 644–750**; pass A re-rendered on
+1–187, 271–465, 644–750 (489 frames), B and M on 346–465 and 644–750 (227 each), recomposite, re-encode.
+Ran 16:54 → 17:37 (2589 s): A 187 f in 770 s, 195 f in 808 s, 107 f in 124 s (3.4 s/f on the 3D shots, 1.2 s/f on the
+flat hand-off); B 120 f in 456 s and 107 f in 128 s; M 120 f in 90 s and 107 f in 80 s; composite 489 frames, `preview.mp4`
+825 frames = 27.500 s (same encode settings), `preview_3d.mp4`, contact sheets, `accent_report.json`. **`render/final/out`
+is final.**
+
+**Motion QC.** Kit motion_check on 1–750: diff median 0.669, max 59.0, 0→peak jump True (f60 cut / f168 fade, as before),
+empty frames none, longest near-static run **73 = 678–750**, the whole hand-off hold (before, a noise-level dip around
+f712 split it into 38; the seek fill and the display still move, below the kit's threshold) → the only FAIL reason, by
+design. Own tblend analysis: median 2.78, p95 13.1, the same three light steps (f64–68 ≤ 30, f175–178 ≤ 28, f192 52),
+no near-static run ≥ 12 f at the 5 % threshold, dark runs 180–191 (12 f) and 269–271 (3 f). Per-shot medians within
+0.03 of the previous render except S4 (4.65 vs 4.87: the dark LED slot no longer flickers under the sun).
+
+**Accent on the final frames** (pass A, 7 × 7 median, reference = seek cap top at f526 = 183,89,56 · hue 15.6° ·
+luma 106.6):
+
+| Frame | Piece | sRGB | hue | Δhue | luma | Δluma |
+| --- | --- | --- | --- | --- | --- | --- |
+| 241 | fan orange cap (dome) | 202,87,41 | 17.1° | +1.5° | 108.1 | +1.4 % |
+| 320 | latch rim (ledge, left side) | 200,85,34 | 18.4° | +2.8° | 105.8 | −0.8 % |
+| 340 | latch rim | 200,86,34 | 18.8° | +3.2° | 106.5 | −0.1 % |
+| 481 | seek cap (start of slide) | 191,95,69 | 12.8° | −2.8° | 113.5 | +6.5 % |
+| 526 | seek cap (stop, reference) | 183,89,56 | 15.6° | 0 | 106.6 | 0 |
+| 540 | seek cap (before the groove flattens) | 186,89,53 | 16.2° | +0.6° | 107.0 | +0.4 % |
+| 600 | display dot | 197,86,34 | 19.1° | +3.5° | 105.8 | −0.8 % |
+
+All within ±4° / ±10 %. **Latch rim over f318–337: luma 105.8–106.6 (spread 0.8 % of mean), hue 18.2–18.8°** → constant
+while the camera moves. (The seek fill sample at f481, 184,128,114, is the defocused foreground strip noted above, not
+a target.)
+
+**Flat frame f676 (composite) against the new live capture** (`ring_check.py`, 1200-px units): rim row 618 1012–1013 /
+1054–1055, column 1034 596–597 / 638–639, bbox 1012–1055 × 596–639 — **identical to the DOM**; play key 37–110 ×
+597–640 (identical, the 1 px latch drop included); mute / settings / fullscreen ink rings unchanged.
+
+**Visual spot check at 100 %** (f40 hook: the ring's lit crescent without the dark slot, f106, f301 press, f320 / f340
+rim under the sun, f376 the key becoming its drawing with the rim, f400, f676 hard cut, f750): no fireflies, the rim
+reads as one 2 px line in the flat frames (8× crop against the live crop: same), the face stays key, the glyph ink.
+
+**Texts.** This brief (pieces table, dock B section, the QC table above), `scripts/accent_report.py` and
+`scripts/measure.py` (rim samples instead of the LED), `scripts/build_scene.py` (`RIM_W`, `LATCH_TRAVEL`,
+`LATCH_GAIN`, `F_LATCH`). No anchor or caption names the LED; the motion layer's `events.led` keeps working.
 
 ## 9. Review gates
 

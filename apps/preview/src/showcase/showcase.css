@@ -748,135 +748,956 @@ kbd {
   line-height: 1.5;
 }
 
-/* 06 Specs. */
+/* 06 Specs + 07 Install. Values from design/InstallSpecs.dc.html. */
+:root {
+  --dim: #8c8577; /* dimension lines, step numbers, prompts, group labels */
+  --string: #e9a47f; /* strings in code, dashed accent slots */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --mono: "Geist Mono Text", "Geist Mono Fallback", ui-monospace, monospace;
+}
+
+/* Labels of the drawing and small mono notes. */
+.dl {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ---- 06: the drawing ---- */
 .specs {
   display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) 440px;
+  gap: 16px;
   margin-top: 40px;
 }
 
 .spec-draw {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  padding: 40px 28px;
-  background: var(--panel);
+  min-width: 0;
+  padding: 44px 40px 36px;
+  background-color: #2a2827;
+  background-image: linear-gradient(rgb(243 231 210 / 0.04) 1px, transparent 1px), linear-gradient(90deg, rgb(243 231 210 / 0.04) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
 
-.spec-row {
+.spec-parts {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 22px;
+  justify-content: space-between;
+  gap: 26px 20px;
+  max-width: 700px;
+  align-items: flex-start;
 }
 
-.spec-item {
+/* A part: the shape, its dimension line, its label. A button, so hover, focus and tap all reach it. */
+.part {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.k {
-  position: relative;
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 44px;
-  height: 44px;
-  border: 1.25px solid var(--edge);
-  border-radius: 50%;
+.part:focus-visible {
+  outline-offset: 8px;
 }
 
-.spec-play {
+.part-shape {
+  display: block;
+  box-sizing: border-box;
+  transition: box-shadow 150ms var(--ease);
+}
+
+.part-play {
   width: 76px;
+  height: 44px;
   border-radius: 22px;
   background: var(--accent);
   box-shadow: 0 2px 0 var(--accent-shade);
 }
 
-.spec-key {
+.part-key {
+  width: 44px;
+  height: 44px;
+  border: 1.25px solid var(--edge);
+  border-radius: 50%;
   background: var(--key);
   box-shadow: 0 2px 0 #c2bbb1;
 }
 
-.pill {
-  display: flex;
-  flex: none;
-  align-items: center;
-  gap: 10px;
+.part-latched {
+  border: 2px solid var(--accent);
+  box-shadow: 0 1px 0 #c2bbb1;
+  transform: translateY(1px);
+}
+
+.part-pill {
+  width: 132px;
   height: 36px;
-  padding: 0 14px;
+  margin-top: 4px;
   border-radius: 18px;
   background: var(--display);
-  color: #f4f1ec;
-  font-family: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
-  font-size: 13px;
 }
 
-.spec-pill {
-  width: 120px;
-}
-
-.spec-cap {
+.part-cap {
   width: 12px;
   height: 26px;
+  margin-top: 9px;
   border-radius: 4px;
   background: var(--accent);
   box-shadow: 0 2px 0 var(--accent-shade);
 }
 
-.spec-l {
-  font-size: 11px;
-  color: var(--muted);
+/* Dimension line: a 1px line with a 9px tick at each end. The line and the ticks are separate so they can draw in
+   one after the other. */
+.dim {
+  position: relative;
+  display: block;
+  width: var(--w);
+  height: 9px;
+  margin-top: 10px;
+  flex: none;
 }
 
+.dim-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 4px;
+  height: 1px;
+  background: var(--dim);
+}
+
+.dim-tick {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 9px;
+  background: var(--dim);
+}
+
+.dim-tick + .dim-tick {
+  left: auto;
+  right: 0;
+}
+
+.part .dl {
+  margin-top: 4px;
+}
+
+/* Linked: a part and its token rows light together. */
+.part.is-on :is(.dim-line, .dim-tick),
+.spec-dock.is-on :is(.dim-line, .dimv-line, .dim-tick) {
+  background: var(--accent);
+}
+
+.part.is-on .dl,
+.spec-dock.is-on .dl {
+  color: var(--text);
+}
+
+.part.is-on .part-shape {
+  box-shadow: 0 2px 0 var(--accent-shade), 0 0 0 4px rgb(217 83 30 / 0.18);
+}
+
+.part.is-on :is(.part-key, .part-pill) {
+  box-shadow: 0 2px 0 #c2bbb1, 0 0 0 4px rgb(217 83 30 / 0.18);
+}
+
+.part.is-on .part-latched {
+  box-shadow: 0 1px 0 #c2bbb1, 0 0 0 4px rgb(217 83 30 / 0.18);
+}
+
+.part.is-on .part-pill {
+  box-shadow: 0 0 0 4px rgb(217 83 30 / 0.18);
+}
+
+/* The dock's outline with its own dimensions: 68 high, padding 12, gap 10, radius 34. */
 .spec-dock {
   position: relative;
+  margin-top: 56px;
+  padding-right: 56px;
+}
+
+.dock-part {
+  display: block;
+  width: 100%;
   height: 68px;
-  max-width: calc(100% - 40px);
+}
+
+.dock-part:focus-visible {
+  outline-offset: 4px;
   border-radius: 34px;
-  background: var(--bone);
 }
 
-.spec-dock-l {
+.dock-outline {
   position: absolute;
-  right: -6px;
-  top: 50%;
-  transform: translate(100%, -50%);
+  inset: 0;
+  overflow: visible;
 }
 
-.spec-note {
-  font-size: 12px;
+.dock-rect {
+  fill: rgb(231 228 222 / 0.06);
+  stroke: var(--bone);
+  stroke-width: 1.25;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.spec-dock.is-on .dock-rect {
+  stroke: var(--string);
+}
+
+.dock-slots {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+}
+
+.slot {
+  flex: none;
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  border: 1.25px dashed rgb(231 228 222 / 0.5);
+  border-radius: 50%;
+}
+
+.slot-play {
+  width: 76px;
+  border-color: var(--string);
+  border-radius: 22px;
+}
+
+.slot-pill {
+  width: 132px;
+  height: 36px;
+  border-radius: 18px;
+}
+
+.slot-line {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  background: rgb(231 228 222 / 0.5);
+}
+
+.slot-cap {
+  position: absolute;
+  left: 40%;
+  top: -13px;
+  width: 12px;
+  height: 26px;
+  border-color: var(--string);
+  border-radius: 4px;
+}
+
+.dimv {
+  position: absolute;
+  right: 24px;
+  top: 0;
+  width: 9px;
+  height: 68px;
+}
+
+.dimv-line {
+  position: absolute;
+  left: 4px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--dim);
+}
+
+.dimv .dim-tick {
+  width: 9px;
+  height: 1px;
+}
+
+.dimv .dim-tick + .dim-tick {
+  top: auto;
+  right: auto;
+  bottom: 0;
+  left: 0;
+}
+
+.dock-l-h {
+  position: absolute;
+  right: 0;
+  top: 26px;
+}
+
+/* Under the outline: the padding (0–12), the gap between the play key and the display (88–98), the radius. */
+.dock-dims {
+  position: relative;
+  height: 16px;
+  margin-top: 12px;
+}
+
+.dock-dims > * {
+  position: absolute;
+  top: 0;
+  margin: 0;
+}
+
+.dock-dims .dim {
+  top: 3px;
+}
+
+.dock-dim-pad {
+  left: 0;
+}
+
+.dock-l-pad {
+  left: 20px;
+}
+
+.dock-dim-gap {
+  left: 88px;
+}
+
+.dock-l-gap {
+  left: 106px;
+}
+
+.dock-l-r {
+  right: 0;
+}
+
+.spec-caption {
+  margin: 28px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: normal;
+}
+
+.spec-caption-narrow {
+  display: none;
+}
+
+/* ---- 06: the tokens ---- */
+.spec-tokens {
+  align-self: start;
+  padding: 8px 6px 14px;
+  background: var(--display);
+}
+
+.grp {
+  margin: 0;
+  padding: 14px 14px 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--dim);
+}
+
+/* A row is a button: it copies "--name: value;". */
+.tok {
+  font-weight: 400;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 24px;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 38px;
+  margin: 0;
+  padding: 0 10px 0 14px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text);
+  text-align: start;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tok:focus-visible {
+  outline-offset: -2px;
+}
+
+.tok-n {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tok-v {
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+.tok.is-on {
+  background: #2a2827;
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+.mini {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgb(243 231 210 / 0.45);
+  border-radius: 50%;
+  color: var(--text);
+  opacity: 0;
+}
+
+.tok.is-on .mini,
+.tok.is-done .mini {
+  opacity: 1;
+}
+
+.tok.is-done .mini {
+  border-color: var(--accent);
+}
+
+.mini .i-check,
+.tok.is-done .mini .i-copy {
+  display: none;
+}
+
+.tok.is-done .mini .i-check {
+  display: block;
+}
+
+/* Known limits: under the drawing and the tokens, in the small mono of the install footer. */
+.spec-limits {
+  margin-top: 18px;
+}
+
+.spec-limits .grp {
+  padding: 0 0 6px;
+  font-weight: 400;
+}
+
+.spec-limits ul {
+  max-width: 760px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  line-height: 1.6;
   color: var(--muted);
 }
 
-.code {
+.spec-limits li + li {
+  margin-top: 6px;
+}
+
+.tok-more {
+  display: none;
+  width: 100%;
+  min-height: 44px;
   margin: 0;
-  padding: 18px 20px;
-  overflow-x: auto;
+  padding: 6px 14px 0;
+  border: 0;
+  background: none;
+  text-align: start;
+  cursor: pointer;
+}
+
+/* ---- 07: the steps ---- */
+.inst {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 40px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.inst-step {
+  display: grid;
+  grid-template-columns: 44px 84px minmax(0, 1fr) 32px;
+  align-items: center;
+  gap: 14px;
+  min-height: 60px;
+  padding: 0 14px 0 16px;
   border: 1px solid rgb(243 231 210 / 0.2);
   border-radius: 6px;
   background: var(--display);
-  font-family: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--text);
-  white-space: pre;
 }
 
-.spec-code {
+.inst-step-tall {
+  align-items: start;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+.num {
+  font-family: Michroma, "Michroma Fallback", ui-sans-serif, sans-serif;
+  font-size: 12px;
+  color: var(--dim);
+}
+
+.inst-step-tall .num {
+  padding-top: 2px;
+}
+
+.tag {
+  justify-self: start;
+  padding: 3px 6px;
   border: 1px solid var(--line);
-}
-
-.code-c {
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   color: var(--muted);
 }
 
-/* 07 Install. */
-.install-code {
-  margin-top: 40px;
+.cmd {
+  margin: 0;
+  overflow: hidden;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.cmd-pre {
+  overflow-x: auto;
+  line-height: 1.7;
+  white-space: pre;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(243 231 210 / 0.28) transparent;
+}
+
+.cmd-pre:focus-visible {
+  outline-offset: 4px;
+}
+
+.cmd-p,
+.cmd-c {
+  color: var(--dim);
+}
+
+.cmd-s {
+  color: var(--string);
+}
+
+.cmd-t {
+  color: var(--muted);
+}
+
+/* The block caret after step 01: it blinks twice when the steps arrive, then goes. It keeps its box, so nothing moves. */
+.caret {
+  display: inline-block;
+  width: 8px;
+  height: 16px;
+  margin-left: 4px;
+  background: var(--text);
+  vertical-align: -3px;
+  opacity: 0;
+}
+
+/* Copy key: 32px to the eye, 44px to the finger. The same key as the player's: it latches 1px down with a 2px
+   accent rim when the copy has landed. */
+.ck {
+  position: relative;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+  border: 1.25px solid rgb(243 231 210 / 0.55);
+  border-radius: 50%;
+  background: #262423;
+  color: var(--text);
+  box-shadow: 0 2px 0 #0b0a0a;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 200ms var(--ease),
+    box-shadow 200ms var(--ease),
+    border-color 150ms var(--ease),
+    background-color 150ms var(--ease);
+}
+
+.ck::before {
+  content: "";
+  position: absolute;
+  inset: -7.25px;
+}
+
+.ck[hidden] {
+  display: grid;
+  visibility: hidden;
+}
+
+@media (hover: hover) {
+  .ck:hover {
+    border-color: var(--text);
+    background: #2e2b29;
+  }
+}
+
+.ck:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #0b0a0a;
+  transition-duration: 70ms;
+}
+
+.ck.is-done {
+  border-width: 2px;
+  border-color: var(--accent);
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #0b0a0a;
+}
+
+.ck .i-check,
+.ck.is-done .i-copy {
+  display: none;
+}
+
+.ck.is-done .i-check {
+  display: block;
+}
+
+.toast {
+  position: absolute;
+  right: -6px;
+  top: -34px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 9px;
+  border-radius: 11px;
+  background: var(--text);
+  color: var(--display);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 150ms var(--ease),
+    visibility 0s linear 150ms;
+}
+
+.ck.is-toast .toast {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.inst-foot {
+  margin: 18px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.inst-foot a {
+  color: var(--text);
+}
+
+@media (forced-colors: active) {
+  .ck.is-done,
+  .tok.is-done .mini {
+    border-color: Highlight;
+  }
+
+  .tok.is-on {
+    outline: 1px solid Highlight;
+    outline-offset: -1px;
+  }
+
+  .part.is-on :is(.dim-line, .dim-tick),
+  .spec-dock.is-on :is(.dim-line, .dimv-line, .dim-tick) {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+}
+
+/* ---- Motion: once, when the section enters the viewport. Everything has its box from the start (opacity and
+   transform only), so nothing shifts. `data-reveal="wait"` is set by the script only when motion is allowed. ---- */
+[data-reveal="wait"] :is(.inst-step, .part, .dl, .dim-tick, .dock-slots, .tok, .grp, .tok-more) {
+  opacity: 0;
+}
+
+[data-reveal="wait"] .inst-step {
+  transform: translateY(8px);
+}
+
+[data-reveal="wait"] :is(.dim-line, .dimv-line) {
+  transform: scale(0);
+}
+
+[data-reveal="wait"] .dock-rect {
+  stroke-dashoffset: 1;
+  fill-opacity: 0;
+}
+
+[data-reveal="in"] .inst-step {
+  animation: reveal-up 320ms var(--ease) both;
+  animation-delay: calc(var(--i) * 60ms);
+}
+
+/* after the last step has landed (3 × 60 + 320): two blinks, then gone */
+[data-reveal="in"] .caret {
+  animation: caret-blink 640ms step-end 520ms forwards;
+}
+
+[data-reveal="in"] .part {
+  animation: reveal-fade 240ms var(--ease) both;
+  animation-delay: calc(var(--i) * 40ms);
+}
+
+/* dimension lines draw out from their centre; the end ticks pop 300ms into the line; the label follows */
+[data-reveal="in"] .dim-line {
+  animation: reveal-x 400ms var(--ease) both;
+  animation-delay: calc(140ms + var(--i) * 40ms);
+}
+
+[data-reveal="in"] .dimv-line {
+  animation: reveal-y 400ms var(--ease) both;
+  animation-delay: calc(140ms + var(--i) * 40ms);
+}
+
+[data-reveal="in"] .dim-tick {
+  animation: reveal-fade 120ms var(--ease) both;
+  animation-delay: calc(440ms + var(--i) * 40ms);
+}
+
+[data-reveal="in"] .dl {
+  animation: reveal-fade 200ms var(--ease) both;
+  animation-delay: calc(480ms + var(--i) * 40ms);
+}
+
+[data-reveal="in"] .dock-rect {
+  animation: reveal-stroke 600ms var(--ease) 380ms both;
+}
+
+[data-reveal="in"] .dock-slots {
+  animation: reveal-fade 200ms var(--ease) 940ms both;
+}
+
+[data-reveal="in"] :is(.tok, .grp, .tok-more) {
+  animation: reveal-fade 240ms var(--ease) both;
+  animation-delay: calc(140ms + var(--i) * 30ms);
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes reveal-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes reveal-x {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes reveal-y {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes reveal-stroke {
+  from {
+    stroke-dashoffset: 1;
+    fill-opacity: 0;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+  }
+}
+
+@keyframes caret-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  25%,
+  75%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Between the phone layout and the full drawing: the tokens go under the drawing. */
+@container (max-width: 1100px) {
+  .specs {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* The dock's outline is too small to read here; the caption keeps its numbers. */
+@container (max-width: 600px) {
+  .spec-dock,
+  .spec-caption-wide {
+    display: none;
+  }
+
+  .spec-caption-narrow {
+    display: block;
+  }
+}
+
+@container (max-width: 760px) {
+  .specs,
+  .inst {
+    margin-top: 28px;
+  }
+
+  .specs {
+    gap: 10px;
+  }
+
+  .spec-draw {
+    padding: 28px 16px 22px;
+  }
+
+  /* parts on a three-column grid; the display pill spans two */
+  .spec-parts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 26px 0;
+    justify-items: center;
+  }
+
+  .part-wide {
+    grid-column: span 2;
+  }
+
+  .dl-wide {
+    display: none;
+  }
+
+  .spec-caption {
+    margin-top: 24px;
+    font-size: 12px;
+  }
+
+  .spec-tokens {
+    padding: 6px 4px 10px;
+  }
+
+  .tok {
+    min-height: 44px;
+    font-size: 12px;
+  }
+
+  /* four rows, then "+ N more" opens the rest in place */
+  .spec-tokens[data-collapsed] :is(.tok:not([data-primary]), .grp) {
+    display: none;
+  }
+
+  .spec-tokens[data-collapsed] .tok-more,
+  .spec-tokens[data-expanded] .tok-more {
+    display: block;
+  }
+
+  /* a step: number, tag and Copy key on one row, the code under them */
+  .inst-step {
+    grid-template-columns: auto auto minmax(0, 1fr) 32px;
+    gap: 10px;
+    min-height: 0;
+    padding: 12px 12px 14px 14px;
+  }
+
+  .inst-step .cmd {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    font-size: 13px;
+  }
+
+  .inst-step .ck {
+    grid-column: 4;
+    grid-row: 1;
+  }
+
+  .inst-step-tall .num {
+    padding-top: 0;
+  }
+
+  .cmd-p {
+    display: none;
+  }
+
+  /* the degit command breaks only at its slashes */
+  .cmd-wrap {
+    line-height: 1.55;
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: keep-all;
+  }
+
+  .cmd-wrap .cmd-text {
+    display: block;
+  }
+
+  .stmt {
+    display: block;
+    line-height: 1.55;
+  }
+
+  .cmd-pre {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .inst-foot {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ck,
+  .toast,
+  .part-shape {
+    transition: none;
+  }
 }
 
 .note a {
@@ -917,8 +1738,7 @@ kbd {
   .steps,
   .parts,
   .states,
-  .proofs,
-  .specs {
+  .proofs {
     grid-template-columns: minmax(0, 1fr);
   }
 

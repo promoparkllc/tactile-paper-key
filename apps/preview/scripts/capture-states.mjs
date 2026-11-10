@@ -15,7 +15,7 @@ mkdirSync(out, { recursive: true });
 rmSync(work, { recursive: true, force: true });
 mkdirSync(work, { recursive: true });
 const only = process.argv.includes('--only') ? process.argv[process.argv.indexOf('--only') + 1].split(',') : null;
-const MUX = '6FsjtrlJovCj1y1jJ9LxJKvglUwzLd6aS9MOtVXGsig';
+const MUX = 'T7FXzoR9xFnvnp4l7ADfysXjb8jOAlFmXbmufaBV1S4';
 
 const { createServer } = await import(pathToFileURL(resolve(repo, 'node_modules/vite/dist/node/index.js')).href);
 const server = await createServer({ configFile: resolve(repo, 'vite.config.ts'), logLevel: 'error', server: { port: 5197, strictPort: true, host: '127.0.0.1' } });

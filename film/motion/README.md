@@ -78,7 +78,9 @@ outline when the first key starts to flatten (`min(keys_flat) − flat_len`), fi
   its ends); the duration sits 32 px right of `groove_end`. `scripts/fader-interval.mjs` measures the labels on
   every frame of that run (box-based, stricter than the stills).
 - HUD bottom-left at 64 px on every scene except S8, where the dock (3D stand-in, then the live skin) fills the
-  bottom from y 901: there the HUD sits 24 px above the dock (`STAGE.hud.overDock`).
+  bottom from y 901 and the focused Play key's tooltip sits just above it: there the HUD moves to the top-left corner,
+  level with the Tab chip (`STAGE.hud.overDock`). S8's text turns from cream to ink at Blender f685, mid-way through
+  the live clip's fade-in (`TONE_SWITCH`).
 - End card: three 64 px keys (dock proportions) on their own row 40 px under the small row's baseline, left edge of
   the block; on the baseline itself a 64 px key would cut into PAPER KEY (60 px above).
 

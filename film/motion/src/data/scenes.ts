@@ -17,7 +17,7 @@ export interface Events {
   fan: [number, number];
   boneUp: [number, number];
   press: number;
-  led: [number, number];
+  latch: [number, number]; // the press latches (the accent rim; `led` in older exports)
   keysFlat: Record<string, number>; // each flatten ENDS on its frame
   flatLen: number;
   wipe: [number, number];

@@ -1,10 +1,10 @@
 """Accent constancy report: hue / luma of every accent-coloured piece on one frame per sequence, against the reference
-(the seek cap in shot 6), plus the LED's frame-to-frame stability over a run of consecutive frames.
+(the seek cap in shot 6), plus the latch rim's frame-to-frame stability over a run of consecutive frames.
 
     blender --background --factory-startup film/scene.blend --python-exit-code 1 --python accent_report.py -- \
         <frames_dir> <ref_frame> <frame,frame,...> <led_run_start> <led_run_len> [--out report.json]
 
-<frames_dir> holds <frame:04d>.png (the pass A renders or the composite). Samples: LED, seek cap top, fan orange cap,
+<frames_dir> holds <frame:04d>.png (the pass A renders or the composite). Samples: latch rim, seek cap top, fan orange cap,
 display dot, play key face, seek fill — whichever is in frame. Target: hue within ±4° of the reference, luma ±10 %.
 """
 import bpy
@@ -26,7 +26,7 @@ OUT = args[args.index('--out') + 1] if '--out' in args else None
 sc = bpy.data.scenes['Film']
 PX = 0.001
 SAMPLES = [
-    ('LED', 'LED', (0.0, 0.0, 2.02 * PX)),
+    ('latch rim', 'Key_Captions', (-21.4 * PX, 0.0, 1.5 * PX)),   # the accent ledge, left side of the key (in focus in S4)
     ('seek cap (top)', 'Cap_SeekCap', (0.0, 10 * PX, 2.0 * PX)),
     ('fan orange cap (dome)', 'Key_GlazeOrange', (0.0, 0.0, 8.2 * PX)),
     ('display dot', 'Pill_Dot', (0.0, 0.0, 0.0007)),
@@ -104,13 +104,13 @@ for f in sorted(rows):
 lumas = []
 for f in range(LED_START, LED_START + LED_LEN):
     px8, w, h = load(f)
-    r = sample(f, px8, w, h).get('LED')
+    r = sample(f, px8, w, h).get('latch rim')
     if r:
         lumas.append((f, r['luma'], r['hue']))
 if lumas:
     ls = [v for _, v, _ in lumas]
     hs = [hh for _, _, hh in lumas if hh is not None]
-    print(f'\nLED over f{LED_START}–{LED_START + LED_LEN - 1}: luma min {min(ls):.1f} max {max(ls):.1f} '
+    print(f'\nlatch rim over f{LED_START}–{LED_START + LED_LEN - 1}: luma min {min(ls):.1f} max {max(ls):.1f} '
           f'(spread {max(ls) - min(ls):.1f}, {100 * (max(ls) - min(ls)) / max(np.mean(ls), 1):.1f} % of mean) · '
           f'hue min {min(hs):.1f} max {max(hs):.1f}')
     report['led_run'] = dict(start=LED_START, length=LED_LEN, lumas=ls, hues=hs)

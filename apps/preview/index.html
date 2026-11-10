@@ -62,6 +62,15 @@
         src: url("/fonts/geist-mono-latin.woff2") format("woff2");
         unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
       }
+      /* The same Geist Mono file with its regular weight allowed: sections 06 and 07 set code at 400. */
+      @font-face {
+        font-family: "Geist Mono Text";
+        font-style: normal;
+        font-weight: 400 600;
+        font-display: swap;
+        src: url("/fonts/geist-mono-latin.woff2") format("woff2");
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
       @font-face {
         font-family: "Michroma Fallback";
         src: local("Arial"), local("ArialMT");
@@ -169,7 +178,7 @@
               <span class="step-t">What ships: the same object, now CSS, over any footage.</span>
             </li>
           </ol>
-          <p class="mono note">▶ The film in the player above is this process, 26 seconds, rendered in Blender.</p>
+          <p class="mono note">▶ The film in the player above is this process, 27.5 seconds, rendered in Blender.</p>
         </section>
 
         <!-- 02 ANATOMY -->
@@ -282,38 +291,122 @@
           </ul>
         </section>
 
-        <!-- 06 SPECS -->
-        <section id="specs" class="wrap sec" aria-labelledby="specs-h">
+        <!-- 06 SPECS: a drawing with dimension lines; every part is linked to the tokens the skin reads for it -->
+        <section id="specs" class="wrap sec" aria-labelledby="specs-h" data-reveal>
           <div class="eyebrow"><span class="lbl">06</span><span class="lbl">Specifications</span></div>
           <h2 id="specs-h" class="disp h2">Drawn <span class="out">to scale.</span></h2>
-          <div class="g2 specs">
-            <div class="cell spec-draw" role="img" aria-label="Parts drawn at their CSS size: the play key, a round key, the display pill, the fader cap and the dock">
-              <div class="spec-row">
-                <div class="spec-item"><span class="k spec-play"></span><span class="mono spec-l">76 × 44</span></div>
-                <div class="spec-item"><span class="k spec-key"></span><span class="mono spec-l">Ø 44 · 1.25</span></div>
-                <div class="spec-item"><span class="pill spec-pill"></span><span class="mono spec-l">h 36 · r 18</span></div>
-                <div class="spec-item"><span class="spec-cap"></span><span class="mono spec-l">12 × 26</span></div>
+          <div class="specs">
+            <div class="cell spec-draw">
+              <div class="spec-parts" role="group" aria-label="Parts at their CSS size. Each one highlights the tokens it reads.">
+                <button type="button" class="part" data-part="play" aria-pressed="false">
+                  <span class="part-shape part-play"></span>
+                  <span class="dim" style="--w: 76px"><span class="dim-line"></span><span class="dim-tick"></span><span class="dim-tick"></span></span>
+                  <span class="dl"><span class="sr-only">Play key, </span>76 × 44</span>
+                </button>
+                <button type="button" class="part" data-part="key" aria-pressed="false">
+                  <span class="part-shape part-key"></span>
+                  <span class="dim" style="--w: 44px"><span class="dim-line"></span><span class="dim-tick"></span><span class="dim-tick"></span></span>
+                  <span class="dl"><span class="sr-only">Round key, </span>Ø 44<span class="dl-wide"> · 1.25</span></span>
+                </button>
+                <button type="button" class="part" data-part="latched" aria-pressed="false">
+                  <span class="part-shape part-key part-latched"></span>
+                  <span class="dim" style="--w: 44px"><span class="dim-line"></span><span class="dim-tick"></span><span class="dim-tick"></span></span>
+                  <span class="dl"><span class="sr-only">Latched key, </span><span class="dl-wide">latched · </span>rim 2</span>
+                </button>
+                <button type="button" class="part part-wide" data-part="pill" aria-pressed="false">
+                  <span class="part-shape part-pill"></span>
+                  <span class="dim" style="--w: 132px"><span class="dim-line"></span><span class="dim-tick"></span><span class="dim-tick"></span></span>
+                  <span class="dl"><span class="sr-only">Display pill, </span>h 36 · r 18</span>
+                </button>
+                <button type="button" class="part" data-part="cap" aria-pressed="false">
+                  <span class="part-shape part-cap"></span>
+                  <span class="dim" style="--w: 12px"><span class="dim-line"></span><span class="dim-tick"></span><span class="dim-tick"></span></span>
+                  <span class="dl"><span class="sr-only">Fader cap, </span>12 × 26</span>
+                </button>
               </div>
-              <div class="spec-dock"><span class="mono spec-l spec-dock-l">68</span></div>
-              <span class="mono spec-note">Dock 68 · radius 34 · padding 12 · gap 10 · accent rim 2 px · scales to 1.25× in full screen.</span>
+              <div class="spec-dock">
+                <button type="button" class="part dock-part" data-part="dock" aria-pressed="false">
+                  <svg class="dock-outline" width="100%" height="68" aria-hidden="true" focusable="false"><rect class="dock-rect" x="0" y="0" width="100%" height="68" rx="34" pathLength="1" /></svg>
+                  <span class="dock-slots" aria-hidden="true">
+                    <span class="slot slot-play"></span><span class="slot slot-pill"></span><span class="slot-line"><span class="slot slot-cap"></span></span><span class="slot slot-key"></span><span class="slot slot-key"></span><span class="slot slot-key"></span><span class="slot slot-key"></span>
+                  </span>
+                  <span class="sr-only">Dock, 68 high, radius 34, padding 12, gap 10</span>
+                </button>
+                <span class="dimv" aria-hidden="true"><span class="dimv-line"></span><span class="dim-tick"></span><span class="dim-tick"></span></span>
+                <span class="dl dock-l-h" aria-hidden="true">68</span>
+                <div class="dock-dims" aria-hidden="true">
+                  <span class="dim dock-dim-pad" style="--w: 12px"><span class="dim-line"></span><span class="dim-tick"></span><span class="dim-tick"></span></span>
+                  <span class="dl dock-l-pad">12</span>
+                  <span class="dim dock-dim-gap" style="--w: 10px"><span class="dim-line"></span><span class="dim-tick"></span><span class="dim-tick"></span></span>
+                  <span class="dl dock-l-gap">gap 10</span>
+                  <span class="dl dock-l-r">r 34</span>
+                </div>
+              </div>
+              <p class="dl spec-caption spec-caption-wide">Dock 68 · radius 34 · padding 12 · gap 10 · accent rim 2 px · scales to 1.25× in full screen.</p>
+              <p class="dl spec-caption spec-caption-narrow">Dock 68 (60 on mobile) · radius 34 · padding 12 · gap 10 · rim 2 px.</p>
             </div>
-            <pre class="cell code spec-code" tabindex="0"><code>--media-accent-color   #D9531E
-data-glaze             bone | graphite | stone
---media-font-family    Geist, ui-sans-serif
---media-border-radius  16px
---tactile-dock-h       68px
---tactile-key-size     44px</code></pre>
+            <div class="cell spec-tokens" id="spec-tokens" role="group" aria-label="Tokens the skin reads. A row copies its declaration.">
+              <p class="grp">COLOUR</p>
+              <button type="button" class="tok" data-primary data-for="play cap" data-parts="play cap latched" data-copy="--media-accent-color: #D9531E;"><span class="tok-n"><span class="sr-only">Copy </span>--media-accent-color</span><span class="tok-v">#D9531E</span><span class="mini" aria-hidden="true"></span></button>
+              <button type="button" class="tok" data-primary data-for="dock" data-parts="dock key" data-copy="data-glaze=&quot;graphite&quot;"><span class="tok-n"><span class="sr-only">Copy </span>data-glaze</span><span class="tok-v">bone | graphite | stone</span><span class="mini" aria-hidden="true"></span></button>
+              <button type="button" class="tok" data-for="key" data-parts="key latched" data-copy="--tactile-ink: #2A2724;"><span class="tok-n"><span class="sr-only">Copy </span>--tactile-ink</span><span class="tok-v">#2A2724</span><span class="mini" aria-hidden="true"></span></button>
+              <p class="grp">SIZE</p>
+              <button type="button" class="tok" data-primary data-for="dock" data-parts="dock" data-copy="--tactile-dock-h: 68px;"><span class="tok-n"><span class="sr-only">Copy </span>--tactile-dock-h</span><span class="tok-v">68px</span><span class="mini" aria-hidden="true"></span></button>
+              <button type="button" class="tok" data-primary data-for="key" data-parts="key latched play" data-copy="--tactile-key-size: 44px;"><span class="tok-n"><span class="sr-only">Copy </span>--tactile-key-size</span><span class="tok-v">44px</span><span class="mini" aria-hidden="true"></span></button>
+              <button type="button" class="tok" data-for="pill" data-parts="pill" data-copy="--tactile-pill-h: 36px;"><span class="tok-n"><span class="sr-only">Copy </span>--tactile-pill-h</span><span class="tok-v">36px</span><span class="mini" aria-hidden="true"></span></button>
+              <button type="button" class="tok" data-for="latched" data-parts="latched" data-copy="--tactile-rim-w: 2px;"><span class="tok-n"><span class="sr-only">Copy </span>--tactile-rim-w</span><span class="tok-v">2px</span><span class="mini" aria-hidden="true"></span></button>
+              <button type="button" class="tok" data-for="" data-parts="" data-copy="--media-border-radius: 16px;"><span class="tok-n"><span class="sr-only">Copy </span>--media-border-radius</span><span class="tok-v">16px</span><span class="mini" aria-hidden="true"></span></button>
+              <p class="grp">TYPE + MOTION</p>
+              <button type="button" class="tok" data-for="" data-parts="" data-copy="--media-font-family: Geist, ui-sans-serif;"><span class="tok-n"><span class="sr-only">Copy </span>--media-font-family</span><span class="tok-v">Geist, ui-sans-serif</span><span class="mini" aria-hidden="true"></span></button>
+              <button type="button" class="tok" data-for="" data-parts="play key latched" data-copy="--tactile-dur-press: 70ms;"><span class="tok-n"><span class="sr-only">Copy </span>--tactile-dur-press</span><span class="tok-v">70ms</span><span class="mini" aria-hidden="true"></span></button>
+              <button type="button" class="tok" data-for="" data-parts="play key latched" data-copy="--tactile-dur-release: 200ms;"><span class="tok-n"><span class="sr-only">Copy </span>--tactile-dur-release</span><span class="tok-v">200ms</span><span class="mini" aria-hidden="true"></span></button>
+              <button type="button" class="tok" data-for="" data-parts="play key latched" data-copy="--tactile-ease: cubic-bezier(0.22, 1, 0.36, 1);"><span class="tok-n"><span class="sr-only">Copy </span>--tactile-ease</span><span class="tok-v">.22,1,.36,1</span><span class="mini" aria-hidden="true"></span></button>
+              <button type="button" class="dl tok-more" aria-expanded="false" aria-controls="spec-tokens" hidden>+ 8 more · tap a row to copy</button>
+            </div>
+          </div>
+          <div class="spec-limits">
+            <h3 class="grp">KNOWN LIMITS</h3>
+            <ul class="mono">
+              <li>On iPhone, full screen hands over to iOS's own player: Safari only lets the video itself go full screen, so the skin steps aside until you leave it. On iPad and desktop the skin stays.</li>
+              <li>iOS sets volume with the device buttons, so the volume fader hides there; Mute stays.</li>
+            </ul>
           </div>
         </section>
 
-        <!-- 07 INSTALL -->
-        <section id="install" class="wrap sec" aria-labelledby="install-h">
+        <!-- 07 INSTALL: four steps, one language each, each with its Copy key -->
+        <section id="install" class="wrap sec" aria-labelledby="install-h" data-reveal>
           <div class="eyebrow"><span class="lbl">07</span><span class="lbl">Install</span></div>
-          <h2 id="install-h" class="disp h2">Three lines. <span class="out">Apache 2.0.</span></h2>
-          <pre class="code install-code" tabindex="0"><code>npm i @videojs/html@10
-npx degit promoparkllc/tactile-paper-key/src tactile-skin   <span class="code-c"># skin.css + styles/ + video/</span>
-import '@videojs/html/video/player'; import './tactile-skin/video/skin'   <span class="code-c"># then paste tactile-skin/video/skin.html inside &lt;video-player&gt;</span></code></pre>
-          <p class="mono note">Source: <a href="https://github.com/promoparkllc/tactile-paper-key">github.com/promoparkllc/tactile-paper-key</a> · works with any Video.js 10 media element.</p>
+          <h2 id="install-h" class="disp h2">Four steps. <span class="out">Any site.</span></h2>
+          <ol class="inst">
+            <li class="inst-step">
+              <span class="num" aria-hidden="true">01</span><span class="tag">TERMINAL</span>
+              <code class="cmd"><span class="cmd-p" aria-hidden="true">$ </span><span class="cmd-text">npm i @videojs/html@10</span><span class="caret" aria-hidden="true"></span></code>
+              <button type="button" class="ck" aria-label="Copy step 1: npm i @videojs/html@10"><span class="toast" aria-hidden="true"></span></button>
+            </li>
+            <li class="inst-step">
+              <span class="num" aria-hidden="true">02</span><span class="tag">TERMINAL</span>
+              <code class="cmd cmd-wrap"><span class="cmd-p" aria-hidden="true">$ </span><span class="cmd-text">npx degit promoparkllc/<wbr />tactile-paper-key/<wbr />src tactile-skin</span></code>
+              <button type="button" class="ck" aria-label="Copy step 2: npx degit promoparkllc/tactile-paper-key/src tactile-skin"><span class="toast" aria-hidden="true"></span></button>
+            </li>
+            <li class="inst-step">
+              <span class="num" aria-hidden="true">03</span><span class="tag">JS</span>
+              <code class="cmd"><span class="cmd-text"><span class="stmt">import <span class="cmd-s">'@videojs/html/video/player'</span>;</span> <span class="stmt">import <span class="cmd-s">'./tactile-skin/video/skin'</span>;</span></span></code>
+              <button type="button" class="ck" aria-label="Copy step 3: the two imports"><span class="toast" aria-hidden="true"></span></button>
+            </li>
+            <li class="inst-step inst-step-tall">
+              <span class="num" aria-hidden="true">04</span><span class="tag">HTML</span>
+              <pre class="cmd cmd-pre" tabindex="0"><span class="cmd-text"><span class="cmd-t">&lt;video-player&gt;</span>
+  <span class="cmd-t">&lt;media-container</span> class=<span class="cmd-s">"media-skin media-container media-video"</span>
+                   data-theme=<span class="cmd-s">"tactile"</span> data-preset=<span class="cmd-s">"video"</span><span class="cmd-t">&gt;</span>
+    <span class="cmd-t">&lt;video</span> src=<span class="cmd-s">"clip.mp4"</span> playsinline<span class="cmd-t">&gt;&lt;/video&gt;</span>
+    <span class="cmd-c">&lt;!-- then the rest of tactile-skin/video/skin.html, from &lt;media-poster&gt; on --&gt;</span>
+  <span class="cmd-t">&lt;/media-container&gt;</span>
+<span class="cmd-t">&lt;/video-player&gt;</span></span></pre>
+              <button type="button" class="ck" aria-label="Copy step 4: the video-player markup"><span class="toast" aria-hidden="true"></span></button>
+            </li>
+          </ol>
+          <p class="mono inst-foot">Source: <a href="https://github.com/promoparkllc/tactile-paper-key">github.com/promoparkllc/tactile-paper-key</a> · Apache 2.0 · works with any Video.js 10 media element.</p>
+          <p class="sr-only" id="copy-status" role="status" aria-live="polite"></p>
         </section>
       </main>
 

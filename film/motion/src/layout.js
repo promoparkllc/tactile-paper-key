@@ -48,7 +48,18 @@ export const TYPE = {
 
 /** Frame tone per scene id → text colour. Measured on each still by scripts/contrast.mjs. */
 export const TONE = { S1: 'dark', S2: 'light', S3: 'dark', S4: 'light', S5: 'light', S6: 'light', S7: 'dark', S8: 'dark', END: 'light' };
-export const textColor = (sceneId) => (TONE[sceneId] === 'dark' ? COLOR.cream : COLOR.ink);
+/**
+ * Within S8 the live player's clip (snow) fades in over the dark field on f677–687 (Blender numbers): the frame turns
+ * light mid-fade. From Blender f685 (0-based 684) ink beats cream at the HUD (4.8 vs 2.7:1) and the Tab chip
+ * (3.7 vs 3.5:1); measured on the capture frames, see stills/film_27_5s_sync.md.
+ */
+export const TONE_SWITCH = { S8: { frame0: 684, to: 'light' } };
+/** @param {string} sceneId @param {number | null} [frame] 0-based film frame; without it the scene's base tone */
+export const textColor = (sceneId, frame = null) => {
+  const sw = TONE_SWITCH[sceneId];
+  const tone = sw && frame !== null && frame >= sw.frame0 ? sw.to : TONE[sceneId];
+  return tone === 'dark' ? COLOR.cream : COLOR.ink;
+};
 
 /** HUD names (upper-case in Michroma). Index = scene n. */
 export const HUD_NAMES = { S1: 'HOOK', S2: 'EXPLODED', S3: 'GLAZE', S4: 'PRESS', S5: 'FLATTEN', S6: 'FADER', S7: 'DISPLAY', S8: 'HAND-OFF', END: 'END' };
@@ -77,7 +88,9 @@ export const STAGE = {
   tab: { right: MARGIN, top: MARGIN, padX: 18, height: 52, radius: 8 },
   // S8: the dock (3D stand-in, then the live skin) fills the bottom from y 901 (inset 38 + height 141 at ×1.6), so
   // the HUD moves 24 px above it for that scene; the hand-off caption sits centred, clear of it
-  hud: { x: MARGIN, bottom: MARGIN, bottomOverDock: H - 901 + 24, gap: 16, overDock: ['S8'] },
+  // in S8 the dock fills the bottom and the focused Play key's tooltip sits where a lifted HUD would be, so the HUD
+  // moves to the top-left corner, level with the Tab chip
+  hud: { x: MARGIN, bottom: MARGIN, topOverDock: MARGIN, gap: 16, overDock: ['S8'] },
   // keys: dock proportions (52 px key in the skin → 64 px here), their own row 40 px under the small row's baseline
   // (measured 583), on the block's left edge. On the small row's baseline itself a 64 px key would cut into
   // PAPER KEY (its baseline is only 60 px above).
@@ -85,7 +98,8 @@ export const STAGE = {
 };
 
 /** Bottom margin of the HUD for a scene: 64 px, or above the dock where the dock fills the bottom. */
-export const hudBottom = (sceneId) => (STAGE.hud.overDock.includes(sceneId) ? STAGE.hud.bottomOverDock : STAGE.hud.bottom);
+/** The HUD's top edge: bottom-left at the margin, except over the dock (S8), where it sits top-left. */
+export const hudTop = (sceneId) => (STAGE.hud.overDock.includes(sceneId) ? STAGE.hud.topOverDock : H - STAGE.hud.bottom - TYPE.hudTime);
 
 /** Fan caps (S3) screen positions, FALLBACK measured on render/check/f0241.png (26 s timing, 960 × 540 → ×2). */
 export const FALLBACK_FAN = {

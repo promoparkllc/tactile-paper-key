@@ -95,7 +95,7 @@ language and playback options in the URL; change its media in `apps/preview/src/
   scripts; `public/` holds the fonts, the demo footage (720p cuts), the state captures and the posters.
 - `design/`: the design sources (`*.dc.html`: Final, States, PageV3 …), the spec, the fidelity report, the
   implementation captures and the a11y report.
-- `film/`: the 26 s explainer that plays in the hero (Blender build scripts and brief, the Remotion layer and sound in
+- `film/`: the 27.5 s explainer that plays in the hero (Blender build scripts and brief, the Remotion layer and sound in
   `film/motion` and `film/audio`; renders are not in the repo).
 - `skin.json`: what this skin was created from (Video.js 10.3.0 scaffold, HTML, CSS).
 

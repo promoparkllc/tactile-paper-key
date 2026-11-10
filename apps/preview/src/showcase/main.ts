@@ -1,8 +1,11 @@
 // The showcase page v3: the players (the real skin, four of them) load after the page's load event, so the first
 // screen paints with the poster before the skin's script runs; the section nav runs at once.
 import './showcase.css';
-
-const start = () => import('./players').then((m) => m.bootPlayers());
+// Sections 06 and 07 (Copy keys, token links, their reveal) and the players load after the page's load event.
+const start = () => {
+  void import('./specs-install');
+  void import('./players').then((m) => m.bootPlayers());
+};
 if (document.readyState === 'complete') void start();
 else window.addEventListener('load', () => (window.requestIdleCallback ? window.requestIdleCallback(() => void start(), { timeout: 1500 }) : setTimeout(() => void start(), 0)), { once: true });
 

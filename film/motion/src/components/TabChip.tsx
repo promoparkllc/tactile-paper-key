@@ -12,7 +12,7 @@ import { monoStyle } from './Type';
 export const TabChip: React.FC<Ctx> = ({ t, frame, film }) => {
   const s8 = sceneById(film, 'S8');
   if (frame < film.hardCut || frame > s8.end) return null;
-  const color = textColor(s8.id);
+  const color = textColor(s8.id, frame); // cream on the dark field, ink once the clip has faded in
   const depth = Math.max(0, ...tabHops(film).map((f: number) => pressDepth(t, f / film.fps)));
   const down = Math.round(2 * depth);
   const T = STAGE.tab;

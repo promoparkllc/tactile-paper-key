@@ -6,11 +6,11 @@ import '@/video/skin';
 import skinTemplate from '@/video/skin.html?raw';
 
 export function bootPlayers(): void {
-  /** Poster before playback: frame 45 of the film, the dark hook with no UI (1920 px WebP in `public/`). */
+  /** Poster before playback: frame 45 of the film, the rim-lit key under its title (1920 px WebP in `public/`). */
   const POSTER_SRC = './poster.webp';
 
-  /** The film "From object to interface" (26 s, 1080p) on Mux, HLS through `mux-video`. Playback ID is public. */
-  const PLAYBACK_ID = '6FsjtrlJovCj1y1jJ9LxJKvglUwzLd6aS9MOtVXGsig';
+  /** The film "From object to interface" (27.5 s, 1080p) on Mux, HLS through `mux-video`. Playback ID is public. */
+  const PLAYBACK_ID = 'T7FXzoR9xFnvnp4l7ADfysXjb8jOAlFmXbmufaBV1S4';
 
   /** `--media-accent-color` presets. `ink` is the matching `--media-accent-text-color`. */
   const SWATCHES = [

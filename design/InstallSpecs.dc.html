@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tactile — install + specs v2</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#1E1D1D}
+.disp{font-family:Michroma,sans-serif;text-transform:uppercase;letter-spacing:-0.03em;line-height:1;color:#F3E7D2}
+.out{color:transparent;-webkit-text-stroke:1.5px #F3E7D2}
+.lbl{font-family:Michroma,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.02em;color:#BFB39E}
+.mono{font-family:'Geist Mono',monospace}
+.note{font-family:'Instrument Sans',sans-serif;font-size:14px;line-height:1.5;color:#BFB39E}
+.board-h{font-family:'Geist Mono',monospace;font-size:12px;color:#8C8577;letter-spacing:.04em;text-transform:uppercase}
+/* install steps */
+.steps{display:flex;flex-direction:column;gap:10px}
+.step{display:grid;grid-template-columns:44px 84px 1fr 32px;align-items:center;gap:14px;min-height:60px;padding:0 14px 0 16px;background:#151413;border:1px solid rgba(243,231,210,.2);border-radius:6px;box-sizing:border-box}
+.num{font-family:Michroma,sans-serif;font-size:12px;color:#8C8577}
+.tag{justify-self:start;font-family:'Geist Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.08em;color:#BFB39E;border:1px solid rgba(243,231,210,.28);border-radius:4px;padding:3px 6px}
+.cmd{font-family:'Geist Mono',monospace;font-size:14px;color:#F3E7D2;white-space:nowrap;overflow:hidden}
+.cmd .p{color:#8C8577}
+.cmd .s{color:#E9A47F}
+.cmd .t{color:#BFB39E}
+/* copy key */
+.ck{position:relative;width:32px;height:32px;border-radius:50%;border:1.25px solid rgba(243,231,210,.55);background:#262423;display:grid;place-items:center;color:#F3E7D2;box-sizing:border-box;box-shadow:0 2px 0 #0B0A0A}
+.ck.hov{border-color:#F3E7D2;background:#2E2B29}
+.ck.down{transform:translateY(1px);box-shadow:0 1px 0 #0B0A0A}
+.ck.done{border-color:#D9531E;border-width:2px;transform:translateY(1px);box-shadow:0 1px 0 #0B0A0A}
+.ck.foc{outline:2px solid #F3E7D2;outline-offset:3px}
+.toast{position:absolute;right:-6px;top:-34px;height:22px;padding:0 9px;border-radius:11px;background:#F3E7D2;color:#151413;font-family:'Geist Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.08em;display:flex;align-items:center;white-space:nowrap}
+.foot{font-family:'Geist Mono',monospace;font-size:13px;color:#BFB39E;margin-top:18px}
+.foot a{color:#F3E7D2}
+/* specs */
+.panel{border:1px solid rgba(243,231,210,.28);border-radius:6px;box-sizing:border-box}
+.part{position:relative;display:flex;flex-direction:column;align-items:center;gap:0}
+.dimh{position:relative;height:0;border-top:1px solid #8C8577;margin-top:14px}
+.dimh::before,.dimh::after{content:"";position:absolute;top:-5px;width:1px;height:9px;background:#8C8577}
+.dimh::before{left:0}.dimh::after{right:0}
+.dimv{position:absolute;width:0;border-left:1px solid #8C8577}
+.dimv::before,.dimv::after{content:"";position:absolute;left:-5px;height:1px;width:9px;background:#8C8577}
+.dimv::before{top:0}.dimv::after{bottom:0}
+.dl{font-family:'Geist Mono',monospace;font-size:12px;color:#BFB39E;margin-top:8px;white-space:nowrap}
+.hl .dimh,.hl .dimh::before,.hl .dimh::after{border-color:#D9531E;background:#D9531E}
+.hl .dl{color:#F3E7D2}
+.tok{display:grid;grid-template-columns:1fr auto 24px;align-items:center;gap:14px;height:38px;padding:0 10px 0 14px;border-radius:4px;font-family:'Geist Mono',monospace;font-size:13px;color:#F3E7D2}
+.tok .v{color:#E8DCC6}
+.tok.on{background:#2A2827;box-shadow:inset 2px 0 0 #D9531E}
+.mini{width:24px;height:24px;border-radius:50%;border:1px solid rgba(243,231,210,.45);display:grid;place-items:center;color:#F3E7D2;box-sizing:border-box;opacity:0}
+.tok.on .mini{opacity:1}
+.grp{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.1em;color:#8C8577;padding:14px 14px 6px}
+.k44{width:44px;height:44px;border-radius:50%;border:1.25px solid #2A2724;background:#F3F0EB;box-sizing:border-box;box-shadow:0 2px 0 #C2BBB1}
+.kt{display:grid;grid-template-columns:110px 1fr;gap:10px;font-family:'Instrument Sans',sans-serif;font-size:13px;color:#BFB39E;line-height:1.45}
+.kt b{font-family:'Geist Mono',monospace;font-weight:500;color:#F3E7D2;font-size:12px}
+.tl{position:relative;height:26px;border-radius:4px;background:#262423}
+.tl span{position:absolute;top:5px;height:16px;border-radius:3px;background:#D9531E;opacity:.85}
+</style>
+</helmet>
+
+<div style="width:1880px;box-sizing:border-box;padding:64px 72px 80px;background:#1E1D1D;display:flex;flex-direction:column;gap:72px;">
+
+  <!-- header -->
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+    <div>
+      <div class="board-h">Page v3 · sections 06 + 07 · revision</div>
+      <h1 class="disp" style="margin:14px 0 0;font-size:44px;">Install <span class="out">+ specs</span></h1>
+    </div>
+    <p class="note" style="max-width:620px;margin:0;">Install becomes four copyable steps, one language each (the old line 3 mixed JS with a shell comment and broke when pasted). Specs becomes a drawing: dimension lines draw in, and every part is linked to its token.</p>
+  </div>
+
+  <!-- ===== ROW 1: INSTALL DESKTOP + STATES ===== -->
+  <div style="display:grid;grid-template-columns:1200px 1fr;gap:72px;align-items:start;">
+    <div>
+      <div class="board-h" style="margin-bottom:18px;">A · 07 Install · desktop 1200 · step 01 just copied</div>
+      <div style="padding:64px 0 0;">
+        <div style="display:flex;gap:14px;align-items:baseline;margin-bottom:18px;"><span class="lbl">07</span><span class="lbl">Install</span></div>
+        <h2 class="disp" style="margin:0;font-size:40px;">Four steps. <span class="out">Any site.</span></h2>
+        <div class="steps" style="margin-top:40px;">
+          <div class="step">
+            <span class="num">01</span><span class="tag">TERMINAL</span>
+            <span class="cmd"><span class="p">$</span> npm i @videojs/html@10</span>
+            <span class="ck done"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-7"/></svg><span class="toast">COPIED</span></span>
+          </div>
+          <div class="step">
+            <span class="num">02</span><span class="tag">TERMINAL</span>
+            <span class="cmd"><span class="p">$</span> npx degit promoparkllc/tactile-paper-key/src tactile-skin</span>
+            <span class="ck"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 3.5v-.3A1.7 1.7 0 0 0 8.8 1.5H4.2a1.7 1.7 0 0 0-1.7 1.7v4.6a1.7 1.7 0 0 0 1.7 1.7h.3"/></svg></span>
+          </div>
+          <div class="step">
+            <span class="num">03</span><span class="tag">JS</span>
+            <span class="cmd">import <span class="s">'@videojs/html/video/player'</span>; import <span class="s">'./tactile-skin/video/skin'</span>;</span>
+            <span class="ck hov foc"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 3.5v-.3A1.7 1.7 0 0 0 8.8 1.5H4.2a1.7 1.7 0 0 0-1.7 1.7v4.6a1.7 1.7 0 0 0 1.7 1.7h.3"/></svg></span>
+          </div>
+          <div class="step" style="align-items:start;padding-top:18px;padding-bottom:18px;">
+            <span class="num" style="padding-top:2px;">04</span><span class="tag">HTML</span>
+            <span class="cmd" style="white-space:pre;line-height:1.7;"><span class="t">&lt;video-player&gt;</span>
+  <span class="t">&lt;mux-video</span> playback-id=<span class="s">"…"</span><span class="t">&gt;&lt;/mux-video&gt;</span>
+  <span class="p">&lt;!-- paste tactile-skin/video/skin.html here --&gt;</span>
+<span class="t">&lt;/video-player&gt;</span></span>
+            <span class="ck"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 3.5v-.3A1.7 1.7 0 0 0 8.8 1.5H4.2a1.7 1.7 0 0 0-1.7 1.7v4.6a1.7 1.7 0 0 0 1.7 1.7h.3"/></svg></span>
+          </div>
+        </div>
+        <div class="foot">Source: <a href="#">github.com/promoparkllc/tactile-paper-key</a> · Apache 2.0 · works with any Video.js 10 media element.</div>
+      </div>
+    </div>
+
+    <!-- states + motion notes -->
+    <div style="display:flex;flex-direction:column;gap:36px;">
+      <div>
+        <div class="board-h" style="margin-bottom:22px;">Copy key · states (32 px, hit area 44)</div>
+        <div style="display:flex;gap:30px;align-items:flex-end;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:12px;"><span class="ck"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 3.5v-.3A1.7 1.7 0 0 0 8.8 1.5H4.2a1.7 1.7 0 0 0-1.7 1.7v4.6a1.7 1.7 0 0 0 1.7 1.7h.3"/></svg></span><span class="dl">idle</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:12px;"><span class="ck hov"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 3.5v-.3A1.7 1.7 0 0 0 8.8 1.5H4.2a1.7 1.7 0 0 0-1.7 1.7v4.6a1.7 1.7 0 0 0 1.7 1.7h.3"/></svg></span><span class="dl">hover</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:12px;"><span class="ck down"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 3.5v-.3A1.7 1.7 0 0 0 8.8 1.5H4.2a1.7 1.7 0 0 0-1.7 1.7v4.6a1.7 1.7 0 0 0 1.7 1.7h.3"/></svg></span><span class="dl">press</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:12px;"><span class="ck done"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-7"/></svg></span><span class="dl">copied</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:12px;"><span class="ck foc"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 3.5v-.3A1.7 1.7 0 0 0 8.8 1.5H4.2a1.7 1.7 0 0 0-1.7 1.7v4.6a1.7 1.7 0 0 0 1.7 1.7h.3"/></svg></span><span class="dl">focus</span></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="board-h">Behaviour</div>
+        <div class="kt"><b>copies</b><span>Only the command text: no “$”, no step number. Step 04 copies the full markup.</span></div>
+        <div class="kt"><b>copied</b><span>Key latches (1 px down, 2 px accent rim, the same latch as the player), icon → check, “COPIED” pill for 1.5 s, then it releases.</span></div>
+        <div class="kt"><b>a11y</b><span>&lt;button aria-label="Copy step 2: npx degit…"&gt;. Polite live region says “Copied”. Tab order follows the steps.</span></div>
+        <div class="kt"><b>fallback</b><span>If the clipboard API fails, the command text is selected and the pill says “PRESS ⌘C”.</span></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="board-h">Motion · on enter viewport (once)</div>
+        <div class="kt"><b>steps</b><span>Fade + 8 px up, 60 ms stagger, 320 ms, ease (0.22,1,0.36,1)</span></div>
+        <div class="kt"><b>caret</b><span>Block caret after step 01 blinks twice, then hides</span></div>
+        <div class="kt"><b>reduced</b><span>Everything is shown at once, no caret</span></div>
+        <div class="tl" style="margin-top:6px;"><span style="left:0;width:34%"></span><span style="left:8%;width:34%;opacity:.65"></span><span style="left:16%;width:34%;opacity:.5"></span><span style="left:24%;width:34%;opacity:.35"></span><span style="left:62%;width:30%;background:#F3E7D2;opacity:.6"></span></div>
+        <div class="dl" style="margin:0;display:flex;justify-content:space-between;"><span>0</span><span>steps 01–04</span><span>caret</span><span>~900 ms</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ROW 2: SPECS DESKTOP ===== -->
+  <div style="display:grid;grid-template-columns:1200px 1fr;gap:72px;align-items:start;">
+    <div>
+      <div class="board-h" style="margin-bottom:18px;">B · 06 Specifications · desktop 1200 · hover on Play key (linked)</div>
+      <div style="padding-top:64px;">
+        <div style="display:flex;gap:14px;align-items:baseline;margin-bottom:18px;"><span class="lbl">06</span><span class="lbl">Specifications</span></div>
+        <h2 class="disp" style="margin:0;font-size:40px;">Drawn <span class="out">to scale.</span></h2>
+        <div style="display:grid;grid-template-columns:1fr 440px;gap:16px;margin-top:40px;">
+          <!-- drawing -->
+          <div class="panel" style="background:#2A2827;padding:44px 40px 36px;position:relative;background-image:linear-gradient(rgba(243,231,210,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(243,231,210,.04) 1px,transparent 1px);background-size:20px 20px;">
+            <div style="display:flex;gap:56px;align-items:flex-start;">
+              <div class="part hl">
+                <span style="width:76px;height:44px;border-radius:22px;background:#D9531E;box-shadow:0 2px 0 #8F3210,0 0 0 4px rgba(217,83,30,.18);"></span>
+                <div class="dimh" style="width:76px;"></div><span class="dl">76 × 44</span>
+              </div>
+              <div class="part">
+                <span class="k44"></span>
+                <div class="dimh" style="width:44px;"></div><span class="dl">Ø 44 · 1.25</span>
+              </div>
+              <div class="part">
+                <span class="k44" style="border:2px solid #D9531E;transform:translateY(1px);box-shadow:0 1px 0 #C2BBB1;"></span>
+                <div class="dimh" style="width:44px;"></div><span class="dl">latched · rim 2</span>
+              </div>
+              <div class="part">
+                <span style="width:132px;height:36px;border-radius:18px;background:#151413;margin-top:4px;"></span>
+                <div class="dimh" style="width:132px;"></div><span class="dl">h 36 · r 18</span>
+              </div>
+              <div class="part">
+                <span style="width:12px;height:26px;border-radius:4px;background:#D9531E;box-shadow:0 2px 0 #8F3210;margin-top:9px;"></span>
+                <div class="dimh" style="width:12px;"></div><span class="dl">12 × 26</span>
+              </div>
+            </div>
+            <!-- dock outline drawing -->
+            <div style="position:relative;margin-top:56px;padding-right:56px;">
+              <div style="height:68px;border-radius:34px;border:1.25px solid #E7E4DE;background:rgba(231,228,222,.06);display:flex;align-items:center;gap:10px;padding:0 12px;box-sizing:border-box;">
+                <span style="width:76px;height:44px;border-radius:22px;border:1.25px dashed #E9A47F;flex:none;box-sizing:border-box;"></span>
+                <span style="width:132px;height:36px;border-radius:18px;border:1.25px dashed rgba(231,228,222,.5);flex:none;box-sizing:border-box;"></span>
+                <span style="flex:1;height:1px;background:rgba(231,228,222,.5);position:relative;"><span style="position:absolute;left:40%;top:-13px;width:12px;height:26px;border-radius:4px;border:1.25px dashed #E9A47F;box-sizing:border-box;"></span></span>
+                <span style="width:44px;height:44px;border-radius:50%;border:1.25px dashed rgba(231,228,222,.5);flex:none;box-sizing:border-box;"></span>
+                <span style="width:44px;height:44px;border-radius:50%;border:1.25px dashed rgba(231,228,222,.5);flex:none;box-sizing:border-box;"></span>
+                <span style="width:44px;height:44px;border-radius:50%;border:1.25px dashed rgba(231,228,222,.5);flex:none;box-sizing:border-box;"></span>
+                <span style="width:44px;height:44px;border-radius:50%;border:1.25px dashed rgba(231,228,222,.5);flex:none;box-sizing:border-box;"></span>
+              </div>
+              <div class="dimv" style="right:28px;top:0;height:68px;"></div><span class="dl" style="position:absolute;right:0;top:24px;margin:0;">68</span>
+              <div style="display:flex;gap:0;margin-top:12px;align-items:center;">
+                <div class="dimh" style="width:12px;margin:0;"></div><span class="dl" style="margin:0 8px;">12</span>
+                <div class="dimh" style="width:10px;margin:0 0 0 64px;"></div><span class="dl" style="margin:0 8px;">gap 10</span>
+                <span class="dl" style="margin:0 0 0 auto;padding-right:56px;">r 34</span>
+              </div>
+            </div>
+            <p class="dl" style="margin:28px 0 0;font-size:13px;white-space:normal;">Dock 68 · radius 34 · padding 12 · gap 10 · accent rim 2 px · scales to 1.25× in full screen.</p>
+          </div>
+          <!-- tokens -->
+          <div class="panel" style="background:#151413;padding:8px 6px 14px;">
+            <div class="grp">COLOUR</div>
+            <div class="tok on"><span>--media-accent-color</span><span class="v">#D9531E</span><span class="mini"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 3.5v-.3A1.7 1.7 0 0 0 8.8 1.5H4.2a1.7 1.7 0 0 0-1.7 1.7v4.6a1.7 1.7 0 0 0 1.7 1.7h.3"/></svg></span></div>
+            <div class="tok"><span>data-glaze</span><span class="v">bone | graphite | stone</span><span class="mini"></span></div>
+            <div class="tok"><span>--tactile-ink</span><span class="v">#2A2724</span><span class="mini"></span></div>
+            <div class="grp">SIZE</div>
+            <div class="tok"><span>--tactile-dock-h</span><span class="v">68px</span><span class="mini"></span></div>
+            <div class="tok"><span>--tactile-key-size</span><span class="v">44px</span><span class="mini"></span></div>
+            <div class="tok"><span>--tactile-rim</span><span class="v">2px</span><span class="mini"></span></div>
+            <div class="tok"><span>--media-border-radius</span><span class="v">16px</span><span class="mini"></span></div>
+            <div class="grp">TYPE + MOTION</div>
+            <div class="tok"><span>--media-font-family</span><span class="v">Geist, ui-sans-serif</span><span class="mini"></span></div>
+            <div class="tok"><span>--tactile-press</span><span class="v">70 / 200 ms</span><span class="mini"></span></div>
+            <div class="tok"><span>--tactile-ease</span><span class="v">.22,1,.36,1</span><span class="mini"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:36px;padding-top:150px;">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="board-h">Linking</div>
+        <div class="kt"><b>part → token</b><span>Hover/focus a part: its dimension lines turn accent, its token row lights (accent bar on the left + copy key appears).</span></div>
+        <div class="kt"><b>token → part</b><span>Hover/focus a row: the same part highlights in the drawing. Rows are buttons; click copies “--name: value;”.</span></div>
+        <div class="kt"><b>names</b><span>Only tokens the skin really reads. CC: check against src/; drop or rename any row that isn't real.</span></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="board-h">Motion · technical drawing (once, on enter)</div>
+        <div class="kt"><b>1 · parts</b><span>Fade in, 40 ms stagger</span></div>
+        <div class="kt"><b>2 · dims</b><span>Dimension lines draw out from centre (scaleX 0→1, 400 ms), end ticks pop at 300 ms</span></div>
+        <div class="kt"><b>3 · numbers</b><span>Labels fade after their line, tabular digits, no count-up</span></div>
+        <div class="kt"><b>4 · dock</b><span>Outline strokes draw (stroke-dashoffset, 600 ms), dashed parts settle last</span></div>
+        <div class="kt"><b>5 · tokens</b><span>Rows fade, 30 ms stagger, start with step 2</span></div>
+        <div class="kt"><b>reduced</b><span>Final state, no drawing</span></div>
+        <div class="tl" style="margin-top:6px;"><span style="left:0;width:20%"></span><span style="left:12%;width:30%;opacity:.7"></span><span style="left:30%;width:18%;opacity:.5"></span><span style="left:34%;width:46%;background:#F3E7D2;opacity:.55"></span><span style="left:14%;width:40%;background:#BFB39E;opacity:.35;top:19px;height:4px"></span></div>
+        <div class="dl" style="margin:0;display:flex;justify-content:space-between;"><span>0</span><span>parts · dims</span><span>dock outline</span><span>~1.1 s</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ROW 3: MOBILE ===== -->
+  <div>
+    <div class="board-h" style="margin-bottom:22px;">C · mobile 390 · install + specs</div>
+    <div style="display:flex;gap:56px;align-items:flex-start;">
+      <!-- install mobile -->
+      <div style="width:390px;background:#1E1D1D;border:1px solid rgba(243,231,210,.12);border-radius:20px;padding:40px 16px;box-sizing:border-box;">
+        <div style="display:flex;gap:14px;align-items:baseline;margin-bottom:14px;"><span class="lbl">07</span><span class="lbl">Install</span></div>
+        <h2 class="disp" style="margin:0;font-size:26px;">Four steps. <span class="out">Any site.</span></h2>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:28px;">
+          <div style="background:#151413;border:1px solid rgba(243,231,210,.2);border-radius:6px;padding:12px 12px 14px 14px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;"><span style="display:flex;gap:10px;align-items:center;"><span class="num">01</span><span class="tag">TERMINAL</span></span><span class="ck"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 3.5v-.3A1.7 1.7 0 0 0 8.8 1.5H4.2a1.7 1.7 0 0 0-1.7 1.7v4.6a1.7 1.7 0 0 0 1.7 1.7h.3"/></svg></span></div>
+            <div class="cmd" style="margin-top:10px;font-size:13px;">npm i @videojs/html@10</div>
+          </div>
+          <div style="background:#151413;border:1px solid rgba(243,231,210,.2);border-radius:6px;padding:12px 12px 14px 14px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;"><span style="display:flex;gap:10px;align-items:center;"><span class="num">02</span><span class="tag">TERMINAL</span></span><span class="ck done"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-7"/></svg><span class="toast">COPIED</span></span></div>
+            <div class="cmd" style="margin-top:10px;font-size:13px;white-space:normal;line-height:1.55;">npx degit promoparkllc/<wbr>tactile-paper-key/<wbr>src tactile-skin</div>
+          </div>
+          <div style="background:#151413;border:1px solid rgba(243,231,210,.2);border-radius:6px;padding:12px 12px 14px 14px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;"><span style="display:flex;gap:10px;align-items:center;"><span class="num">03</span><span class="tag">JS</span></span><span class="ck"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 3.5v-.3A1.7 1.7 0 0 0 8.8 1.5H4.2a1.7 1.7 0 0 0-1.7 1.7v4.6a1.7 1.7 0 0 0 1.7 1.7h.3"/></svg></span></div>
+            <div class="cmd" style="margin-top:10px;font-size:13px;white-space:pre;line-height:1.55;">import <span class="s">'@videojs/html/video/player'</span>;
+import <span class="s">'./tactile-skin/video/skin'</span>;</div>
+          </div>
+          <div style="background:#151413;border:1px solid rgba(243,231,210,.2);border-radius:6px;padding:12px 12px 14px 14px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;"><span style="display:flex;gap:10px;align-items:center;"><span class="num">04</span><span class="tag">HTML</span></span><span class="ck"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 3.5v-.3A1.7 1.7 0 0 0 8.8 1.5H4.2a1.7 1.7 0 0 0-1.7 1.7v4.6a1.7 1.7 0 0 0 1.7 1.7h.3"/></svg></span></div>
+            <div class="cmd" style="margin-top:10px;font-size:12px;white-space:pre;line-height:1.6;overflow-x:auto;"><span class="t">&lt;video-player&gt;</span>
+  <span class="t">&lt;mux-video</span> …<span class="t">&gt;&lt;/mux-video&gt;</span>
+  <span class="p">&lt;!-- skin.html --&gt;</span>
+<span class="t">&lt;/video-player&gt;</span></div>
+          </div>
+        </div>
+        <div class="foot" style="font-size:12px;line-height:1.6;">Source: <a href="#">github.com/promoparkllc/tactile-paper-key</a></div>
+      </div>
+
+      <!-- specs mobile -->
+      <div style="width:390px;background:#1E1D1D;border:1px solid rgba(243,231,210,.12);border-radius:20px;padding:40px 16px;box-sizing:border-box;">
+        <div style="display:flex;gap:14px;align-items:baseline;margin-bottom:14px;"><span class="lbl">06</span><span class="lbl">Specifications</span></div>
+        <h2 class="disp" style="margin:0;font-size:26px;">Drawn <span class="out">to scale.</span></h2>
+        <div class="panel" style="margin-top:28px;background:#2A2827;padding:28px 16px 22px;">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);row-gap:26px;justify-items:center;">
+            <div class="part hl"><span style="width:76px;height:44px;border-radius:22px;background:#D9531E;box-shadow:0 2px 0 #8F3210;"></span><div class="dimh" style="width:76px;"></div><span class="dl">76 × 44</span></div>
+            <div class="part"><span class="k44"></span><div class="dimh" style="width:44px;"></div><span class="dl">Ø 44</span></div>
+            <div class="part"><span class="k44" style="border:2px solid #D9531E;"></span><div class="dimh" style="width:44px;"></div><span class="dl">rim 2</span></div>
+            <div class="part" style="grid-column:span 2;"><span style="width:132px;height:36px;border-radius:18px;background:#151413;margin-top:4px;"></span><div class="dimh" style="width:132px;"></div><span class="dl">h 36 · r 18</span></div>
+            <div class="part"><span style="width:12px;height:26px;border-radius:4px;background:#D9531E;margin-top:9px;"></span><div class="dimh" style="width:12px;"></div><span class="dl">12 × 26</span></div>
+          </div>
+          <p class="dl" style="margin:24px 0 0;white-space:normal;line-height:1.6;">Dock 68 (60 on mobile) · radius 34 · padding 12 · gap 10 · rim 2 px.</p>
+        </div>
+        <div class="panel" style="margin-top:10px;background:#151413;padding:6px 4px 10px;">
+          <div class="tok on" style="font-size:12px;"><span>--media-accent-color</span><span class="v">#D9531E</span><span class="mini"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 3.5v-.3A1.7 1.7 0 0 0 8.8 1.5H4.2a1.7 1.7 0 0 0-1.7 1.7v4.6a1.7 1.7 0 0 0 1.7 1.7h.3"/></svg></span></div>
+          <div class="tok" style="font-size:12px;"><span>data-glaze</span><span class="v">bone · graphite · stone</span><span class="mini"></span></div>
+          <div class="tok" style="font-size:12px;"><span>--tactile-dock-h</span><span class="v">68px</span><span class="mini"></span></div>
+          <div class="tok" style="font-size:12px;"><span>--tactile-key-size</span><span class="v">44px</span><span class="mini"></span></div>
+          <div class="dl" style="padding:6px 14px 0;margin:0;">+ 6 more · tap a row to copy</div>
+        </div>
+      </div>
+
+      <div style="flex:1;display:flex;flex-direction:column;gap:14px;max-width:560px;">
+        <div class="board-h">Mobile rules</div>
+        <div class="kt"><b>steps</b><span>Stack: label row (number, tag, copy key) above the code. Long commands wrap at “/”; HTML scrolls sideways inside its card, never the page.</span></div>
+        <div class="kt"><b>copy key</b><span>Visual 32, hit area 44 × 44 (pseudo-element). Always visible on touch (no hover-only controls).</span></div>
+        <div class="kt"><b>tokens</b><span>First 4 rows visible, “+ 6 more” expands in place (button, aria-expanded). Tap copies; there's no hover link on touch, the parts highlight on tap.</span></div>
+        <div class="kt"><b>drawing</b><span>Parts on a 3-column grid; the dock outline is hidden below 600 px (too small to read), the caption text keeps its numbers.</span></div>
+        <div class="kt"><b>layout bug</b><span>On the live page the 06 title and drawing panel start past the left edge: align them to the same .wrap as the other sections.</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1880,"height":2510}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

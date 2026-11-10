@@ -101,7 +101,9 @@ TIME_CUR_SECONDS = list(range(18, 26))        # current-time variants the displa
 LABEL = ENV('LABEL', 'PLAY')                  # status pill: state label and rate, 10 px 600 tracking 0.08 em
 LABEL_RATE = ENV('LABEL_RATE', '1.0×')
 ICON_PX, ICON_PLAY_PX = 20, 20
-LED_W, LED_H, LED_BOTTOM = 13, 2.5, 6          # captions latch bar: 13 × 2.5 px, r 1.25, 6 px above the key's bottom edge
+RIM_W = 2.0                                    # latched key (captions on): a 2 px accent rim replaces the 1.25 ink ring
+#                                                (--tactile-rim-w, skin 7eef74a); the glyph stays ink, the face stays key
+LATCH_TRAVEL = 1.0                             # a latched key sits 1 px lower (--tactile-latch-travel)
 DOT_D = 6                                      # accent dot in the display pill
 
 # --- physical depths (film; in px = mm)
@@ -152,7 +154,10 @@ FAN_ORANGE_POWER = envf('FAN_ORANGE_POWER', 4.5)      # accent key: measured f24
 ACCENT_GAIN_S45 = (0.74, 0.68, 0.18)                  # seek cap under the morning sun: measured f480 (1.11 → 211,113,84 pink, +24 %)
 ACCENT_GAIN_S6 = (1.0, 1.0, 0.2)                      # seek cap under the dusk sky (blue down): measured f526 186,90,55 → hue 16°, luma 108
 CAP_KEY_POWER = envf('CAP_KEY_POWER', 0.15)           # S6 cap-only white key (0.08 m, rides with the cap): accent luma to brand
-LED_LIT_3D = 0.7                                      # LED emission while 3D (AgX + sunlit base): f320 luma 107; 1.0 = exact hex flat
+LATCH_GAIN = tuple(float(v) for v in ENV('LATCH_GAIN', '0.41,0.37,0.14').split(','))   # latch rim base gain while 3D
+#                    (the rim exists only under the S4–S5 sun: latched f305, a drawing from f376): measured 2026-11-10 on
+#                    f320/f340 ledge 200,86,35 = hue 18.4° / luma 106.6 against the seek cap 183,89,56 (15.6° / 106.6);
+#                    the cap's own S4–S5 gain (0.74,0.68,0.18) read +30 % and the un-gained accent whitened to 229,185,171
 FAN_STONE_POWER = envf('FAN_STONE_POWER', 4.0)        # stone: lighter and cooler than graphite (Δluma ≥ 40)
 # View transform per shot (round 2, approved): 3D shots on AgX with bases compensated from measurements; the flat
 # UI and the hand-off on Standard (exact hex). Shot 5 = two passes of the same frame composited along the wipe.
@@ -197,7 +202,7 @@ EXPLODE_LAG = dict(keys=0, caps=4, display=7)            # secondary layers star
 F_FAN = (B(12) + 5, B(15))                    # caps open 186 → 226 (quart in-out, staggered)
 F_BONE_UP = (B(15), B(16))                    # bone rises 226 → 241 (hit)
 F_PRESS = B(20)                               # 301 (hit): down 2 f, back 6 f with overshoot
-F_LED = (F_PRESS + 4, F_PRESS + 8)            # secondary, 130 ms after the press
+F_LATCH = (F_PRESS + 4, F_PRESS + 8)          # the rim comes in 130 ms after the press (--tactile-dur-rim 150 ms)
 F_KEYS_FLAT = dict(cc=B(25), mute=B(26), settings=B(27), fs=B(28), play=B(29))   # each flatten ENDS on its beat
 F_FLAT_LEN = 30
 F_WIPE = (B(27), B(31))                       # the linen becomes the flat canvas 391 → 466
@@ -321,8 +326,11 @@ def micro_surface(nt, bsdf, rough, micro):
 
 
 def tactile_material(name, hexstr, rough=0.5, spec=0.5, coat=0.0, coat_rough=0.1, micro=0.0, flat_hex=None,
-                     sheen=0.0):
-    """Principled surface mixed with a camera-only flat emission of the UI colour by the object's 'flat' attribute."""
+                     sheen=0.0, latch_hex=None):
+    """Principled surface mixed with a camera-only flat emission of the UI colour by the object's 'flat' attribute.
+
+    `latch_hex`: a second UI colour the piece turns into by the object's 'latch' attribute (0 → 1), physical base
+    × object attribute 'latch_gain' (RGB), flat emission exact; used by the captions key's rim."""
     m = bpy.data.materials.new(name)
     nt = _nodes(m)
     out = nt.nodes.new('ShaderNodeOutputMaterial')
@@ -334,7 +342,35 @@ def tactile_material(name, hexstr, rough=0.5, spec=0.5, coat=0.0, coat_rough=0.1
     gain.inputs['Factor'].default_value = 1.0
     nt.links.new(base.outputs[0], gain.inputs[6])
     nt.links.new(obj_attr(nt, 'gain').outputs['Color'], gain.inputs[7])
-    nt.links.new(gain.outputs[2], bsdf.inputs['Base Color'])
+    base_out = gain.outputs[2]
+    flat_in = flat_color(flat_hex or hexstr)
+    if latch_hex:                                         # the latched colour: its own gain, not the piece's
+        lfac = nt.nodes.new('ShaderNodeClamp')
+        nt.links.new(obj_attr(nt, 'latch').outputs['Fac'], lfac.inputs['Value'])
+        on = nt.nodes.new('ShaderNodeRGB')
+        on.outputs[0].default_value = phys_color('Accent', latch_hex)
+        ong = nt.nodes.new('ShaderNodeMix')
+        ong.data_type, ong.blend_type = 'RGBA', 'MULTIPLY'
+        ong.inputs['Factor'].default_value = 1.0
+        nt.links.new(on.outputs[0], ong.inputs[6])
+        nt.links.new(obj_attr(nt, 'latch_gain').outputs['Color'], ong.inputs[7])
+        lmix = nt.nodes.new('ShaderNodeMix')
+        lmix.data_type, lmix.blend_type = 'RGBA', 'MIX'
+        nt.links.new(lfac.outputs['Result'], lmix.inputs['Factor'])
+        nt.links.new(base_out, lmix.inputs[6])
+        nt.links.new(ong.outputs[2], lmix.inputs[7])
+        base_out = lmix.outputs[2]
+        foff = nt.nodes.new('ShaderNodeRGB')
+        foff.outputs[0].default_value = flat_in
+        fon = nt.nodes.new('ShaderNodeRGB')
+        fon.outputs[0].default_value = flat_color(latch_hex)
+        fmix = nt.nodes.new('ShaderNodeMix')
+        fmix.data_type, fmix.blend_type = 'RGBA', 'MIX'
+        nt.links.new(lfac.outputs['Result'], fmix.inputs['Factor'])
+        nt.links.new(foff.outputs[0], fmix.inputs[6])
+        nt.links.new(fon.outputs[0], fmix.inputs[7])
+        flat_in = fmix.outputs[2]
+    nt.links.new(base_out, bsdf.inputs['Base Color'])
     bsdf.inputs['Roughness'].default_value = rough
     bsdf.inputs['Specular IOR Level'].default_value = spec
     if coat:
@@ -345,7 +381,7 @@ def tactile_material(name, hexstr, rough=0.5, spec=0.5, coat=0.0, coat_rough=0.1
         bsdf.inputs['Sheen Roughness'].default_value = 0.4
     if micro:
         micro_surface(nt, bsdf, rough, micro)
-    em = camera_only_emission(nt, flat_color(flat_hex or hexstr))
+    em = camera_only_emission(nt, flat_in)
     mix = nt.nodes.new('ShaderNodeMixShader')
     nt.links.new(flat_attr(nt), mix.inputs['Fac'])
     nt.links.new(bsdf.outputs['BSDF'], mix.inputs[1])
@@ -356,7 +392,7 @@ def tactile_material(name, hexstr, rough=0.5, spec=0.5, coat=0.0, coat_rough=0.1
 
 
 def lit_material(name, hexstr, strength=1.0, phys_hex='#101010'):
-    """Display text / LED: emission of the UI colour × object attribute 'lit' (0 = off). Off it is a dark matte.
+    """Display text / dot: emission of the UI colour × object attribute 'lit' (0 = off). Off it is a dark matte.
     This emission DOES light the scene a little (the display glow on the dock is wanted)."""
     m = bpy.data.materials.new(name)
     nt = _nodes(m)
@@ -471,7 +507,9 @@ MAT = dict(
     label=lit_material('DisplayLabel', HEX['display_label'], 1.0),
     text=lit_material('DisplayText', HEX['display_text'], 1.0),
     muted=lit_material('DisplayMuted', HEX['display_muted'], 1.0),
-    led=lit_material('LED', HEX['accent'], 1.0, phys_hex='#241A17'),      # 1.0: exact hex in the flat state
+    # captions key ledge + face edge: the latch rim; matte (spec 0.15, rough 0.6) so the S4 sun does not whiten it
+    ink_latch=tactile_material('InkLatch', HEX['ink'], rough=0.6, spec=0.15, latch_hex=HEX['accent']),
+    key_latch=tactile_material('KeyLatch', HEX['key'], rough=0.6, spec=0.15, micro=0.12, latch_hex=HEX['accent']),
     dot=lit_material('DisplayDot', HEX['accent'], 1.0, phys_hex='#241A17'),
     linen=linen_material(),
     bokeh=bokeh_material(),
@@ -942,16 +980,19 @@ INLAYS = [INLAY_FILL, INLAY_BUFFER, INLAY_VOL]
 
 
 # ---------------------------------------------------------------- keys
-def key_profile(proud, well, face_mat, side_mat):
-    """Cap profile: side from the well floor up to the ink ledge, ledge (OUTLINE wide, ink floor), rounded face edge."""
+def key_profile(proud, well, face_mat, side_mat, ledge_mat='ink', edge_mat=None, er=FACE_EDGE_R):
+    """Cap profile: side from the well floor up to the ink ledge, ledge (OUTLINE wide, ink floor), rounded face edge.
+
+    A latching key passes `ledge_mat` / `edge_mat` that turn accent together and `er = RIM_W − OUTLINE`, so the ledge
+    plus the edge band read as the UI's 2 px rim from above (1.25 ink ring + 0.75 face when unlatched)."""
     z_top = proud
     z_ledge = z_top - LEDGE_DEPTH
-    p = [(0.0, -well, side_mat), (0.0, z_ledge, side_mat), (OUTLINE, z_ledge, 'ink')]
-    er = FACE_EDGE_R
+    p = [(0.0, -well, side_mat), (0.0, z_ledge, side_mat), (OUTLINE, z_ledge, ledge_mat)]
+    edge_mat = edge_mat or face_mat
     for k in range(1, 6):
         a = math.radians(90 * k / 5)
-        p.append((OUTLINE + er - er * math.cos(a), z_ledge + (z_top - z_ledge) * math.sin(a), face_mat))
-    p[-1] = (OUTLINE + er, z_top, face_mat)
+        p.append((OUTLINE + er - er * math.cos(a), z_ledge + (z_top - z_ledge) * math.sin(a), edge_mat))
+    p[-1] = (OUTLINE + er, z_top, edge_mat)
     return [(i * PX, z * PX, m) for i, z, m in p]
 
 
@@ -980,16 +1021,28 @@ def split_top_face(ob, name):
     return face
 
 
-def make_key(name, loc, w, h, r, icon, icon_px, face_mat, side_mat, glyph_mat, well=WELL_DEPTH):
+def make_key(name, loc, w, h, r, icon, icon_px, face_mat, side_mat, glyph_mat, well=WELL_DEPTH, latch=False):
     rig = empty(f'Rig_{name}', loc)
-    me = sweep(f'Key_{name}', w * PX, h * PX, r * PX, key_profile(KEY_PROUD, well, face_mat, side_mat), MAT, n=16)
+    prof = (key_profile(KEY_PROUD, well, face_mat, side_mat, 'ink_latch', 'key_latch', RIM_W - OUTLINE) if latch
+            else key_profile(KEY_PROUD, well, face_mat, side_mat))
+    me = sweep(f'Key_{name}', w * PX, h * PX, r * PX, prof, MAT, n=16)
     ob = new_object(f'Key_{name}', me, parent=rig)
     face = split_top_face(ob, f'Key_{name}_face')
+    if latch:                                     # the top n-gon inherits the edge band's material: the face stays key
+        fm = face.data
+        if MAT[face_mat].name not in [m.name for m in fm.materials]:
+            fm.materials.append(MAT[face_mat])
+        idx = [m.name for m in fm.materials].index(MAT[face_mat].name)
+        for poly in fm.polygons:
+            poly.material_index = idx
     parts = [ob, face]
     if icon:
         parts += engrave(face, icon, icon_px, KEY_PROUD * PX, ENGRAVE_DEPTH, MAT[glyph_mat], rig)
     for p in parts:
         p['flat'] = 0.0
+        if latch:
+            p['latch'] = 0.0
+            p['latch_gain'] = list(LATCH_GAIN)
     return rig, parts
 
 
@@ -999,7 +1052,8 @@ def on_dock(cx):
 
 KEYS = {}
 KEYS['mute'] = make_key('Mute', on_dock(X_MUTE), KEY_D, KEY_D, KEY_R, 'volume_high', ICON_PX, 'key', 'key_shade', 'ink')
-KEYS['cc'] = make_key('Captions', on_dock(X_CC), KEY_D, KEY_D, KEY_R, 'captions', ICON_PX, 'key', 'key_shade', 'ink')
+KEYS['cc'] = make_key('Captions', on_dock(X_CC), KEY_D, KEY_D, KEY_R, 'captions', ICON_PX, 'key', 'key_shade', 'ink',
+                      latch=True)
 KEYS['settings'] = make_key('Settings', on_dock(X_SETTINGS), KEY_D, KEY_D, KEY_R, 'settings', ICON_PX, 'key',
                             'key_shade', 'ink')
 KEYS['fs'] = make_key('Fullscreen', on_dock(X_FS), KEY_D, KEY_D, KEY_R, 'fullscreen', ICON_PX, 'key', 'key_shade',
@@ -1015,10 +1069,6 @@ for p in PAUSE_PARTS:
     p['flat'] = 1.0
 
 CC_RIG, CC_PARTS = KEYS['cc']
-led_me = sweep('LED', LED_W * PX, LED_H * PX, LED_H / 2 * PX,
-               [(0.0, (KEY_PROUD - 0.3) * PX, 'led'), (0.0, (KEY_PROUD + 0.02) * PX, 'led')], MAT)
-LED = new_object('LED', led_me, (0.0, -(KEY_R - LED_BOTTOM - LED_H / 2) * PX, 0.0), parent=CC_RIG)   # under the glyph
-LED['lit'] = 0.0
 
 # ---------------------------------------------------------------- shot 3: five glaze keycaps in the air, fanned like
 # sample plates. A real keycap: tapered skirt, rounded edge, the 1.25 ink ring as a 0.2 mm ledge, a 1.2 mm domed top.
@@ -1609,15 +1659,22 @@ _mirror = (2 * _g_n.dot(_v) * _g_n - _v).normalized()
 FAN_REFL.location = _g_p + _mirror * 0.8
 aim(FAN_REFL, _g_p)
 
-# S4 press on B(20): down 2 mm in 2 f, back in 6 f with a ≤ 1 px overshoot; LED (secondary) 130 ms later
+# S4 press on B(20): down 2 mm in 2 f, back in 6 f with a ≤ 1 px overshoot; the key stays latched 1 px lower and its
+# ring turns into the 2 px accent rim (secondary) 130 ms later
 kf(CC_RIG, 'location', F_PRESS, DOCK_TOP, 2, 'BEZIER', 'EASE_IN')
 kf(CC_RIG, 'location', F_PRESS + 2, DOCK_TOP - 2.0 * PX, 2, 'BEZIER', 'EASE_OUT')
-kf(CC_RIG, 'location', F_PRESS + 6, DOCK_TOP + 0.6 * PX, 2, 'BEZIER', 'EASE_IN_OUT')
-kf(CC_RIG, 'location', F_PRESS + 8, DOCK_TOP, 2, 'BEZIER', 'EASE_OUT')
-kf(LED, '["lit"]', F_LED[0], 0.0)
-kf(LED, '["lit"]', F_LED[1], LED_LIT_3D)
-kf(LED, '["lit"]', F_KEYS_FLAT['cc'] - F_FLAT_LEN, LED_LIT_3D)
-kf(LED, '["lit"]', F_KEYS_FLAT['cc'], 1.0)                   # exact hex once it is a drawing (Standard pass)
+kf(CC_RIG, 'location', F_PRESS + 6, DOCK_TOP - (LATCH_TRAVEL - 0.6) * PX, 2, 'BEZIER', 'EASE_IN_OUT')
+kf(CC_RIG, 'location', F_PRESS + 8, DOCK_TOP - LATCH_TRAVEL * PX, 2, 'BEZIER', 'EASE_OUT')
+for p in CC_PARTS:
+    kf(p, '["latch"]', F_LATCH[0], 0.0, interp='BEZIER', easing='EASE_IN_OUT')
+    kf(p, '["latch"]', F_LATCH[1], 1.0, interp='BEZIER', easing='EASE_IN_OUT')
+# while it flattens, the latched key's 1 px travel becomes the UI's `translate: 0 1px` (1 mm down the screen, back
+# onto the UI plane), so the flat drawing sits where the live DOM draws it (1012–1056 × 596–640 at 1200 wide)
+_cc_y = CC_RIG.location.y
+kf(CC_RIG, 'location', F_KEYS_FLAT['cc'] - F_FLAT_LEN, _cc_y, 1, 'BEZIER', 'EASE_IN_OUT')
+kf(CC_RIG, 'location', F_KEYS_FLAT['cc'], _cc_y - LATCH_TRAVEL * PX, 1, 'BEZIER', 'EASE_IN_OUT')
+kf(CC_RIG, 'location', F_KEYS_FLAT['cc'] - F_FLAT_LEN, DOCK_TOP - LATCH_TRAVEL * PX, 2, 'BEZIER', 'EASE_IN_OUT')
+kf(CC_RIG, 'location', F_KEYS_FLAT['cc'], DOCK_TOP, 2, 'BEZIER', 'EASE_IN_OUT')
 
 # S5 flatten: each key becomes its drawing over 30 f, ending on its beat; the linen wipes to the flat canvas
 for nm, f_end in F_KEYS_FLAT.items():
@@ -1671,6 +1728,9 @@ for p in PLAY_GLYPH_PLAY:
 for p in PAUSE_PARTS:
     kf(p, 'hide_render', 1, True, interp='CONSTANT')
     kf(p, 'hide_render', F_MORPH, False, interp='CONSTANT')
+# playing = latched: the play key drops its 1 px travel with the glyph (the DOM draws it at 36–112 × 596–640)
+kf(PLAY_RIG, 'location', F_MORPH - 1, PLAY_RIG.location.y, 1, 'CONSTANT')
+kf(PLAY_RIG, 'location', F_MORPH, PLAY_RIG.location.y - LATCH_TRAVEL * PX, 1, 'CONSTANT')
 
 
 # ---------------------------------------------------------------- light phases
@@ -1725,12 +1785,12 @@ for f in range(S1[0], S1[1] + 1, 3):
     key_vec(RIM, 'location', f, RIM.location, 'LINEAR')
     key_vec(RIM, 'rotation_euler', f, RIM.rotation_euler, 'LINEAR')
 RIM_LL = bpy.data.collections.new('Rim_receivers')           # the rim lights the key body (bevel, ring), never the face
-for p in CC_PARTS + [LED]:
+for p in CC_PARTS:
     if not p.name.endswith('_face'):
         RIM_LL.objects.link(p)
 RIM.light_linking.receiver_collection = RIM_LL
 FILL_LL = bpy.data.collections.new('Fill_receivers')         # the cool fill lights the whole key
-for p in CC_PARTS + [LED]:
+for p in CC_PARTS:
     FILL_LL.objects.link(p)
 HOOK_FILL_LIGHT = area_light('HookFill', 'SQUARE', 0.3, 0.3, 0.0, HOOK_FILL_COLOR, CC_C + Vector((-0.1, -0.1, 0.3)), CC_C)
 HOOK_FILL_LIGHT.light_linking.receiver_collection = FILL_LL
@@ -1852,7 +1912,7 @@ with open(SCENES_JSON, 'w', encoding='utf-8') as fh:
         scenes=[dict(id=i, n=n, name=nm, start=a, end=b) for n, (i, nm, (a, b)) in enumerate(
             (('S1', 'Hook', S1), ('S2', 'Exploded', S2), ('S3', 'Glaze', S3), ('S4', 'Press', S4), ('S5', 'Flatten', S5),
              ('S6', 'Fader', S6), ('S7', 'Display', S7), ('S8', 'Hand-off', S8), ('END', 'End', END_CARD)), 1)],
-        events=dict(explode=list(F_EXPLODE), fan=list(F_FAN), bone_up=list(F_BONE_UP), press=F_PRESS, led=list(F_LED),
+        events=dict(explode=list(F_EXPLODE), fan=list(F_FAN), bone_up=list(F_BONE_UP), press=F_PRESS, latch=list(F_LATCH), led=list(F_LATCH),
                     keys_flat=dict(F_KEYS_FLAT), flat_len=F_FLAT_LEN, wipe=list(F_WIPE), cap_slide=list(F_CAP_SLIDE),
                     fader_flat=list(F_FADER_FLAT), display_on=list(F_DISPLAY_ON), display_flat=list(F_DISPLAY_FLAT),
                     dock_flat=list(F_DOCK_FLAT), morph=F_MORPH, tab_hops=list(TAB_HOPS)),

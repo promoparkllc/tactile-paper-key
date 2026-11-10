@@ -15,6 +15,7 @@ dist
 demo-footage/
 music/
 _tmp/
+apps/preview/public/_upload/
 film/frames/
 film/render/
 

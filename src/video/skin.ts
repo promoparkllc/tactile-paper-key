@@ -113,6 +113,12 @@ registerIcons('tactile', {
   check: stroke(1.6, '<path d="M4 9.5l3.2 3.2L14 6"/>'),
 });
 
+/**
+ * Menus whose scrolling is already watched. Declared before the elements are defined: with the skin's markup already
+ * in the page, an element connects (and reaches for this) the moment it is defined.
+ */
+const watchedMenus = new WeakSet<Element>();
+
 /** `1` → `1.0×`, `1.5` → `1.5×`, `0.75` → `0.75×`. One decimal unless the rate needs two. */
 function formatRate(rate: number): string {
   const text = Number.isInteger(rate * 10) ? rate.toFixed(1) : rate.toFixed(2);
@@ -209,8 +215,6 @@ if (!customElements.get(TactileStatusElement.tagName)) {
  * or a page (opening, closing, a page sliding in) removes the attribute at once, in the same task as the change and
  * so before the next paint, which is what keeps a scrollbar from flashing while the panel resizes around its content.
  */
-const watchedMenus = new WeakSet<Element>();
-
 function watchMenuScroll(menu: HTMLElement): void {
   if (watchedMenus.has(menu)) return;
   watchedMenus.add(menu);

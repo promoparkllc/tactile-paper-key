@@ -4,7 +4,7 @@
 
 import { anchorsAt } from './data/anchorsAt.js';
 import { formatClock, formatTimecode, sceneAt } from './data/normalize.js';
-import { ADVANCE, CODE_TEXT, END_SMALL, END_TITLE, FLATTEN_WORDS, FONT, H, HOOK_WORDS, HUD_NAMES, STAGE, TYPE, W, hudBottom, textColor } from './layout.js';
+import { ADVANCE, CODE_TEXT, END_SMALL, END_TITLE, FLATTEN_WORDS, FONT, H, HOOK_WORDS, HUD_NAMES, STAGE, TYPE, W, hudTop, textColor } from './layout.js';
 import { MS } from './motion.js';
 import { CALLOUT_ORDER, calloutTiming, capRun, flattenTiming, rulerTiming } from './timing.js';
 
@@ -14,7 +14,7 @@ const hud = (film, frame) => {
   const scene = sceneAt(film, frame);
   const label = `${String(scene.n).padStart(2, '0')} / ${HUD_NAMES[scene.id] ?? scene.name}`;
   const w = width(label, TYPE.hudLabel, FONT.display) + STAGE.hud.gap + width(formatTimecode(frame, film.fps), TYPE.hudTime, FONT.mono);
-  return { name: 'hud', x: STAGE.hud.x - 4, y: H - hudBottom(scene.id) - TYPE.hudTime - 6, w, h: TYPE.hudTime + 12, color: textColor(scene.id) };
+  return { name: 'hud', x: STAGE.hud.x - 4, y: hudTop(scene.id) - 6, w, h: TYPE.hudTime + 12, color: textColor(scene.id, frame) };
 };
 
 export function boxesFor(still, frame, film, anchorsS2, anchorsS6 = null) {

@@ -4,6 +4,40 @@ Captured 2026-11-09 from the workbench (`/preview.html`) with headless Chromium,
 762 (810 viewport) and 390. Distances read from `getBoundingClientRect()`. The screenshots behind this report stay
 in the working repository; the public one carries the icon sheet only, so states are described here, not linked.
 
+## Page · 06 Specs + 07 Install · 2026-11-10
+
+Against `design/InstallSpecs.dc.html`. Captured from the production build at 1440 and 390.
+
+- **Install.** Four steps (two TERMINAL, JS, HTML), each with a Copy key: 32px to the eye, 44.5px hit area. A copy
+  latches the key 1px with the 2px accent rim, swaps the icon for a check, shows COPIED for 1.5s and says "Copied" in
+  a polite live region. It copies the command only: no "$", no step number; the two imports copy as two lines.
+  Without clipboard access the command is selected and the pill reads PRESS CTRL+C (⌘C on a Mac).
+- **Step 04 is not the board's sample.** The board puts `<mux-video>` beside a "paste skin.html here" comment. In
+  the skin the media element sits inside `<media-container>` (the first line of skin.html), and `<mux-video>` needs
+  an import step 03 does not have. The step shows the container, a plain `<video>` and a comment for the rest of
+  skin.html. The four steps were run literally in an empty Vite project: the player plays, the menu opens, M mutes.
+- **Tokens, checked against src/.** `--tactile-rim` on the board is the rim's colour in the skin; the 2px is
+  `--tactile-rim-w`. `--tactile-press` does not exist; the two real tokens are `--tactile-dur-press` (70ms) and
+  `--tactile-dur-release` (200ms). `--tactile-pill-h` (36px) was added so the display pill has a row to link to.
+  Twelve rows, so the phone list reads "+ 8 more". `data-glaze` is an attribute: its row copies
+  `data-glaze="graphite"`. `--media-border-radius` shows the page's 16px (the skin's own default is 0).
+- **Links.** A part lights the rows it is drawn from (Play → accent colour); a row lights every part that reads it
+  (key size → play, round key, latched key). Hover and focus both ways; a tap pins a part.
+- **Type.** The board sets code at Geist Mono 400. The page's Geist Mono face starts at 500, so these two sections
+  use an alias of the same file that allows 400; nothing else on the page changes weight.
+- **Layout.** At the page's 1104px content width the five parts share one row with smaller gaps than the board's 56px
+  (the board is drawn at 1200). Under 1100px of container the tokens go under the drawing; under 760px the phone
+  rules apply; under 600px the dock outline hides. The 06 title, drawing and token panel share the left edge of every
+  other section at 390, 600, 700, 810, 1024, 1180 and 1440 (the misalignment could not be reproduced on the live page
+  before this change either).
+- **Motion.** Once per section, from an IntersectionObserver; opacity and transform only, every box reserved (layout
+  shift 0 to 0.0002 during the reveal). Reduced motion: no waiting state, everything final. After the reveal the
+  animations come off, so the phone list opening does not replay them.
+- **Checks.** axe (WCAG 2.1 A/AA): 0 violations on the two sections and on the whole page, desktop and 390. Keyboard:
+  Enter and Space on all four Copy keys and on token rows; clipboard read back in Chrome. In WebKit (Playwright's
+  build, the engine of Safari) the copy resolves and the key latches, but automation cannot read the clipboard back;
+  not tested in Safari itself.
+
 ## Accent rim and menu scrolling · 2026-11-10
 
 Two fixes after a recording on the live site. The latch bar rows and notes in the next section describe what this
