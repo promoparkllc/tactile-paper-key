@@ -136,7 +136,10 @@ class TactileStatusElement extends UIElement {
 
     // The Speed menu shows rates the same way the pill does: `1.0×`, not `1×`.
     const container = this.closest('media-container');
+    // When the markup is set on a <video-player> that is already in the page, this element connects before the
+    // groups further down have upgraded; a property set then would be shadowed, so upgrade each group first.
     container?.querySelectorAll<PlaybackRateRadioGroupElement>('media-playback-rate-radio-group').forEach((group) => {
+      customElements.upgrade(group);
       group.formatRate = formatRate;
     });
     container?.querySelectorAll<HTMLElement>('media-menu.tactile-menu').forEach(watchMenuScroll);

@@ -312,7 +312,7 @@ data-glaze             bone | graphite | stone
           <h2 id="install-h" class="disp h2">Three lines. <span class="out">Apache 2.0.</span></h2>
           <pre class="code install-code" tabindex="0"><code>npm i @videojs/html@10
 npx degit promoparkllc/tactile-paper-key/src tactile-skin   <span class="code-c"># skin.css + styles/ + video/</span>
-import './tactile-skin/video/skin'                            <span class="code-c"># then paste tactile-skin/video/skin.html inside &lt;video-player&gt;</span></code></pre>
+import '@videojs/html/video/player'; import './tactile-skin/video/skin'   <span class="code-c"># then paste tactile-skin/video/skin.html inside &lt;video-player&gt;</span></code></pre>
           <p class="mono note">Source: <a href="https://github.com/promoparkllc/tactile-paper-key">github.com/promoparkllc/tactile-paper-key</a> · works with any Video.js 10 media element.</p>
         </section>
       </main>

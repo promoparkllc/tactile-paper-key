@@ -21,15 +21,18 @@ git clone https://github.com/promoparkllc/tactile-paper-key.git
 ```
 
 ```js
-import './tactile-skin/video/skin'; // registers the elements, the icon family, the status display and the seek preview
+import '@videojs/html/video/player'; // <video-player>
+import './tactile-skin/video/skin'; // the skin: its elements, the icon family, the status display, the seek preview
 import skin from './tactile-skin/video/skin.html?raw'; // or paste skin.html's markup inside <video-player>
 
+const player = document.querySelector('video-player');
 player.innerHTML = skin.replace('<!-- Add a compatible media component here. -->', '<video src="clip.mp4" playsinline></video>');
 ```
 
 The skin works with any Video.js 10 media element (`<video>`, `<mux-video>`, …). The page loads Geist and Geist Mono
-itself (`src/skin.css` shows how); without them the skin falls back to the system UI stack. Tested in an empty Vite
-project: copy `src/`, install `@videojs/html@10.3.0`, build.
+itself (`src/skin.css` shows how); without them the skin falls back to the system UI stack. Tested from the public
+repository in an empty Vite project: the two commands above, this snippet, `vite build`, then play, menu and keys in
+Chrome.
 
 ## Use
 
