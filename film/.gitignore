@@ -1,0 +1,6 @@
+# Rebuilt by scripts/build_scene.py; renders are regenerated.
+scene.blend
+scene.blend1
+render/
+calib/patches/
+__pycache__/

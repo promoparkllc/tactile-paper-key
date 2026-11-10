@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Film storyboard v2 — From object to interface</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.fr{position:relative;width:560px;height:315px;border-radius:14px;overflow:hidden}
+.meta{display:flex;flex-direction:column;gap:6px;padding-top:14px}
+.num{font-family:'Geist Mono',monospace;font-size:12px;color:#5C574F}
+.ttl{font-size:17px;font-weight:600;color:#1B1A18}
+.dsc{font-size:14px;line-height:1.45;color:#3C3934;max-width:540px}
+.ref{font-size:12px;color:#6A645B}
+.mono{font-family:'Geist Mono',monospace}
+.k{width:38px;height:38px;flex:none;border-radius:50%;border:1.25px solid #2A2724;background:#F3F0EB;box-sizing:border-box;display:grid;place-items:center;color:#1D1B19}
+.pl{width:68px;border-radius:19px;background:#D9531E;color:#160C07}
+.pill{height:30px;padding:0 10px;border-radius:15px;background:#151413;color:#F4F1EC;font-family:'Geist Mono',monospace;font-size:10px;display:flex;align-items:center;gap:6px;flex:none}
+.gv{position:relative;flex:1 1 auto;height:2px;background:#2A2724;border-radius:2px}
+.fc{position:absolute;top:50%;width:10px;height:22px;margin-left:-5px;transform:translateY(-50%);border-radius:4px;background:#D9531E;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.rb{width:6px;height:1px;background:rgba(40,12,2,.5)}
+.dock{position:relative;display:flex;align-items:center;gap:10px;box-sizing:border-box;padding:0 12px;background:#E7E4DE;border-radius:32px}
+.call{position:absolute;font-family:'Geist Mono',monospace;font-size:10px;color:#1B1A18;white-space:nowrap}
+.ln{position:absolute;height:1px;background:#2A2724;transform-origin:left center}
+.cap3{position:absolute;border-radius:50%;border:2px solid #2A2724;box-shadow:0 6px 0 rgba(0,0,0,.25),0 18px 28px rgba(0,0,0,.35)}
+</style>
+</helmet>
+<div style="width: 1920px; height: 1980px; box-sizing: border-box; padding: 72px 80px; background: #D9D6D0; font-family: Geist, sans-serif; display: flex; flex-direction: column; gap: 40px;">
+
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 40px;">
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <h1 style="margin: 0; font-size: 44px; font-weight: 600; letter-spacing: -0.02em; color: #1B1A18;">From object to interface · v2</h1>
+      <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #3C3934; max-width: 860px;">37 s, one continuous camera with a single hard cut (the hand-off to the live skin). Built on the studio motion beats: Hook → Context → Reveal → Story → End. Refs from our library: Remarkable (rim-lit reveal, fanned plates), Framer launch (extruded UI in space, word-by-word type), Vercel glide (camera skims the surface, then pulls back).</p>
+    </div>
+  </div>
+
+  <!-- timeline -->
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    <div style="display: grid; grid-template-columns: 3fr 6fr 5fr 9fr 8fr 6fr; gap: 4px; height: 40px;">
+      <div style="background: #151413; color: #F4F1EC; border-radius: 8px; display: flex; align-items: center; padding: 0 12px; font-size: 13px; font-weight: 600;">Hook</div>
+      <div style="background: #F3F0EB; border: 1.25px solid #2A2724; border-radius: 8px; display: flex; align-items: center; padding: 0 12px; font-size: 13px; font-weight: 600;">Context · exploded</div>
+      <div style="background: #F3F0EB; border: 1.25px solid #2A2724; border-radius: 8px; display: flex; align-items: center; padding: 0 12px; font-size: 13px; font-weight: 600;">Reveal · material</div>
+      <div style="background: #D9531E; color: #160C07; border-radius: 8px; display: flex; align-items: center; padding: 0 12px; font-size: 13px; font-weight: 600;">Story · press → flatten → fader</div>
+      <div style="background: #3A3631; color: #F4F1EC; border-radius: 8px; display: flex; align-items: center; padding: 0 12px; font-size: 13px; font-weight: 600;">Story · display → hand-off</div>
+      <div style="background: #E7E4DE; border: 1.25px solid #2A2724; border-radius: 8px; display: flex; align-items: center; padding: 0 12px; font-size: 13px; font-weight: 600;">End</div>
+    </div>
+    <div style="position: relative; height: 70px; background: #E7E4DE; border-radius: 8px; overflow: hidden;">
+      <svg width="1760" height="70" viewBox="0 0 1760 70" preserveAspectRatio="none" style="position: absolute; inset: 0;" aria-hidden="true"><path d="M0 62 L120 60 L160 14 L620 8 L900 12 L1080 30 L1260 52 L1460 64 L1520 62 L1580 18 L1760 16" fill="none" stroke="#D9531E" stroke-width="2.5"></path></svg>
+      <span class="mono" style="position: absolute; left: 12px; top: 8px; font-size: 11px; color: #3C3934;">scene brightness · dark hook → day → dusk → night → bone end card (this curve is the legibility test)</span>
+      <span class="mono" style="position: absolute; right: 12px; bottom: 6px; font-size: 11px; color: #3C3934;">0 s ─────────────────────── 37 s</span>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 40px; row-gap: 40px;">
+
+    <!-- 1 HOOK -->
+    <div>
+      <div class="fr" style="background: #060606;">
+        <div style="position: absolute; right: -120px; top: -60px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #1C1B19 0%, #0A0A0A 70%); box-shadow: inset 6px 6px 0 rgba(255,244,228,.55), inset 14px 14px 30px rgba(255,236,210,.12);"></div>
+        <div style="position: absolute; right: -60px; top: 0; width: 300px; height: 300px; border-radius: 50%; border: 2px solid rgba(255,240,220,.18);"></div>
+        <div style="position: absolute; left: 44px; top: 128px; font-size: 34px; font-weight: 600; letter-spacing: -0.02em; color: #F4F1EC;">Every <span style="color: #D9531E;">control</span></div>
+        <div class="mono" style="position: absolute; left: 44px; top: 176px; font-size: 11px; color: #8E887F;">word by word · 2 words max</div>
+      </div>
+      <div class="meta"><span class="num">01 · 0–3 s · Hook · black</span><span class="ttl">Rim light finds an edge</span><span class="dsc">Total darkness; a thin warm rim slides along the bevel of one key in extreme macro. Title card builds word by word: “Every control”.</span><span class="ref">ref: Remarkable 0–6 s</span></div>
+    </div>
+
+    <!-- 2 EXPLODED -->
+    <div>
+      <div class="fr" style="background: radial-gradient(90% 100% at 50% 20%, #F8F6F2 0%, #E4E0D9 100%);">
+        <div style="position: absolute; left: 90px; top: 196px; width: 330px; height: 56px; border-radius: 28px; background: #E1DDD5; transform: skewX(-28deg); box-shadow: 0 8px 0 #C6BEB1, 0 26px 30px rgba(80,60,40,.18);"></div>
+        <div style="position: absolute; left: 118px; top: 132px; display: flex; gap: 16px; transform: skewX(-28deg);">
+          <span style="width: 64px; height: 34px; border-radius: 17px; background: #D9531E; border: 1.5px solid #2A2724; box-shadow: 0 5px 0 #8F3210;"></span>
+          <span style="width: 34px; height: 34px; border-radius: 50%; background: #F3F0EB; border: 1.5px solid #2A2724; box-shadow: 0 5px 0 #C6BEB1;"></span>
+          <span style="width: 34px; height: 34px; border-radius: 50%; background: #F3F0EB; border: 1.5px solid #2A2724; box-shadow: 0 5px 0 #C6BEB1;"></span>
+          <span style="width: 34px; height: 34px; border-radius: 50%; background: #F3F0EB; border: 1.5px solid #2A2724; box-shadow: 0 5px 0 #C6BEB1;"></span>
+        </div>
+        <div style="position: absolute; left: 230px; top: 72px; width: 96px; height: 28px; border-radius: 14px; background: #151413; transform: skewX(-28deg); box-shadow: 0 6px 12px rgba(0,0,0,.2);"></div>
+        <div style="position: absolute; left: 392px; top: 92px; width: 16px; height: 36px; border-radius: 5px; background: #D9531E; transform: skewX(-28deg); box-shadow: 0 5px 0 #8F3210;"></div>
+        <div class="ln" style="left: 182px; top: 150px; width: 70px; transform: rotate(-30deg);"></div><span class="call" style="left: 238px; top: 106px;">Ø 52 · ring 1.25</span>
+        <div class="ln" style="left: 410px; top: 110px; width: 70px; transform: rotate(-20deg);"></div><span class="call" style="left: 462px; top: 76px;">cap 14×32</span>
+        <div class="ln" style="left: 330px; top: 86px; width: 60px; transform: rotate(-38deg);"></div><span class="call" style="left: 360px; top: 38px;">display r15</span>
+        <div class="ln" style="left: 96px; top: 226px; width: 60px; transform: rotate(150deg);"></div><span class="call" style="left: 16px; top: 250px;">body r44 · bone</span>
+        <span class="call" style="left: 150px; top: 172px;">↕ 2 mm travel</span>
+      </div>
+      <div class="meta"><span class="num">02 · 3–9 s · Context · bright studio</span><span class="ttl">Exploded view, spec-sheet style</span><span class="dsc">The object floats apart in layers (body, keys, display, fader caps) while thin callouts draw on, in the real UI numbers. Camera orbits slowly; parts drift back together at the end.</span><span class="ref">ref: Framer launch (UI layers in space)</span></div>
+    </div>
+
+    <!-- 3 MATERIAL FAN -->
+    <div>
+      <div class="fr" style="background: radial-gradient(70% 90% at 50% 100%, #3A3631 0%, #141312 70%);">
+        <div class="cap3" style="left: 50px; top: 120px; width: 120px; height: 120px; background: radial-gradient(circle at 35% 30%, #4A4A4E, #1E1F22);"></div>
+        <div class="cap3" style="left: 130px; top: 96px; width: 120px; height: 120px; background: radial-gradient(circle at 35% 30%, #BDB9B2, #8E8A84);"></div>
+        <div class="cap3" style="left: 214px; top: 84px; width: 132px; height: 132px; background: radial-gradient(circle at 35% 30%, #FFFFFF, #E6DFD4); border-color: #2A2724; box-shadow: 0 6px 0 #B9B1A4, 0 24px 34px rgba(0,0,0,.5);"></div>
+        <div class="cap3" style="left: 310px; top: 96px; width: 120px; height: 120px; background: radial-gradient(circle at 35% 30%, #FF8250, #C94816);"></div>
+        <div class="cap3" style="left: 390px; top: 120px; width: 120px; height: 120px; background: radial-gradient(circle at 35% 30%, #F3D96F, #C9A92A);"></div>
+        <span class="mono" style="position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); font-size: 12px; color: #E8E3DB;">--media-accent-color · one variable, any glaze</span>
+      </div>
+      <div class="meta"><span class="num">03 · 9–14 s · Reveal · low key</span><span class="ttl">Glazes fan out, bone steps forward</span><span class="dsc">Key caps in graphite, stone, bone, orange and yellow fan out like sample plates; bone rises to the front. Line of mono type ties it to the skin’s token system.</span><span class="ref">ref: Remarkable 8–12 s (fanned plates)</span></div>
+    </div>
+
+    <!-- 4 PRESS -->
+    <div>
+      <div class="fr" style="background: radial-gradient(90% 100% at 25% 15%, #FFF9EE 0%, #ECE5D8 70%);">
+        <div style="position: absolute; left: -40px; top: -30px; width: 330px; height: 330px; border-radius: 50%; border: 4px solid #2A2724; background: radial-gradient(circle at 40% 35%, #FFFFFF 0%, #EFEAE2 70%); box-shadow: 0 8px 0 #C9C1B4, 0 30px 50px rgba(90,70,40,.25); display: grid; place-items: center;">
+          <svg width="110" height="110" viewBox="0 0 18 18" fill="none" stroke="#1D1B19" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="14" height="10" rx="2.5"></rect><path d="M5 8h3M10 8h3M5 11h6"></path></svg>
+          <span style="position: absolute; top: 30px; left: 50%; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%; background: #D9531E;"></span>
+        </div>
+        <div style="position: absolute; right: 30px; top: 40px; width: 210px; display: flex; flex-direction: column; gap: 8px;">
+          <span class="mono" style="font-size: 11px; color: #3C3934;">press curve (same as UI)</span>
+          <svg width="210" height="90" viewBox="0 0 210 90" aria-hidden="true"><path d="M0 20 L30 20 L44 70 L120 70 L150 16 L170 24 L210 20" fill="none" stroke="#1B1A18" stroke-width="2"></path><text x="34" y="86" font-family="Geist Mono" font-size="10" fill="#3C3934">70 ms</text><text x="124" y="86" font-family="Geist Mono" font-size="10" fill="#3C3934">200 ms ↺</text></svg>
+          <span class="mono" style="font-size: 11px; color: #3C3934;">+ one designed click, on frame</span>
+        </div>
+      </div>
+      <div class="meta"><span class="num">04 · 14–18 s · Story · morning</span><span class="ttl">The press, felt</span><span class="dsc">Super macro: the key drops 2 mm and springs back with the exact UI curve; the LED fades on. The only sound so far: one designed click, synced to the frame.</span><span class="ref">ref: publish-button macro</span></div>
+    </div>
+
+    <!-- 5 FLATTEN -->
+    <div>
+      <div class="fr" style="background: #E6E3DE;">
+        <div style="position: absolute; inset: 0; background-image: linear-gradient(rgba(42,39,36,.10) 1px, transparent 1px), linear-gradient(90deg, rgba(42,39,36,.10) 1px, transparent 1px); background-size: 16px 16px; clip-path: polygon(52% 0, 100% 0, 100% 100%, 38% 100%);"></div>
+        <div style="position: absolute; left: 40px; top: 70px; transform: perspective(700px) rotateX(48deg) rotateZ(-14deg); display: flex; gap: 14px;">
+          <span style="width: 64px; height: 64px; border-radius: 50%; border: 2.5px solid #2A2724; background: radial-gradient(circle at 38% 30%, #FFFFFF, #E2DBD0); box-shadow: 0 9px 0 #BFB7A9, 0 20px 26px rgba(80,60,40,.3);"></span>
+          <span style="width: 64px; height: 64px; border-radius: 50%; border: 2.5px solid #2A2724; background: radial-gradient(circle at 38% 30%, #FFFFFF, #E2DBD0); box-shadow: 0 9px 0 #BFB7A9, 0 20px 26px rgba(80,60,40,.3);"></span>
+        </div>
+        <div style="position: absolute; left: 330px; top: 70px; display: flex; gap: 14px;">
+          <span class="k" style="width: 52px; height: 52px;"></span><span class="k" style="width: 52px; height: 52px;"></span><span class="k pl" style="width: 96px; height: 52px; border-radius: 26px;"></span>
+        </div>
+        <div class="mono" style="position: absolute; left: 330px; top: 150px; font-size: 11px; line-height: 1.6; color: #1B1A18; background: rgba(243,240,235,.9); padding: 8px 10px; border-radius: 8px;">.key {<br>&nbsp;&nbsp;inline-size: 52px;<br>&nbsp;&nbsp;border: 1.25px solid #2A2724;<br>&nbsp;&nbsp;border-radius: 50%;<br>}</div>
+        <span class="mono" style="position: absolute; left: 40px; bottom: 20px; font-size: 11px; color: #3C3934;">85 → 600 mm · depth → 0 · grid on · code types in</span>
+      </div>
+      <div class="meta"><span class="num">05 · 18–24 s · Story · neutral</span><span class="ttl">Flatten: object becomes code</span><span class="dsc">One continuous move to top view while the lens goes long. A wipe sweeps across: behind it, the 8 px grid and the flat UI keys; the engraved ring becomes the 1.25 px border and the matching CSS types in.</span><span class="ref">ref: Vercel glide · signature move</span></div>
+    </div>
+
+    <!-- 6 FADER -->
+    <div>
+      <div class="fr" style="background: linear-gradient(160deg, #F2C9A0 0%, #B98E7A 45%, #4C4A58 100%);">
+        <div style="position: absolute; left: 30px; top: 40px; width: 300px; height: 230px; overflow: hidden; border-radius: 10px;">
+          <div style="position: absolute; left: 0; right: 0; top: 108px; height: 14px; background: #5E574D; box-shadow: inset 0 3px 4px rgba(0,0,0,.55);"></div>
+          <div style="position: absolute; left: 0; width: 120px; top: 110px; height: 10px; background: #D9531E;"></div>
+          <div style="position: absolute; left: 112px; top: 54px; width: 54px; height: 120px; border-radius: 12px; background: linear-gradient(90deg, #E8663A, #C94816); box-shadow: 10px 12px 0 rgba(60,20,8,.35), 0 30px 40px rgba(30,10,5,.35); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px;"><span style="width: 30px; height: 3px; background: rgba(40,12,2,.45);"></span><span style="width: 30px; height: 3px; background: rgba(40,12,2,.45);"></span><span style="width: 30px; height: 3px; background: rgba(40,12,2,.45);"></span><span style="width: 30px; height: 3px; background: rgba(40,12,2,.45);"></span><span style="width: 30px; height: 3px; background: rgba(40,12,2,.45);"></span></div>
+        </div>
+        <span style="position: absolute; left: 344px; top: 142px; font-size: 22px; color: #FFF4E8;">→</span>
+        <div style="position: absolute; right: 28px; top: 150px; width: 160px; height: 30px; display: flex; align-items: center;">
+          <div class="gv" style="background: #F4F1EC;"><div style="position: absolute; left: 0; top: -1px; height: 4px; width: 40%; background: #D9531E; border-radius: 2px;"></div><span class="fc" style="left: 40%;"><span class="rb"></span><span class="rb"></span></span></div>
+        </div>
+        <span class="mono" style="position: absolute; right: 28px; top: 186px; font-size: 11px; color: #FFF4E8;">01:24 ── 04:10</span>
+      </div>
+      <div class="meta"><span class="num">06 · 24–28 s · Story · dusk</span><span class="ttl">Fader becomes the timeline</span><span class="dsc">Macro along the groove as the striated cap slides; the sun sets in the window reflection. Groove drains to a 2 px line with the orange fill; timecode appears at both ends.</span><span class="ref">ref: Vercel glide (skim the surface)</span></div>
+    </div>
+
+    <!-- 7 DISPLAY -->
+    <div>
+      <div class="fr" style="background: radial-gradient(55% 70% at 72% 30%, #6B4A2E 0%, #2A211B 45%, #0E0E10 100%);">
+        <span style="position: absolute; right: 60px; top: 30px; width: 70px; height: 70px; border-radius: 50%; background: rgba(255,200,140,.25); filter: blur(10px);"></span>
+        <span style="position: absolute; right: 150px; top: 60px; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,200,140,.18); filter: blur(6px);"></span>
+        <div style="position: absolute; left: 50px; top: 110px; transform: perspective(800px) rotateX(38deg) rotateZ(-6deg);">
+          <div style="width: 340px; height: 80px; border-radius: 40px; background: #3A3631; box-shadow: 0 7px 0 #1F1C19, inset 0 1px 0 rgba(255,210,170,.25); display: flex; align-items: center; padding: 0 20px; box-sizing: border-box;">
+            <span class="pill" style="height: 44px; padding: 0 18px; font-size: 14px; gap: 12px; box-shadow: 0 0 22px rgba(244,241,236,.14);"><span style="font-weight: 600; letter-spacing: .08em;">PLAY 1.0×</span><span style="width: 1px; height: 16px; background: #45413C;"></span><span>01:24</span><span style="width: 6px; height: 6px; border-radius: 50%; background: #D9531E;"></span></span>
+          </div>
+        </div>
+      </div>
+      <div class="meta"><span class="num">07 · 28–31 s · Story · night</span><span class="ttl">The display wakes up</span><span class="dsc">One warm practical lamp, bokeh behind. Only the rim of the body reads; the black display lights PLAY 1.0×, then flattens into the status pill.</span><span class="ref">ref: Framer launch (lit UI in the dark)</span></div>
+    </div>
+
+    <!-- 8 HANDOFF -->
+    <div>
+      <div class="fr" style="background: radial-gradient(60% 70% at 40% 40%, #263038 0%, #0B0D10 100%);">
+        <div class="dock" style="position: absolute; left: 30px; right: 30px; bottom: 26px; height: 60px; box-shadow: 0 14px 30px rgba(0,0,0,.5);">
+          <span class="k pl"><svg width="14" height="14" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6.5 4v10M11.5 4v10"></path></svg></span>
+          <span class="pill"><span style="font-weight: 600;">PLAY 1.0×</span><span>01:24</span></span>
+          <span class="gv"><span style="position: absolute; left: 0; top: -1px; height: 4px; width: 34%; background: #D9531E; border-radius: 2px;"></span><span class="fc" style="left: 34%;"><span class="rb"></span><span class="rb"></span></span></span>
+          <span class="k" style="outline: 2px solid #F4F1EC; outline-offset: 3px;"></span><span class="k"></span><span class="k"></span>
+        </div>
+        <span class="mono" style="position: absolute; left: 30px; top: 24px; font-size: 11px; color: #C9C4BB;">HARD CUT → live skin capture</span>
+        <span style="position: absolute; right: 30px; top: 22px; padding: 4px 10px; border: 1.25px solid #C9C4BB; border-radius: 6px; font-family: 'Geist Mono', monospace; font-size: 11px; color: #F4F1EC;">Tab</span>
+        <span style="position: absolute; left: 50%; top: 120px; transform: translateX(-50%); padding: 5px 12px; border-radius: 8px; background: rgba(14,13,12,.82); color: #F4F1EC; font-size: 14px;">Readable over any frame.</span>
+      </div>
+      <div class="meta"><span class="num">08 · 31–34 s · Story · near black</span><span class="ttl">It is the player</span><span class="dsc">The flattened parts click into the dock; the last render frame matches the live skin exactly, then the film’s only hard cut lands on the real UI. Focus ring hops key to key by Tab, captions on: accessibility shown, not told.</span><span class="ref">ref: Framer launch (hand-off to product)</span></div>
+    </div>
+
+    <!-- 9 END -->
+    <div>
+      <div class="fr" style="background: #E7E4DE; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 0 48px; box-sizing: border-box; gap: 10px;">
+        <span style="font-size: 40px; font-weight: 600; letter-spacing: -0.03em; color: #1B1A18; line-height: 1;">Tactile <span style="color: #8A847A;">—</span> Paper Key</span>
+        <span style="font-size: 16px; color: #3C3934;">A Video.js v10 skin by Promopark Studio</span>
+        <div style="margin-top: 16px; display: flex; gap: 10px; align-items: center;"><span class="k pl" style="height: 38px;"></span><span class="k"></span><span class="k"></span></div>
+      </div>
+      <div class="meta"><span class="num">09 · 34–37 s · End · bone</span><span class="ttl">Name, keys, no CTA</span><span class="dsc">Type builds word by word, then three keys press in sequence like a signature. No button, no URL.</span><span class="ref">ref: brain / smartworking (2–4 words, one accent)</span></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1920,"height":1980}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

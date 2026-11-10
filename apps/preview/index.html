@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tactile — Paper Key · Video.js v10 skin</title>
+    <meta
+      name="description"
+      content="Tactile — Paper Key is a Video.js v10 skin built like a desk object: keys that latch, faders that scrub, a display that holds state. Three glazes, any accent, keyboard first, readable over any frame."
+    />
+    <meta name="theme-color" content="#1E1D1D" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tactile — Paper Key · Video.js v10 skin" />
+    <meta
+      property="og:description"
+      content="A player you can press. Keys that latch, faders that scrub, a display that holds state. A Video.js v10 skin by Promopark Studio."
+    />
+    <meta property="og:image" content="https://tactile-paper-key.vercel.app/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Macro of a dark graphite key with an engraved captions glyph and a warm rim light, under the title Tactile — Paper Key" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <!-- The first screen: the poster (the LCP image) and the display font. -->
+    <link rel="preload" as="image" href="/poster.webp" type="image/webp" fetchpriority="high" />
+    <link rel="preload" as="font" href="/fonts/michroma-latin.woff2" type="font/woff2" crossorigin />
+    <!--
+      Self-hosted fonts (WOFF2, latin subset; Instrument Sans, Geist and Geist Mono are variable). Each has a metric
+      fallback: a local font resized with size-adjust and the web font's ascent and descent, so the swap does not
+      move the layout. The Michroma fallback is sized on the page's own uppercase headings.
+    -->
+    <style>
+      @font-face {
+        font-family: Michroma;
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("/fonts/michroma-latin.woff2") format("woff2");
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: "Instrument Sans";
+        font-style: normal;
+        font-weight: 400 600;
+        font-display: swap;
+        src: url("/fonts/instrument-sans-latin.woff2") format("woff2");
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: Geist;
+        font-style: normal;
+        font-weight: 400 600;
+        font-display: swap;
+        src: url("/fonts/geist-latin.woff2") format("woff2");
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: "Geist Mono";
+        font-style: normal;
+        font-weight: 500 600;
+        font-display: swap;
+        src: url("/fonts/geist-mono-latin.woff2") format("woff2");
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: "Michroma Fallback";
+        src: local("Arial"), local("ArialMT");
+        ascent-override: 79.2%;
+        descent-override: 18.19%;
+        line-gap-override: 0%;
+        size-adjust: 146%;
+      }
+      @font-face {
+        font-family: "Instrument Sans Fallback";
+        src: local("Arial"), local("ArialMT");
+        ascent-override: 96.52%;
+        descent-override: 24.88%;
+        line-gap-override: 0%;
+        size-adjust: 100.5%;
+      }
+      @font-face {
+        font-family: "Geist Fallback";
+        src: local("Arial"), local("ArialMT");
+        ascent-override: 95.9379%;
+        descent-override: 28.1609%;
+        line-gap-override: 0%;
+        size-adjust: 104.7553%;
+      }
+      @font-face {
+        font-family: "Geist Mono Fallback";
+        src: local("Courier New"), local("CourierNewPSMT");
+        ascent-override: 100.5164%;
+        descent-override: 29.5048%;
+        line-gap-override: 0%;
+        size-adjust: 99.9837%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sc">
+      <a class="skip" href="#main">Skip to content</a>
+      <header class="site-header">
+        <div class="wrap header-row">
+          <a class="disp brand" href="#top">Tactile</a>
+          <nav class="nav" aria-label="Sections">
+            <a class="lbl" href="#origin">Origin</a><a class="lbl" href="#anatomy">Anatomy</a><a class="lbl" href="#site">Any site</a><a class="lbl" href="#states">States</a><a class="lbl" href="#access">Access</a><a class="lbl" href="#specs">Specs</a><a class="lbl" href="#install">Install</a>
+          </nav>
+        </div>
+      </header>
+
+      <main id="main">
+        <!-- HERO -->
+        <section class="wrap hero-title" id="top">
+          <p class="lbl muted eyebrow-line">A skin for Video.js 10 · by promopark.studio</p>
+          <h1 class="disp h1">A player<br /><span class="out">you can press</span></h1>
+          <p class="lede">Built like a desk object: keys that latch, faders that scrub, a display that holds state.</p>
+        </section>
+        <section class="wrap hero" aria-label="Player">
+          <div class="hero-frame player-frame" id="hero-frame">
+            <!-- The poster, in the HTML so it paints before the player's script runs; the player mounts over it. -->
+            <img class="hero-poster" src="/poster.webp" width="1920" height="1080" alt="" fetchpriority="high" />
+          </div>
+          <ul class="keys" aria-label="Keyboard">
+            <li><kbd>Space</kbd> <kbd>K</kbd> Play</li>
+            <li><kbd>←</kbd> <kbd>→</kbd> Seek 5 s</li>
+            <li><kbd>↑</kbd> <kbd>↓</kbd> Volume</li>
+            <li><kbd>M</kbd> Mute</li>
+            <li><kbd>C</kbd> Captions</li>
+            <li><kbd>F</kbd> Full screen</li>
+          </ul>
+        </section>
+
+        <!-- 01 ORIGIN -->
+        <section id="origin" class="wrap sec" aria-labelledby="origin-h">
+          <div class="eyebrow"><span class="lbl">01</span><span class="lbl">Where it comes from</span></div>
+          <h2 id="origin-h" class="disp h2">Object first. <span class="out">Interface second.</span></h2>
+          <p class="lead">We didn’t start in a design tool. We built a desk keypad in Blender, pressed it, lit it, and then flattened it piece by piece until it became the player.</p>
+          <ol class="g5 steps">
+            <li class="cell step">
+              <span class="mono step-n">1 · BRIEF</span>
+              <div class="step-art brief-card" aria-hidden="true"><span>A desk object</span><span>Keys that latch</span><span>A small display</span><span>One glaze</span></div>
+              <span class="step-t">Hi-fi panels and desk instruments, not screens. Matte, quiet, one accent.</span>
+            </li>
+            <li class="cell step">
+              <span class="mono step-n">2 · THREE DIRECTIONS</span>
+              <div class="step-art directions" aria-hidden="true">
+                <div class="dir dir-graphite"><span class="dir-play"></span><span class="dir-key"></span><span class="dir-line"></span></div>
+                <div class="dir dir-paper"><span class="dir-play"></span><span class="dir-key"></span><span class="dir-line"></span></div>
+                <div class="dir dir-instrument"><span class="dir-key"></span><span class="dir-play"></span><span class="dir-line"></span></div>
+              </div>
+              <span class="step-t">Graphite read as a default dark UI; Instrument got busy. Paper Key won.</span>
+            </li>
+            <li class="cell step">
+              <span class="mono step-n">3 · THE OBJECT</span>
+              <img class="step-img" src="/img/origin-exploded.webp" width="1600" height="900" loading="lazy" alt="Exploded view of the keypad: keys, faders and display lifted above the body, with measurements" />
+              <span class="step-t">Real parts, real numbers: Ø 52 keys, 2 mm travel, a 14×32 fader cap.</span>
+            </li>
+            <li class="cell step">
+              <span class="mono step-n">4 · THE FLATTEN</span>
+              <img class="step-img" src="/frame-flatten.webp" width="1600" height="900" loading="lazy" alt="Half lit 3D object, half flat interface on an 8 px grid" />
+              <span class="step-t">The engraved ring became a 1.25 px border. The groove became the timeline.</span>
+            </li>
+            <li class="cell step">
+              <span class="mono step-n">5 · THE SKIN</span>
+              <div class="step-art skin-card">
+                <img src="/img/footage-market.webp" width="1600" height="900" loading="lazy" alt="Busy flower market footage with the player's dock over it" />
+                <div class="mini-dock" aria-hidden="true"><span class="mini-play"></span><span class="mini-line"></span><span class="mini-key"></span><span class="mini-key"></span></div>
+              </div>
+              <span class="step-t">What ships: the same object, now CSS, over any footage.</span>
+            </li>
+          </ol>
+          <p class="mono note">▶ The film in the player above is this process, 26 seconds, rendered in Blender.</p>
+        </section>
+
+        <!-- 02 ANATOMY -->
+        <section id="anatomy" class="wrap sec" aria-labelledby="anatomy-h">
+          <div class="eyebrow"><span class="lbl">02</span><span class="lbl">Anatomy</span></div>
+          <h2 id="anatomy-h" class="disp h2">Eight parts. <span class="out">One dock.</span></h2>
+          <p class="lead">Every control shows its own state on its face — latched, lit or moved — so you can read the player without opening anything.</p>
+          <div class="cell anatomy-panel">
+            <div class="anatomy-frame player-frame" id="anatomy-frame">
+              <img class="hero-poster" src="/img/footage-studio.webp" width="1600" height="900" loading="lazy" alt="" />
+            </div>
+            <ol class="callouts" id="anatomy-callouts" aria-label="Parts, numbered as in the list below">
+              <li class="callnum" data-part="play">1</li>
+              <li class="callnum" data-part="display">2</li>
+              <li class="callnum" data-part="seek">3</li>
+              <li class="callnum" data-part="mute">4</li>
+              <li class="callnum" data-part="volume">5</li>
+              <li class="callnum" data-part="cc">6</li>
+              <li class="callnum" data-part="settings">7</li>
+              <li class="callnum" data-part="fullscreen">8</li>
+            </ol>
+          </div>
+          <ol class="g4 parts">
+            <li><span class="mono part-n">1 · PLAY KEY</span><span class="part-t">The only orange key. Its glyph morphs between play and pause.</span></li>
+            <li><span class="mono part-n">2 · DISPLAY</span><span class="part-t">State, speed and time in one black pill: PLAY 1.0×, PAUSED, LOADING, END.</span></li>
+            <li><span class="mono part-n">3 · SEEK FADER</span><span class="part-t">A ribbed cap on an engraved line. Hover for a framed preview of that moment.</span></li>
+            <li><span class="mono part-n">4 · MUTE</span><span class="part-t">Speaker glyph shows the level in waves; muted shows a cross.</span></li>
+            <li><span class="mono part-n">5 · VOLUME FADER</span><span class="part-t">A short bone fader. Arrow keys move it in 5 % steps.</span></li>
+            <li><span class="mono part-n">6 · CAPTIONS</span><span class="part-t">Latches down 1 px and takes a 2 px accent rim when on.</span></li>
+            <li><span class="mono part-n">7 · SETTINGS</span><span class="part-t">Speed, captions and quality, in a bone panel that opens from the key.</span></li>
+            <li><span class="mono part-n">8 · FULL SCREEN</span><span class="part-t">Corners out to enter, corners in to leave. The dock scales up to 1.25×.</span></li>
+          </ol>
+        </section>
+
+        <!-- 03 ANY SITE -->
+        <section id="site" class="wrap sec" aria-labelledby="site-h">
+          <div class="eyebrow"><span class="lbl">03</span><span class="lbl">Fits any site</span></div>
+          <h2 id="site-h" class="disp h2">Pick a glaze. <span class="out">Pick an accent.</span></h2>
+          <p class="lead">Two settings restyle every part of the player: <code>data-glaze</code> for the material, <code>--media-accent-color</code> for the light. Try it on the real player.</p>
+          <div class="configbar">
+            <div class="test-group">
+              <span class="lbl" id="glaze-label">Glaze</span>
+              <div class="chips" role="group" aria-labelledby="glaze-label" id="glazes">
+                <button type="button" class="chip" data-glaze="bone" aria-pressed="true">Bone</button>
+                <button type="button" class="chip" data-glaze="graphite" aria-pressed="false">Graphite</button>
+                <button type="button" class="chip" data-glaze="stone" aria-pressed="false">Stone</button>
+              </div>
+            </div>
+            <div class="test-group">
+              <span class="lbl" id="accent-label">--media-accent-color</span>
+              <div class="swatches" role="group" aria-labelledby="accent-label" id="swatches"></div>
+            </div>
+            <div class="test-group">
+              <span class="lbl" id="device-label">Device</span>
+              <div class="chips" role="group" aria-labelledby="device-label" id="devices">
+                <button type="button" class="chip" data-device="desktop" aria-pressed="true">Desktop</button>
+                <button type="button" class="chip" data-device="phone" aria-pressed="false">Phone</button>
+              </div>
+            </div>
+          </div>
+          <div class="config-stage">
+            <div class="config-frame player-frame" id="config-frame">
+              <img class="hero-poster" src="/img/footage-studio.webp" width="1600" height="900" loading="lazy" alt="" />
+            </div>
+          </div>
+        </section>
+
+        <!-- 04 STATES -->
+        <section id="states" class="wrap sec" aria-labelledby="states-h">
+          <div class="eyebrow"><span class="lbl">04</span><span class="lbl">Every state</span></div>
+          <h2 id="states-h" class="disp h2">Twelve moments. <span class="out">All designed.</span></h2>
+          <p class="lead">Captured from the real player, not drawn. Mouse, keyboard and thumb.</p>
+          <ol class="g4 states" id="states-grid">
+            <li class="stile"><img src="/states/01-ready.webp" width="1280" height="720" loading="lazy" alt="Ready: one large orange Play key over a dark key macro, the duration in a small pill" /><span class="mono stile-n">01 · START</span><span class="stile-t">Ready to play</span><span class="stile-h">One big key on the poster. Click, tap or Space.</span></li>
+            <li class="stile"><img src="/states/02-loading.webp" width="1280" height="720" loading="lazy" alt="Loading: the display reads LOADING with three stepping LEDs over a night street" /><span class="mono stile-n">02 · START</span><span class="stile-t">Loading</span><span class="stile-h">Three LEDs step in the display. Only after 400 ms.</span></li>
+            <li class="stile"><img src="/states/03-playing.webp" width="1280" height="720" loading="lazy" alt="Playing: the full dock over a bright snowy ridge" /><span class="mono stile-n">03 · WATCHING</span><span class="stile-t">Playing</span><span class="stile-h">The dock: play, display, faders, keys.</span></li>
+            <li class="stile"><img src="/states/04-hidden.webp" width="1280" height="720" loading="lazy" alt="Controls hidden: the podcast studio footage with no dock" /><span class="mono stile-n">04 · WATCHING</span><span class="stile-t">Controls hidden</span><span class="stile-h">Fades away when the pointer rests.</span></li>
+            <li class="stile"><img src="/states/05-seek-preview.webp" width="1280" height="720" loading="lazy" alt="Seek preview: a framed thumbnail and the time above the timeline" /><span class="mono stile-n">05 · FINDING</span><span class="stile-t">Seek preview</span><span class="stile-h">A framed thumbnail follows the pointer.</span></li>
+            <li class="stile"><img src="/states/06-dragging.webp" width="1280" height="720" loading="lazy" alt="Dragging: the seek cap lifted while held, over the flower market" /><span class="mono stile-n">06 · FINDING</span><span class="stile-t">Dragging</span><span class="stile-h">The cap lifts 1 px while you hold it.</span></li>
+            <li class="stile"><img src="/states/07-muted.webp" width="1280" height="720" loading="lazy" alt="Muted: the speaker glyph with a cross, the volume fader keeps its level" /><span class="mono stile-n">07 · SOUND</span><span class="stile-t">Muted</span><span class="stile-h">Speaker with a cross; the fader keeps its level.</span></li>
+            <li class="stile"><img src="/states/08-captions.webp" width="1280" height="720" loading="lazy" alt="Captions on: the key latched with its accent rim and a caption above the dock" /><span class="mono stile-n">08 · CAPTIONS</span><span class="stile-t">Captions on</span><span class="stile-h">Key latches with an accent rim, text above the dock.</span></li>
+            <li class="stile"><img src="/states/09-settings.webp" width="1280" height="720" loading="lazy" alt="Settings open: the bone panel with Speed, Captions and Quality rows" /><span class="mono stile-n">09 · SETTINGS</span><span class="stile-t">Menu open</span><span class="stile-h">Speed, captions, quality in a bone panel.</span></li>
+            <li class="stile"><img src="/states/10-focus.webp" width="1280" height="720" loading="lazy" alt="Focus and tooltip: an ink ring around the mute key and a pill with its name and shortcut" /><span class="mono stile-n">10 · KEYBOARD</span><span class="stile-t">Focus + tooltip</span><span class="stile-h">Ink ring, name and shortcut in a pill.</span></li>
+            <li class="stile"><img src="/states/11-replay.webp" width="1280" height="720" loading="lazy" alt="End: the large key returns with the replay glyph over END" /><span class="mono stile-n">11 · END</span><span class="stile-t">Replay</span><span class="stile-h">The big key returns with the replay glyph.</span></li>
+            <li class="stile"><img src="/states/12-phone.webp" width="1280" height="720" loading="lazy" alt="Phone layout: a 60 px dock with play, times, seek, mute and full screen, settings in the corner" /><span class="mono stile-n">12 · PHONE</span><span class="stile-t">Phone layout</span><span class="stile-h">60 px dock, settings in the corner.</span></li>
+          </ol>
+        </section>
+
+        <!-- 05 ACCESS -->
+        <section id="access" class="wrap sec" aria-labelledby="access-h">
+          <div class="eyebrow"><span class="lbl">05</span><span class="lbl">Accessibility</span></div>
+          <h2 id="access-h" class="disp h2">Readable over <span class="out">any frame.</span></h2>
+          <p class="lead">The dock is opaque, so contrast never depends on the video. Switch the footage and watch nothing change.</p>
+          <div class="chips footage-chips" role="group" aria-label="Footage" id="footage">
+            <button type="button" class="chip chip-light" data-footage="snow" aria-pressed="true">Bright · snow</button>
+            <button type="button" class="chip chip-light" data-footage="night" aria-pressed="false">Dark · night</button>
+            <button type="button" class="chip chip-light" data-footage="market" aria-pressed="false">Busy · market</button>
+            <button type="button" class="chip chip-light" data-footage="studio" aria-pressed="false">Real · studio</button>
+          </div>
+          <div class="access-frame player-frame" id="access-frame">
+            <img class="hero-poster" src="/img/footage-snow.webp" width="1600" height="900" loading="lazy" alt="" />
+          </div>
+          <ul class="g3 proofs">
+            <li><span class="disp proof-n" id="axe-count">0</span><span class="proof-t">axe (WCAG 2.1 AA) violations, desktop and phone, menus open. <a class="mono muted" href="https://github.com/promoparkllc/tactile-paper-key/tree/main/design/a11y">report</a></span></li>
+            <li><span class="disp proof-n">13<span class="out">:1</span></span><span class="proof-t">Ink on keys. Display text 16:1. Fills and fader lines ≥ 3:1 on every glaze.</span></li>
+            <li><span class="disp proof-n">44 <span class="out">px</span></span><span class="proof-t">Minimum target everywhere, including the 2 px timeline.</span></li>
+            <li><span class="disp proof-n">2 <span class="out">px</span></span><span class="proof-t">Focus ring, 3 px gap, separate from the pressed state. Keyboard only.</span></li>
+            <li><span class="disp proof-n">HC</span><span class="proof-t">Forced colours: keys, accent rims and focus map to system colours.</span></li>
+            <li><span class="disp proof-n">RM</span><span class="proof-t">Reduced motion: every state still changes; nothing travels.</span></li>
+          </ul>
+        </section>
+
+        <!-- 06 SPECS -->
+        <section id="specs" class="wrap sec" aria-labelledby="specs-h">
+          <div class="eyebrow"><span class="lbl">06</span><span class="lbl">Specifications</span></div>
+          <h2 id="specs-h" class="disp h2">Drawn <span class="out">to scale.</span></h2>
+          <div class="g2 specs">
+            <div class="cell spec-draw" role="img" aria-label="Parts drawn at their CSS size: the play key, a round key, the display pill, the fader cap and the dock">
+              <div class="spec-row">
+                <div class="spec-item"><span class="k spec-play"></span><span class="mono spec-l">76 × 44</span></div>
+                <div class="spec-item"><span class="k spec-key"></span><span class="mono spec-l">Ø 44 · 1.25</span></div>
+                <div class="spec-item"><span class="pill spec-pill"></span><span class="mono spec-l">h 36 · r 18</span></div>
+                <div class="spec-item"><span class="spec-cap"></span><span class="mono spec-l">12 × 26</span></div>
+              </div>
+              <div class="spec-dock"><span class="mono spec-l spec-dock-l">68</span></div>
+              <span class="mono spec-note">Dock 68 · radius 34 · padding 12 · gap 10 · accent rim 2 px · scales to 1.25× in full screen.</span>
+            </div>
+            <pre class="cell code spec-code" tabindex="0"><code>--media-accent-color   #D9531E
+data-glaze             bone | graphite | stone
+--media-font-family    Geist, ui-sans-serif
+--media-border-radius  16px
+--tactile-dock-h       68px
+--tactile-key-size     44px</code></pre>
+          </div>
+        </section>
+
+        <!-- 07 INSTALL -->
+        <section id="install" class="wrap sec" aria-labelledby="install-h">
+          <div class="eyebrow"><span class="lbl">07</span><span class="lbl">Install</span></div>
+          <h2 id="install-h" class="disp h2">Three lines. <span class="out">Apache 2.0.</span></h2>
+          <pre class="code install-code" tabindex="0"><code>npm i @videojs/html@10
+npx degit promoparkllc/tactile-paper-key/src tactile-skin   <span class="code-c"># skin.css + styles/ + video/</span>
+import './tactile-skin/video/skin'                            <span class="code-c"># then paste tactile-skin/video/skin.html inside &lt;video-player&gt;</span></code></pre>
+          <p class="mono note">Source: <a href="https://github.com/promoparkllc/tactile-paper-key">github.com/promoparkllc/tactile-paper-key</a> · works with any Video.js 10 media element.</p>
+        </section>
+      </main>
+
+      <footer class="wrap site-footer">
+        <span class="disp foot">Tactile <span class="out">Paper Key</span></span>
+        <span class="lbl muted">promopark.studio · Video.js Skins Design Challenge · Apache 2.0</span>
+      </footer>
+    </div>
+    <script type="module" src="/src/showcase/main.ts"></script>
+  </body>
+</html>

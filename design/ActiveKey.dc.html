@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tactile — active key options</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.k{position:relative;width:88px;height:88px;border-radius:50%;border:2px solid #2A2724;background:#F3F0EB;box-sizing:border-box;display:grid;place-items:center;color:#1D1B19;box-shadow:0 3px 0 #C2BBB1}
+.on{transform:translateY(2px);box-shadow:0 1px 0 #C2BBB1}
+.col{display:flex;flex-direction:column;align-items:center;gap:14px;width:180px;text-align:center}
+.t{font-size:15px;font-weight:600;color:#1B1A18}
+.d{font-size:13px;line-height:1.4;color:#3C3934}
+.n{font-family:'Geist Mono',monospace;font-size:12px;color:#5C574F}
+</style>
+</helmet>
+<div style="width: 1360px; height: 520px; box-sizing: border-box; padding: 56px 72px; background: #E7E4DE; font-family: Geist, sans-serif; display: flex; flex-direction: column; gap: 40px;">
+  <h1 style="margin: 0; font-size: 30px; font-weight: 600; letter-spacing: -0.02em; color: #1B1A18;">Captions ON — five ways to say it (shown at 2×)</h1>
+  <div style="display: flex; justify-content: space-between;">
+
+    <div class="col">
+      <span class="n">0 · NOW</span>
+      <div class="k on"><span style="position: absolute; top: 10px; left: 50%; width: 9px; height: 9px; margin-left: -4.5px; border-radius: 50%; background: #D9531E;"></span><svg width="36" height="36" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="14" height="10" rx="2.5"></rect><path d="M5 11h8M5 8.6h4.5"></path></svg></div>
+      <span class="t">LED dot</span>
+      <span class="d">Small; at 44 px it reads as a speck. Easy to miss.</span>
+    </div>
+
+    <div class="col">
+      <span class="n">A · ACCENT RING</span>
+      <div class="k on" style="border: 3px solid #D9531E;"><svg width="36" height="36" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="14" height="10" rx="2.5"></rect><path d="M5 11h8M5 8.6h4.5"></path></svg></div>
+      <span class="t">Coloured rim</span>
+      <span class="d">Clear, but a coloured ring looks like a focus ring. Keyboard users get two rings.</span>
+    </div>
+
+    <div class="col">
+      <span class="n">B · LED STRIP ★</span>
+      <div class="k on"><svg width="36" height="36" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="14" height="10" rx="2.5"></rect><path d="M5 11h8M5 8.6h4.5"></path></svg><span style="position: absolute; bottom: 12px; left: 50%; width: 26px; height: 5px; margin-left: -13px; border-radius: 3px; background: #D9531E;"></span></div>
+      <span class="t">Indicator bar</span>
+      <span class="d">A short lit bar under the glyph, like a hi-fi button. Bigger than the dot, never confused with focus.</span>
+    </div>
+
+    <div class="col">
+      <span class="n">C · LIT GLYPH</span>
+      <div class="k on" style="background: #EDE6DC;"><svg width="36" height="36" viewBox="0 0 18 18" fill="none" stroke="#C24816" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="14" height="10" rx="2.5"></rect><path d="M5 11h8M5 8.6h4.5"></path></svg></div>
+      <span class="t">Glyph lights up</span>
+      <span class="d">Elegant, but darker orange is needed for 3:1 and colour alone carries the state.</span>
+    </div>
+
+    <div class="col">
+      <span class="n">D · ACCENT FILL</span>
+      <div class="k on" style="background: #D9531E; color: #160C07; box-shadow: 0 1px 0 #8F3210;"><svg width="36" height="36" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="14" height="10" rx="2.5"></rect><path d="M5 11h8M5 8.6h4.5"></path></svg></div>
+      <span class="t">Key turns orange</span>
+      <span class="d">Loudest. Competes with Play, which should stay the only orange key.</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":520}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

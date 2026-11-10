@@ -1,0 +1,23 @@
+node_modules
+dist
+*.local
+.DS_Store
+
+# Hosting CLIs keep their project links here.
+.vercel
+.netlify
+.wrangler
+
+.vercel
+.env*
+
+# Local media and scratch, not for the public repo.
+demo-footage/
+music/
+_tmp/
+film/frames/
+film/render/
+
+# Not part of the public repository.
+film/audio/music/
+film/audio/sfx/

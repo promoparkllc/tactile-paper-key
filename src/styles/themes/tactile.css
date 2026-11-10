@@ -1,0 +1,290 @@
+@layer base.theme, base.preset, base.preferences;
+
+/*
+ * Tactile — Paper Key. Material tokens for the skin: a matte, light "bone" body, an engraved 1.25px outline, a burnt
+ * orange accent with no glow, and a near-black display pill. Every value comes from design/Final.dc.html.
+ * Public properties: --media-accent-color, --media-accent-text-color, --media-font-family, --media-border-radius.
+ */
+@layer base.preset {
+  .media-skin[data-theme="tactile"] {
+    /* Material. */
+    --tactile-bone: #e7e4de;
+    --tactile-key: #f3f0eb;
+    --tactile-key-hover: #f8f6f2;
+    --tactile-key-latched: #e2ddd5;
+    --tactile-key-shade: #c2bbb1;
+    --tactile-ink: #2a2724;
+    --tactile-text: #1d1b19;
+    --tactile-text-soft: #4a4640;
+    --tactile-text-faint: #5c574f;
+    --tactile-hairline: rgb(42 39 36 / 0.15);
+    /* Lightest warm grey of the board's family that reaches 3:1 on the dock (the board's #A49D93 was 2.1:1). */
+    --tactile-buffer: #888177;
+    /* Key and cap outlines (the glaze may draw them darker than the lines); keylines a glaze adds around the accent
+       fill and the display pill (none on bone). */
+    --tactile-edge: var(--tactile-ink);
+    --tactile-fill-edge: none;
+    --tactile-display-ring: none;
+    /* Latched keys: a 2px rim in the accent colour (3.2:1 on the bone dock, 3.5:1 on graphite). A glaze whose dock
+       is too close to the accent adds a keyline around the rim, as it does around the fill. */
+    --tactile-rim: var(--tactile-accent);
+    --tactile-rim-w: 2px;
+    --tactile-rim-edge: 0 0 0 0 transparent;
+
+    /* Display pill. */
+    --tactile-display: #151413;
+    --tactile-display-text: #f4f1ec;
+    --tactile-display-label: #e8e3db;
+    --tactile-display-muted: #a8a39b;
+    --tactile-display-sep: #45413c;
+    --tactile-display-chip: #6a645b;
+
+    /* States. The error screen's ground and text, and the dim laid over the frame while loading and at the end. */
+    --tactile-signal: #1e1d1d;
+    --tactile-signal-text: #f3e7d2;
+    --tactile-scrim: rgb(21 20 19 / 0.45);
+
+    /* Accent. The shade is the key's "side" under the accent face. */
+    --tactile-accent: var(--media-accent-color, #d9531e);
+    --tactile-accent-text: var(--media-accent-text-color, #160c07);
+    --tactile-accent-shade: #8f3210;
+    /* Cap ribs: SVGs sized to the cap box, so they snap to device pixels together with the cap body (a gradient
+       positioned `center / 8px` rounds on its own and drifts up to 0.6px from the body). Seek ribs are
+       rgb(40 12 2 / 0.45) over the accent, volume ribs are the ink; 1.5px ribs on a 3.5px pitch, inset 3px (three on the 12 × 26 seek cap, two on mobile and volume). */
+    --tactile-cap-ribs: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 26'%3E%3Cg fill='%23280c02' fill-opacity='.45'%3E%3Crect x='3' y='8.75' width='6' height='1.5'/%3E%3Crect x='3' y='12.25' width='6' height='1.5'/%3E%3Crect x='3' y='15.75' width='6' height='1.5'/%3E%3C/g%3E%3C/svg%3E");
+    --tactile-cap-ribs-mobile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 22'%3E%3Cg fill='%23280c02' fill-opacity='.45'%3E%3Crect x='3' y='8.5' width='6' height='1.5'/%3E%3Crect x='3' y='12' width='6' height='1.5'/%3E%3C/g%3E%3C/svg%3E");
+    --tactile-cap-ribs-volume: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 26'%3E%3Cg fill='%232a2724'%3E%3Crect x='3' y='10.5' width='6' height='1.5'/%3E%3Crect x='3' y='14' width='6' height='1.5'/%3E%3C/g%3E%3C/svg%3E");
+
+    /* Shadows. Keys sit 2px proud; latched keys 1px; pressed keys flat. */
+    --tactile-shadow-dock:
+      inset 0 1px 0 rgb(255 255 255 / 0.7), 0 0 0 1px rgb(40 30 20 / 0.12), 0 14px 34px rgb(30 22 14 / 0.28);
+    --tactile-shadow-key: 0 2px 0 var(--tactile-key-shade), 0 3px 6px rgb(60 50 40 / 0.12);
+    --tactile-shadow-key-latched: 0 1px 0 var(--tactile-key-shade);
+    --tactile-shadow-key-pressed: 0 0 0 var(--tactile-key-shade);
+    --tactile-shadow-play: 0 2px 0 var(--tactile-accent-shade), 0 3px 6px rgb(60 30 10 / 0.2);
+    --tactile-shadow-play-latched: 0 1px 0 var(--tactile-accent-shade);
+    --tactile-shadow-play-pressed: 0 0 0 var(--tactile-accent-shade);
+    --tactile-shadow-play-big: 0 3px 0 var(--tactile-accent-shade), 0 10px 24px rgb(40 20 10 / 0.28);
+    --tactile-shadow-cap: 0 2px 0 var(--tactile-accent-shade), 0 3px 6px rgb(60 30 10 / 0.25);
+    --tactile-shadow-cap-grab: 0 3px 0 var(--tactile-accent-shade), 0 6px 12px rgb(60 30 10 / 0.3);
+    --tactile-shadow-vcap: 0 2px 0 var(--tactile-key-shade);
+    --tactile-shadow-vcap-grab: 0 3px 0 var(--tactile-key-shade), 0 5px 10px rgb(60 50 40 / 0.2);
+    --tactile-shadow-preview: 0 10px 24px rgb(0 0 0 / 0.25);
+
+    /* Geometry (desktop, dock size B: a 68px dock with 44px keys). The mobile container query in skin.css overrides
+       these. */
+    --tactile-inset: 24px;
+    --tactile-dock-h: 68px;
+    --tactile-dock-pad: 12px;
+    --tactile-gap: 10px;
+    --tactile-key-size: 44px;
+    --tactile-play-w: 76px;
+    --tactile-play-r: 22px;
+    --tactile-outline: 1.25px;
+    --tactile-icon: 20px;
+    --tactile-icon-play: 20px;
+    --tactile-pill-h: 36px;
+    /* Controls scale. 1 everywhere; 1.25 in fullscreen on large screens (the cap: the base theme steps to 1.75). */
+    --tactile-scale: 1;
+    --tactile-volume-w: 72px;
+    --tactile-track: 2px;
+    --tactile-fill: 4px;
+    --tactile-cap-w: 12px;
+    --tactile-cap-h: 26px;
+    --tactile-cap-r: 5px;
+    --tactile-menu-w: 272px;
+    --tactile-menu-r: 24px;
+    --tactile-row-h: 48px;
+    --tactile-row-r: 14px;
+    --tactile-ring: 2px;
+    --tactile-ring-offset: 3px;
+    /* Seek preview: the bone bezel is 176 × 99 outside; the frame inside sits 4px in from the outline. */
+    --tactile-preview-w: 176px;
+    --tactile-preview-h: 99px;
+    --tactile-preview-pad: 4px;
+    /* The preview and the tooltips float this far above the dock's top edge. */
+    --tactile-float-gap: 14px;
+
+    /* Type. Geist when the page loads it; the system UI stack otherwise. */
+    --tactile-font: Geist, "Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --tactile-font-mono: "Geist Mono", "Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+    /* Motion. Transform and opacity only; preferences collapse travel, overshoot, morph, and lift. */
+    --tactile-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --tactile-ease-return: cubic-bezier(0.2, 1.6, 0.4, 1);
+    --tactile-dur-press: 70ms;
+    --tactile-dur-release: 200ms;
+    --tactile-dur-morph: 200ms;
+    --tactile-dur-rim: 150ms;
+    --tactile-dur-menu: 180ms;
+    --tactile-dur-status: 150ms;
+    --tactile-dur-show: 150ms;
+    --tactile-dur-hide: 300ms;
+    --tactile-dur-cap: 120ms;
+    --tactile-press-depth: 2px;
+    --tactile-latch-travel: 1px;
+    --tactile-cap-lift: -1px;
+    --tactile-hide-offset: 8px;
+    --tactile-menu-scale: 0.98;
+    --tactile-center-scale: 0.96;
+    --tactile-menu-slide: 100%;
+    /* Loading LEDs: one lit at a time, 300ms each. */
+    --tactile-led-step: tactile-led-step 900ms step-end infinite;
+
+    /* Map the shared theme tokens the base styles read. */
+    --media-foreground: var(--tactile-text);
+    --media-ring: var(--tactile-ink);
+    --media-accent: var(--tactile-accent);
+    --media-accent-foreground: var(--tactile-accent-text);
+    --media-primary: var(--tactile-accent);
+    --media-primary-foreground: var(--tactile-accent-text);
+    --media-popover: var(--tactile-bone);
+    --media-popover-foreground: var(--tactile-text);
+    --media-video-border-radius: var(--media-border-radius, 0px);
+    --media-caption-controls-y: calc(-1 * var(--tactile-scale) * (var(--tactile-inset) + var(--tactile-dock-h) + 8px));
+    --media-backdrop-filter-surface: none;
+    --media-backdrop-filter-indicator: none;
+    --media-backdrop-filter-dialog: none;
+  }
+
+  /*
+   * Glazes. `data-glaze="graphite" | "stone"` on the player's container swaps the material tokens; every part follows
+   * (dock, keys, lines, menu, tooltips, focus ring). Measured (WCAG, sRGB): graphite glyph on key 9.2:1, lines and
+   * ring on the dock 11.6:1, accent fill on the dock 3.5:1, buffer 4.7:1; stone glyph on key 9.4:1, lines and ring
+   * 6.9:1, buffer 3.7:1. The burnt-orange fill cannot reach 3:1 on a mid grey by itself (1.6:1 on stone), so stone
+   * draws a 1px ink keyline around the fill, the cap and the rim of a latched key (6.9:1 against the dock). Graphite's key outline
+   * is near-black by design (decorative, 1.4:1); its lines and ring use the glyph colour instead.
+   */
+  .media-skin[data-theme="tactile"][data-glaze="graphite"] {
+    --tactile-bone: #2a2b2e;
+    --tactile-key: #3a3b3f;
+    --tactile-key-hover: #45464b;
+    --tactile-key-latched: #313236;
+    --tactile-key-shade: #16171a;
+    --tactile-edge: #0e0e10;
+    --tactile-ink: #ece8e2;
+    --tactile-text: #ece8e2;
+    --tactile-text-soft: #c9c4bc;
+    --tactile-text-faint: #a8a39b;
+    --tactile-hairline: rgb(236 232 226 / 0.18);
+    --tactile-buffer: #9a948b;
+    --tactile-display-ring: inset 0 0 0 1px rgb(236 232 226 / 0.22);
+    --tactile-shadow-dock:
+      inset 0 1px 0 rgb(255 255 255 / 0.08), 0 0 0 1px rgb(0 0 0 / 0.35), 0 14px 34px rgb(0 0 0 / 0.45);
+    --tactile-cap-ribs-volume: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 26'%3E%3Cg fill='%23ece8e2'%3E%3Crect x='3' y='10.5' width='6' height='1.5'/%3E%3Crect x='3' y='14' width='6' height='1.5'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .media-skin[data-theme="tactile"][data-glaze="stone"] {
+    --tactile-bone: #a7a39c;
+    --tactile-key: #c2beb7;
+    --tactile-key-hover: #ccc8c1;
+    --tactile-key-latched: #b4b0a9;
+    --tactile-key-shade: #8a867f;
+    --tactile-edge: #2a2724;
+    --tactile-ink: #1b1a18;
+    --tactile-text: #1b1a18;
+    --tactile-text-soft: #2e2c29;
+    --tactile-text-faint: #3d3a36;
+    --tactile-hairline: rgb(27 26 24 / 0.2);
+    --tactile-buffer: #4a4640;
+    --tactile-fill-edge: 0 0 0 1px var(--tactile-ink);
+    /* the accent rim is 1.6:1 on the stone dock by itself: the same ink keyline runs around it (6.9:1 against the
+       dock, 4.3:1 against the rim) */
+    --tactile-rim-edge: 0 0 0 1px var(--tactile-ink);
+    --tactile-shadow-cap: 0 0 0 1px var(--tactile-ink), 0 2px 0 var(--tactile-accent-shade), 0 3px 6px rgb(60 30 10 / 0.25);
+    --tactile-shadow-cap-grab: 0 0 0 1px var(--tactile-ink), 0 3px 0 var(--tactile-accent-shade), 0 6px 12px rgb(60 30 10 / 0.3);
+    --tactile-shadow-dock:
+      inset 0 1px 0 rgb(255 255 255 / 0.35), 0 0 0 1px rgb(40 30 20 / 0.18), 0 14px 34px rgb(30 22 14 / 0.28);
+  }
+
+  /* Large screens in fullscreen: everything in the controls layer grows together, and no further than ×1.25. */
+  .media-skin[data-theme="tactile"]:fullscreen {
+    --media-scale: 1;
+  }
+
+  @media (min-width: 1280px) {
+    .media-skin[data-theme="tactile"]:fullscreen {
+      --media-scale: 1.25;
+      --tactile-scale: 1.25;
+    }
+  }
+
+  @supports (color: color-mix(in oklab, red, red)) {
+    .media-skin[data-theme="tactile"] {
+      --tactile-accent-shade: color-mix(in oklab, var(--tactile-accent) 62%, #1a0a03);
+    }
+  }
+}
+
+@layer base.preferences {
+  @media (prefers-reduced-motion: reduce) {
+    .media-skin[data-theme="tactile"] {
+      /* State still changes (latched, accent rim, icon swap); travel, overshoot, morph, lift, and the menu scale go. */
+      --tactile-ease-return: var(--tactile-ease);
+      --tactile-press-depth: 0px;
+      --tactile-cap-lift: 0px;
+      --tactile-hide-offset: 0px;
+      --tactile-menu-scale: 1;
+      --tactile-center-scale: 1;
+      --tactile-menu-slide: 0%;
+      --tactile-dur-morph: 0ms;
+      --tactile-dur-cap: 0ms;
+      --tactile-dur-release: 0ms;
+      --tactile-dur-press: 0ms;
+      /* The three loading LEDs stay dim; the word LOADING does the work. */
+      --tactile-led-step: none;
+    }
+  }
+
+  @media (prefers-contrast: more) {
+    .media-skin[data-theme="tactile"] {
+      --tactile-buffer: #6f685e;
+      --tactile-display-muted: #d9d4cc;
+      --tactile-text-soft: var(--tactile-text);
+      --tactile-text-faint: var(--tactile-text);
+      --tactile-hairline: var(--tactile-ink);
+    }
+  }
+
+  @media (forced-colors: active) {
+    .media-skin[data-theme="tactile"] {
+      --tactile-bone: Canvas;
+      --tactile-key: ButtonFace;
+      --tactile-key-hover: ButtonFace;
+      --tactile-key-latched: ButtonFace;
+      --tactile-key-shade: ButtonText;
+      --tactile-ink: ButtonText;
+      --tactile-text: ButtonText;
+      --tactile-text-soft: CanvasText;
+      --tactile-text-faint: CanvasText;
+      --tactile-hairline: CanvasText;
+      --tactile-buffer: GrayText;
+      --tactile-display: Canvas;
+      --tactile-display-text: CanvasText;
+      --tactile-display-label: CanvasText;
+      --tactile-display-muted: GrayText;
+      --tactile-display-sep: CanvasText;
+      --tactile-display-chip: CanvasText;
+      --tactile-signal: Canvas;
+      --tactile-signal-text: CanvasText;
+      --tactile-scrim: transparent;
+      --tactile-shadow-preview: none;
+      --tactile-accent: Highlight;
+      --tactile-accent-text: HighlightText;
+      --tactile-accent-shade: ButtonText;
+      --tactile-shadow-dock: none;
+      --tactile-shadow-key: none;
+      --tactile-shadow-key-latched: none;
+      --tactile-shadow-key-pressed: none;
+      --tactile-shadow-play: none;
+      --tactile-shadow-play-latched: none;
+      --tactile-shadow-play-pressed: none;
+      --tactile-shadow-play-big: none;
+      --tactile-shadow-cap: none;
+      --tactile-shadow-cap-grab: none;
+      --tactile-shadow-vcap: none;
+      --tactile-shadow-vcap-grab: none;
+      --media-ring: Highlight;
+    }
+  }
+}

@@ -1,0 +1,1692 @@
+/*
+ * Tactile — Paper Key. Styles for the video skin. Tokens live in ../styles/themes/tactile.css; every size, color,
+ * and shadow here comes from design/Final.dc.html. Motion uses transform and opacity only.
+ */
+@layer components {
+  @scope (.media-skin[data-theme="tactile"][data-preset="video"]) {
+    /* ---------------------------------------------------------------- Container ------------------------------ */
+    .media-container,
+    :scope.media-container {
+      position: relative;
+      display: block;
+      width: 100%;
+      min-width: 0;
+      height: 100%;
+      min-height: 0;
+      overflow: hidden;
+      border-radius: var(--media-video-border-radius);
+      font-family: var(--media-font-family, var(--tactile-font));
+      font-size: 14px;
+      line-height: 1.2;
+      color: var(--tactile-text);
+      outline-style: none;
+      container: media-root / inline-size;
+    }
+
+    /* Two rings so the focus reads over bright and dark footage alike. */
+    .media-container:focus-visible,
+    :scope.media-container:focus-visible {
+      outline: var(--tactile-ring) solid var(--tactile-key);
+      outline-offset: -5px;
+      box-shadow: inset 0 0 0 3px var(--tactile-ink);
+    }
+
+    .media-video,
+    :scope.media-video {
+      background-color: #000;
+    }
+
+    /* ---------------------------------------------------------------- Poster --------------------------------- */
+    .media-poster {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .media-poster:not([data-visible]) {
+      display: none;
+    }
+
+    .media-poster-image {
+      width: 100%;
+      height: 100%;
+      object-fit: var(--media-object-fit, contain);
+      object-position: var(--media-object-position, center);
+    }
+
+    /* ---------------------------------------------------------------- Utilities ------------------------------ */
+    .tactile-sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      border: 0;
+    }
+
+    /* ---------------------------------------------------------------- Controls layer ------------------------- */
+    .tactile-controls {
+      position: absolute;
+      inset: 0;
+      z-index: 30;
+      pointer-events: none;
+      /* The whole layer (dock, keys, displays, menus, tooltips) scales as one, by --tactile-scale. */
+      zoom: var(--tactile-scale);
+    }
+
+    /* The dock: an opaque bone pill, inset from the frame. */
+    .tactile-dock {
+      position: absolute;
+      inset-inline: var(--tactile-inset);
+      bottom: var(--tactile-inset);
+      display: flex;
+      align-items: center;
+      gap: var(--tactile-gap);
+      height: var(--tactile-dock-h);
+      padding: 0 var(--tactile-dock-pad);
+      border-radius: calc(var(--tactile-dock-h) / 2);
+      background: var(--tactile-bone);
+      box-shadow: var(--tactile-shadow-dock);
+      pointer-events: auto;
+      translate: 0 0;
+      transition:
+        opacity var(--tactile-dur-show) var(--tactile-ease),
+        translate var(--tactile-dur-show) var(--tactile-ease);
+    }
+
+    .tactile-dock:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
+      flex-direction: row-reverse;
+    }
+
+    /* Idle: fade and drop 8px. Keyboard focus inside the dock keeps it on screen. */
+    @scope (.tactile-controls) {
+      &:not([data-visible]):not(:has(:focus-visible)) .tactile-dock,
+      &:not([data-visible]):not(:has(:focus-visible)) .tactile-settings-corner {
+        opacity: 0;
+        translate: 0 var(--tactile-hide-offset);
+        pointer-events: none;
+        transition-duration: var(--tactile-dur-hide);
+      }
+
+      &:not([data-visible]):not(:has(:focus-visible)) .tactile-settings-corner {
+        translate: 0 calc(-1 * var(--tactile-hide-offset));
+      }
+    }
+
+    /* READY: before the first play there is no dock, not even on hover: only the big key and the duration. The dock
+       is out of the Tab order too. Controls pinned with visibility="always" show it from the start. */
+    media-controls:not([visibility="always"]) .tactile-controls:has(.tactile-dock-play:not([data-started]))
+      :is(.tactile-dock, .tactile-settings-corner) {
+      visibility: hidden;
+      opacity: 0;
+      translate: 0 var(--tactile-hide-offset);
+      pointer-events: none;
+    }
+
+    /* END: the dock stays down until the pointer moves or the keyboard is used. */
+    .tactile-controls:not([data-user-active]):not(:has(:focus-visible)):has(.tactile-dock-play[data-ended])
+      :is(.tactile-dock, .tactile-settings-corner) {
+      opacity: 0;
+      translate: 0 var(--tactile-hide-offset);
+      pointer-events: none;
+      transition-duration: var(--tactile-dur-hide);
+    }
+
+    /* LOADING: the dock waits on screen, whatever the pointer does. */
+    media-controls:has(.tactile-buffering[data-visible]) .tactile-controls .tactile-dock {
+      opacity: 1;
+      translate: 0 0;
+      pointer-events: auto;
+    }
+
+    /* A dim over the frame while it waits and once it has ended, so the display reads first. */
+    .tactile-controls::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--tactile-scrim);
+      opacity: 0;
+      transition: opacity var(--tactile-dur-hide) var(--tactile-ease);
+    }
+
+    .tactile-controls:has(.tactile-dock-play[data-ended])::before,
+    media-controls:has(.tactile-buffering[data-visible]) .tactile-controls::before {
+      opacity: 1;
+      transition-duration: var(--tactile-dur-show);
+    }
+
+    /* The corner Settings key exists for mobile only; the mobile query turns it on. (Two classes, to beat `.tactile-key`.) */
+    .tactile-key.tactile-settings-corner {
+      position: absolute;
+      top: var(--tactile-inset);
+      inset-inline-end: var(--tactile-inset);
+      display: none;
+      pointer-events: auto;
+      transition:
+        opacity var(--tactile-dur-show) var(--tactile-ease),
+        translate var(--tactile-dur-show) var(--tactile-ease),
+        box-shadow var(--tactile-dur-release) var(--tactile-ease),
+        background-color var(--tactile-dur-status) var(--tactile-ease);
+    }
+
+    /* A firmer edge when the user asks for more contrast; the default ring is a 12% hairline over bright frames. */
+    @media (prefers-contrast: more) {
+      .tactile-dock {
+        box-shadow: 0 0 0 1px var(--tactile-ink), 0 14px 34px rgb(30 22 14 / 0.28);
+      }
+    }
+
+    @media (forced-colors: active) {
+      .tactile-dock {
+        border: 1px solid CanvasText;
+      }
+    }
+
+    /* ---------------------------------------------------------------- Keys ----------------------------------- */
+    .tactile-key {
+      position: relative;
+      display: grid;
+      flex: none;
+      place-items: center;
+      width: var(--tactile-key-size);
+      height: var(--tactile-key-size);
+      padding: 0;
+      border: var(--tactile-outline) solid var(--tactile-edge);
+      border-radius: 50%;
+      background: var(--tactile-key);
+      color: var(--tactile-text);
+      box-shadow: var(--tactile-shadow-key);
+      cursor: pointer;
+      outline-style: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      --_latch: 0px;
+      translate: 0 var(--_latch);
+      transition:
+        translate var(--tactile-dur-release) var(--tactile-ease-return),
+        box-shadow var(--tactile-dur-release) var(--tactile-ease),
+        background-color var(--tactile-dur-status) var(--tactile-ease),
+        border-color var(--tactile-dur-rim) var(--tactile-ease);
+    }
+
+    .tactile-key > .tactile-icon {
+      grid-area: 1 / 1;
+      width: var(--tactile-icon);
+      height: var(--tactile-icon);
+    }
+
+    @media (hover: hover) {
+      .tactile-key:hover {
+        background: var(--tactile-key-hover);
+      }
+    }
+
+    /* Press: 70ms down, 200ms back with a hair of overshoot. Works for mouse, touch, Space, and Enter. */
+    .tactile-key:active:not(:disabled):not([aria-disabled="true"]) {
+      translate: 0 max(var(--tactile-press-depth), var(--_latch));
+      box-shadow: var(--tactile-shadow-key-pressed);
+      transition-duration: var(--tactile-dur-press);
+      transition-timing-function: var(--tactile-ease);
+    }
+
+    .tactile-key:focus-visible {
+      outline: var(--tactile-ring) solid var(--tactile-ink);
+      outline-offset: var(--tactile-ring-offset);
+    }
+
+    .tactile-key:disabled,
+    .tactile-key[aria-disabled="true"],
+    .tactile-key[data-disabled] {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+
+    .tactile-key[data-hidden] {
+      display: none;
+    }
+
+    /* Latched: the key sits 1px lower with a shorter side. */
+    .tactile-key-cc[data-active],
+    .tactile-key-settings[aria-expanded="true"] {
+      --_latch: var(--tactile-latch-travel);
+      box-shadow: var(--tactile-rim-edge), var(--tactile-shadow-key-latched);
+    }
+
+    .tactile-key-settings[aria-expanded="true"] {
+      background: var(--tactile-key-latched);
+      --tactile-knob: var(--tactile-key-latched);
+    }
+
+    .tactile-knob {
+      fill: var(--tactile-knob, var(--tactile-key));
+      transition: fill var(--tactile-dur-status) var(--tactile-ease);
+    }
+
+    @media (hover: hover) {
+      .tactile-key-settings[aria-expanded="true"]:hover {
+        background: var(--tactile-key-latched);
+      }
+    }
+
+    /* Wide key (dialog button). */
+    .tactile-key-wide {
+      width: auto;
+      min-width: var(--tactile-key-size);
+      padding: 0 20px;
+      border-radius: calc(var(--tactile-key-size) / 2);
+      font: inherit;
+      font-weight: 500;
+    }
+
+    @media (forced-colors: active) {
+      .tactile-key {
+        forced-color-adjust: none;
+        background: ButtonFace;
+        color: ButtonText;
+        border-color: ButtonText;
+      }
+
+      .tactile-key:focus-visible {
+        outline-color: Highlight;
+      }
+
+      .tactile-key:disabled,
+      .tactile-key[aria-disabled="true"] {
+        color: GrayText;
+        border-color: GrayText;
+        opacity: 1;
+      }
+    }
+
+    /* ---------------------------------------------------------------- Play key ------------------------------- */
+    .tactile-key-play {
+      width: var(--tactile-play-w);
+      border-radius: var(--tactile-play-r);
+      background: var(--tactile-accent);
+      color: var(--tactile-accent-text);
+      box-shadow: var(--tactile-shadow-play);
+    }
+
+    .tactile-key-play > .tactile-icon {
+      width: var(--tactile-icon-play);
+      height: var(--tactile-icon-play);
+    }
+
+    @media (hover: hover) {
+      .tactile-key-play:hover {
+        background: var(--tactile-accent);
+      }
+    }
+
+    .tactile-key-play:active:not(:disabled) {
+      box-shadow: var(--tactile-shadow-play-pressed);
+    }
+
+    /* Playing = latched. `:defined` keeps the play glyph until the element upgrades. */
+    .tactile-key-play:defined:not([data-paused]) {
+      --_latch: var(--tactile-latch-travel);
+      box-shadow: var(--tactile-shadow-play-latched);
+    }
+
+    .tactile-key-play:defined:not([data-paused]):active:not(:disabled) {
+      box-shadow: var(--tactile-shadow-play-pressed);
+    }
+
+    /* Icon states. The morphing glyph is the default; the static play and pause only serve browsers without CSS `d`. */
+    .tactile-icon-play,
+    .tactile-icon-pause,
+    .tactile-icon-restart {
+      display: none;
+    }
+
+    .tactile-key-play[data-ended] .tactile-icon-play-morph,
+    .tactile-key-play[data-ended] .tactile-icon-play,
+    .tactile-key-play[data-ended] .tactile-icon-pause {
+      display: none;
+    }
+
+    .tactile-key-play[data-ended] .tactile-icon-restart {
+      display: block;
+    }
+
+    .tactile-pp {
+      transition: d var(--tactile-dur-morph) var(--tactile-ease);
+    }
+
+    .tactile-pp-left {
+      d: path("M5.5 3.6 L9.75 6.3 L9.75 11.7 L5.5 14.4 Z");
+    }
+
+    .tactile-pp-right {
+      d: path("M9.75 6.3 L14 9 L14 9 L9.75 11.7 Z");
+    }
+
+    .tactile-key-play:defined:not([data-paused]) .tactile-pp-left {
+      d: path("M5.7 3.4 L7.3 3.4 L7.3 14.6 L5.7 14.6 Z");
+    }
+
+    .tactile-key-play:defined:not([data-paused]) .tactile-pp-right {
+      d: path("M10.7 3.4 L12.3 3.4 L12.3 14.6 L10.7 14.6 Z");
+    }
+
+    @supports not (d: path("M0 0h1")) {
+      .tactile-icon-play-morph {
+        display: none;
+      }
+
+      .tactile-key-play:not([data-ended]) .tactile-icon-play {
+        display: block;
+      }
+
+      .tactile-key-play:defined:not([data-paused]):not([data-ended]) .tactile-icon-play {
+        display: none;
+      }
+
+      .tactile-key-play:defined:not([data-paused]):not([data-ended]) .tactile-icon-pause {
+        display: block;
+      }
+    }
+
+    @media (forced-colors: active) {
+      .tactile-key-play {
+        background: Highlight;
+        color: HighlightText;
+        border-color: HighlightText;
+      }
+    }
+
+    /* ---------------------------------------------------------------- Status display ------------------------- */
+    .tactile-pill {
+      display: flex;
+      flex: none;
+      align-items: center;
+      gap: 12px;
+      height: var(--tactile-pill-h);
+      padding: 0 14px;
+      border-radius: calc(var(--tactile-pill-h) / 2);
+      background: var(--tactile-display);
+      color: var(--tactile-display-text);
+      box-shadow: var(--tactile-display-ring);
+      font-family: var(--tactile-font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    /* The small pill: floating displays (READY duration, mobile PAUSED, END, LOADING, NO SIGNAL). */
+    .tactile-pill-sm {
+      gap: 8px;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 16px;
+      font-size: 12px;
+    }
+
+    .tactile-pill-sm .tactile-pill-label,
+    .tactile-pill-sm .tactile-status-state > * {
+      font-size: 10px;
+    }
+
+    .tactile-status-state {
+      display: grid;
+    }
+
+    .tactile-pill-label,
+    .tactile-status-state > *,
+    .tactile-status-rate {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--tactile-display-label);
+    }
+
+    /* PLAY and PAUSED share one cell and crossfade, so the pill never shifts. The hidden one leaves the a11y tree. */
+    .tactile-status-state > * {
+      grid-area: 1 / 1;
+      display: block;
+      transition:
+        opacity var(--tactile-dur-status) var(--tactile-ease),
+        visibility 0s linear 0s;
+    }
+
+    .tactile-pill[data-paused] .tactile-status-play,
+    .tactile-pill:not([data-paused]) .tactile-status-paused {
+      opacity: 0;
+      visibility: hidden;
+      transition-delay: 0s, var(--tactile-dur-status);
+    }
+
+    /* The rate and the loading LEDs share one cell, so the pill keeps its width when LOADING takes over. */
+    .tactile-status-meta {
+      display: grid;
+      align-items: center;
+      margin-inline-start: calc(0.5ch - 12px);
+    }
+
+    .tactile-status-meta > * {
+      grid-area: 1 / 1;
+      transition:
+        opacity var(--tactile-dur-status) var(--tactile-ease),
+        visibility 0s linear 0s;
+    }
+
+    .tactile-status-rate[hidden] {
+      display: none;
+    }
+
+    /* LOADING: three LEDs step left to right, one lit at a time. The buffering indicator turns it on (after 400ms). */
+    .tactile-leds {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tactile-leds > span,
+    .tactile-led-on {
+      position: relative;
+      flex: none;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--tactile-display-sep);
+    }
+
+    .tactile-led-on {
+      background: var(--tactile-accent);
+    }
+
+    .tactile-leds > span::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: var(--tactile-accent);
+      opacity: 0;
+    }
+
+    media-controls:has(.tactile-buffering[data-visible]) .tactile-leds > span::after {
+      animation: var(--tactile-led-step);
+    }
+
+    media-controls:has(.tactile-buffering[data-visible]) .tactile-leds > span:nth-child(2)::after {
+      animation-delay: 300ms;
+    }
+
+    media-controls:has(.tactile-buffering[data-visible]) .tactile-leds > span:nth-child(3)::after {
+      animation-delay: 600ms;
+    }
+
+    @keyframes tactile-led-step {
+      0% {
+        opacity: 1;
+      }
+
+      33.333%,
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .tactile-status-loading,
+    .tactile-status .tactile-leds,
+    media-controls:has(.tactile-buffering[data-visible]) .tactile-status-state > :not(.tactile-status-loading),
+    media-controls:has(.tactile-buffering[data-visible]) .tactile-status-rate {
+      opacity: 0;
+      visibility: hidden;
+      transition-delay: 0s, var(--tactile-dur-status);
+    }
+
+    media-controls:has(.tactile-buffering[data-visible]) :is(.tactile-status-loading, .tactile-status .tactile-leds) {
+      opacity: 1;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+
+    .tactile-pill-sep {
+      width: 1px;
+      height: 14px;
+      background: var(--tactile-display-sep);
+    }
+
+    .tactile-pill-times {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tactile-pill-times:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
+      flex-direction: row-reverse;
+    }
+
+    .tactile-pill-times-inline {
+      gap: 0.6ch;
+    }
+
+    .tactile-time-duration {
+      color: var(--tactile-display-muted);
+    }
+
+    .tactile-time-separator {
+      color: var(--tactile-display-muted);
+    }
+
+    .tactile-time-separator:empty::before {
+      content: "/";
+    }
+
+    .tactile-pill [data-unavailable] {
+      opacity: 0.5;
+    }
+
+    .tactile-pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--tactile-accent);
+    }
+
+    /* The idle pill sits in the frame's corner. READY: the duration alone. Mobile, paused: PAUSED and the times. */
+    .tactile-status-idle {
+      display: none;
+      position: absolute;
+      inset-inline-start: var(--tactile-inset);
+      bottom: var(--tactile-inset);
+      pointer-events: none;
+    }
+
+    .tactile-status-idle:not([data-started]) {
+      display: flex;
+    }
+
+    .tactile-status-idle:not([data-started]) :is(.tactile-status-state, .tactile-time-current, .tactile-time-separator),
+    .tactile-status-idle:not([data-started]):has(.tactile-time-duration[data-unavailable]) {
+      display: none;
+    }
+
+    .tactile-status-idle:not([data-started]) .tactile-time-duration {
+      color: var(--tactile-display-text);
+    }
+
+    @media (forced-colors: active) {
+      .tactile-pill {
+        forced-color-adjust: none;
+        background: Canvas;
+        color: CanvasText;
+        border: 1px solid CanvasText;
+      }
+
+      .tactile-pill-dot,
+      .tactile-led-on,
+      .tactile-leds > span::after {
+        background: Highlight;
+      }
+
+      .tactile-leds > span {
+        background: GrayText;
+      }
+    }
+
+    /* ---------------------------------------------------------------- Faders --------------------------------- */
+    .tactile-seek-wrap {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+      height: var(--tactile-key-size);
+      padding: 0 10px;
+    }
+
+    .tactile-seek-times {
+      display: none;
+    }
+
+    .tactile-volume-wrap {
+      display: flex;
+      flex: none;
+      align-items: center;
+      width: var(--tactile-volume-w);
+      height: var(--tactile-key-size);
+      padding: 0 6px;
+    }
+
+    .tactile-volume-wrap:has(.tactile-volume[hidden]) {
+      display: none;
+    }
+
+    .tactile-fader {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      min-height: 44px;
+      cursor: pointer;
+      touch-action: none;
+    }
+
+    .tactile-fader[data-disabled] {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+
+    /* Engraved 2px line. */
+    .tactile-fader-track {
+      position: absolute;
+      inset-inline: 0;
+      height: var(--tactile-track);
+      border-radius: 2px;
+      background: var(--tactile-ink);
+    }
+
+    /* 4px buffer and fill, centred on the line. */
+    .tactile-fader-buffer,
+    .tactile-fader-fill {
+      position: absolute;
+      top: calc((var(--tactile-track) - var(--tactile-fill)) / 2);
+      left: 0;
+      height: var(--tactile-fill);
+      border-radius: 2px;
+    }
+
+    .tactile-fader-buffer {
+      width: var(--media-slider-buffer, 0%);
+      background: var(--tactile-buffer);
+    }
+
+    .tactile-fader-fill {
+      width: var(--media-slider-fill, 0%);
+      background: var(--tactile-accent);
+      box-shadow: var(--tactile-fill-edge);
+    }
+
+    .tactile-fader[data-dragging] .tactile-fader-fill {
+      width: var(--media-slider-pointer, var(--media-slider-fill, 0%));
+    }
+
+    /* Fader cap. Body, ribs and position live on this one element. `left` reads the same variable as the fill
+       (`--media-slider-fill`; `--media-slider-pointer` while dragging) with no transition, so the cap centre is the
+       fill end in every frame. The ribs are a background image sized to the cap box, so Chrome snaps them to device
+       pixels together with the body (a `center / 8px` gradient rounded on its own and sat up to 0.6px off centre).
+       Only the vertical grab lift and the shadow animate. Hover never moves the cap. */
+    .tactile-fader-cap {
+      position: absolute;
+      top: 50%;
+      left: var(--media-slider-fill, 0%);
+      width: var(--tactile-cap-w);
+      height: var(--tactile-cap-h);
+      margin-left: calc(var(--tactile-cap-w) / -2);
+      border-radius: var(--tactile-cap-r);
+      background: var(--tactile-cap-ribs) 0 0 / 100% 100% no-repeat, var(--tactile-accent);
+      box-shadow: var(--tactile-shadow-cap);
+      outline-style: none;
+      translate: 0 -50%;
+      transition:
+        translate var(--tactile-dur-cap) var(--tactile-ease),
+        box-shadow var(--tactile-dur-cap) var(--tactile-ease);
+    }
+
+    .tactile-fader[data-dragging] .tactile-fader-cap {
+      left: var(--media-slider-pointer, var(--media-slider-fill, 0%));
+      translate: 0 calc(-50% + var(--tactile-cap-lift));
+      box-shadow: var(--tactile-shadow-cap-grab);
+    }
+
+    .tactile-fader-cap:focus-visible {
+      outline: var(--tactile-ring) solid var(--tactile-ink);
+      outline-offset: var(--tactile-ring-offset);
+    }
+
+    /* Seek preview. A hairline marks the exact spot on the line; above the dock, the storyboard frame sits in a bone
+       bezel with the pointer time in a display pill under it. Both read `--media-slider-pointer` with no transition
+       on position, so they follow the pointer with no easing. Shown on hover and while dragging (touch included). */
+    .tactile-seek-mark {
+      position: absolute;
+      top: 50%;
+      left: var(--media-slider-pointer, 0%);
+      width: 1.5px;
+      height: 20px;
+      margin-left: -0.75px;
+      background: var(--tactile-text);
+      translate: 0 -50%;
+      pointer-events: none;
+    }
+
+    .tactile-preview {
+      position: absolute;
+      bottom: calc(100% + var(--tactile-preview-lift));
+      /* Centred on the pointer, clamped to the player's edges (the bounds come from `tactile-seek-preview`). */
+      left: clamp(
+        var(--tactile-preview-min, -100vw),
+        calc(var(--media-slider-pointer, 0%) - var(--tactile-preview-w) / 2),
+        var(--tactile-preview-max, 100vw)
+      );
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      width: var(--tactile-preview-w);
+      pointer-events: none;
+      /* From the slider's top edge to 14px above the dock. */
+      --tactile-preview-lift: calc((var(--tactile-dock-h) - var(--tactile-key-size)) / 2 + var(--tactile-float-gap));
+    }
+
+    .tactile-seek-mark,
+    .tactile-preview {
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity var(--tactile-dur-status) var(--tactile-ease),
+        visibility 0s linear var(--tactile-dur-status);
+    }
+
+    .tactile-seek:is([data-pointing], [data-dragging]):not([data-disabled]) :is(.tactile-seek-mark, .tactile-preview) {
+      opacity: 1;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+
+    .tactile-preview-frame {
+      display: block;
+      width: var(--tactile-preview-w);
+      height: var(--tactile-preview-h);
+      padding: var(--tactile-preview-pad);
+      border: var(--tactile-outline) solid var(--tactile-edge);
+      border-radius: 12px;
+      background: var(--tactile-bone);
+      box-shadow: var(--tactile-shadow-preview);
+    }
+
+    /* No storyboard, no bezel: the time pill stays. */
+    .tactile-preview-frame:has(.tactile-preview-thumb[data-hidden]) {
+      display: none;
+    }
+
+    /* The 16:9 tile is a touch taller than the opening; it is centred and cropped, as `object-fit: cover` would. */
+    .tactile-preview-crop {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 8px;
+      background: var(--tactile-display);
+    }
+
+    .tactile-preview-thumb {
+      --_w: calc(var(--tactile-preview-w) - 2 * (var(--tactile-preview-pad) + var(--tactile-outline)));
+      display: block;
+      flex: none;
+      min-width: var(--_w);
+      max-width: var(--_w);
+    }
+
+    .tactile-preview-image {
+      max-width: none;
+    }
+
+    .tactile-preview-time {
+      gap: 0;
+      height: 26px;
+      padding: 0 12px;
+      border-radius: 13px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    @media (forced-colors: active) {
+      .tactile-seek-mark {
+        forced-color-adjust: none;
+        background: CanvasText;
+      }
+
+      .tactile-preview-frame {
+        border-color: CanvasText;
+      }
+    }
+
+    /* Volume: ink fill, bone cap with two ink ribs. */
+    .tactile-volume .tactile-fader-fill {
+      background: var(--tactile-ink);
+    }
+
+    .tactile-volume .tactile-fader-cap {
+      background: var(--tactile-cap-ribs-volume) 0 0 / 100% 100% no-repeat, var(--tactile-key);
+      background-origin: border-box;
+      background-clip: border-box;
+      border: var(--tactile-outline) solid var(--tactile-edge);
+      box-shadow: var(--tactile-shadow-vcap);
+    }
+
+    .tactile-volume[data-dragging] .tactile-fader-cap {
+      box-shadow: var(--tactile-shadow-vcap-grab);
+    }
+
+    @media (forced-colors: active) {
+      .tactile-fader-track {
+        forced-color-adjust: none;
+        background: CanvasText;
+      }
+
+      .tactile-fader-buffer {
+        forced-color-adjust: none;
+        background: GrayText;
+      }
+
+      .tactile-fader-fill,
+      .tactile-volume .tactile-fader-fill {
+        forced-color-adjust: none;
+        background: Highlight;
+      }
+
+      .tactile-fader-cap,
+      .tactile-volume .tactile-fader-cap {
+        forced-color-adjust: none;
+        background: Highlight;
+        border: 1px solid CanvasText;
+        box-shadow: none;
+      }
+
+      .tactile-fader-cap:focus-visible {
+        outline-color: Highlight;
+      }
+    }
+
+    /* ---------------------------------------------------------------- Mute key icons ------------------------- */
+    .tactile-icon-volume-high,
+    .tactile-icon-volume-low,
+    .tactile-icon-volume-off {
+      display: none;
+    }
+
+    .tactile-key-mute:not(:defined) .tactile-icon-volume-high,
+    .tactile-key-mute[data-volume-level="high"] .tactile-icon-volume-high,
+    .tactile-key-mute[data-volume-level="medium"] .tactile-icon-volume-low,
+    .tactile-key-mute[data-volume-level="low"] .tactile-icon-volume-low,
+    .tactile-key-mute[data-volume-level="off"] .tactile-icon-volume-off {
+      display: block;
+    }
+
+    /* ---------------------------------------------------------------- Latch rim ------------------------------ */
+    /* A latched key (captions on, settings open) trades its 1.25px outline for a 2px rim in the accent colour; it
+       still sits 1px down and its glyph stays ink. The key's box does not change (the border is inside it). The
+       focus ring is a separate outline 3px outside the key, so a latched key with focus shows both. `--tactile-rim`
+       is the accent unless a glaze needs a darker one to reach 3:1 against its dock. */
+    .tactile-key-cc[data-active],
+    .tactile-key-settings[aria-expanded="true"] {
+      border-width: var(--tactile-rim-w);
+      border-color: var(--tactile-rim);
+    }
+
+    @media (forced-colors: active) {
+      .tactile-key-cc[data-active],
+      .tactile-key-settings[aria-expanded="true"] {
+        border-color: Highlight;
+      }
+    }
+
+    /* ---------------------------------------------------------------- Fullscreen key icons ------------------- */
+    .tactile-icon-fs-exit,
+    .tactile-key-fullscreen[data-fullscreen] .tactile-icon-fs-enter {
+      display: none;
+    }
+
+    .tactile-key-fullscreen[data-fullscreen] .tactile-icon-fs-exit {
+      display: block;
+    }
+
+    /* ---------------------------------------------------------------- Tooltips ------------------------------- */
+    /* Name and shortcut in a small display pill. Opens 500ms after hover, at once on keyboard focus, never from
+       touch (the component ignores touch pointers). The label is the key's accessible name. */
+    .tactile-tip {
+      z-index: 20;
+      height: 30px;
+      margin: 0;
+      padding: 0 12px;
+      overflow: visible;
+      border: 0;
+      border-radius: 15px;
+      background: var(--tactile-display);
+      color: var(--tactile-display-text);
+      font-family: var(--media-font-family, var(--tactile-font));
+      font-size: 13px;
+      line-height: 1;
+      white-space: nowrap;
+      pointer-events: none;
+      /* The arrow's tip floats 14px above the dock; the arrow is 6px tall. */
+      --media-tooltip-side-offset: calc(
+        (var(--tactile-dock-h) - var(--tactile-key-size)) / 2 + var(--tactile-float-gap) + 6px
+      );
+      --media-tooltip-align-offset: 0px;
+      --media-tooltip-boundary-offset: 8px;
+      --media-popup-side-offset: var(--media-tooltip-side-offset);
+      transition: opacity var(--tactile-dur-status) var(--tactile-ease);
+    }
+
+    .tactile-tip[data-open] {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tactile-tip:is([data-starting-style], [data-ending-style]) {
+      opacity: 0;
+    }
+
+    /* The centre key and the corner key are not in the dock: 8px of air plus the arrow. */
+    .tactile-tip-center,
+    .tactile-tip-corner {
+      --media-tooltip-side-offset: 14px;
+    }
+
+    .tactile-tip::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -6px;
+      border: 6px solid transparent;
+      border-top-color: var(--tactile-display);
+      border-bottom-width: 0;
+    }
+
+    .tactile-tip[data-side="bottom"]::after {
+      top: auto;
+      bottom: 100%;
+      border-top-width: 0;
+      border-top-color: transparent;
+      border-bottom-width: 6px;
+      border-bottom-color: var(--tactile-display);
+    }
+
+    /* Keys near the player's edge align the pill to their own edge; the arrow stays over the key's centre. */
+    .tactile-tip-play::after {
+      left: calc(var(--tactile-play-w) / 2);
+    }
+
+    .tactile-tip-end::after {
+      right: calc(var(--tactile-key-size) / 2 - 6px);
+      left: auto;
+      margin-left: 0;
+    }
+
+    .tactile-kbd {
+      padding: 1px 6px;
+      border: 1px solid var(--tactile-display-chip);
+      border-radius: 5px;
+      font-family: var(--tactile-font-mono);
+      font-size: 11px;
+      font-style: normal;
+      line-height: 1.3;
+      color: var(--tactile-display-label);
+    }
+
+    @media (forced-colors: active) {
+      .tactile-tip {
+        forced-color-adjust: none;
+        background: Canvas;
+        color: CanvasText;
+        outline: 1px solid CanvasText;
+      }
+
+      .tactile-tip::after {
+        display: none;
+      }
+
+      .tactile-kbd {
+        color: CanvasText;
+      }
+    }
+
+    /* ---------------------------------------------------------------- Settings menu -------------------------- */
+    .tactile-menu {
+      z-index: 20;
+      /* The content sits 8px inside the panel, so the panel is the content plus that ring. */
+      width: calc(var(--media-menu-width) + 16px);
+      min-width: var(--tactile-menu-w);
+      max-width: var(--media-menu-available-width);
+      height: calc(var(--media-menu-height) + 16px);
+      max-height: min(var(--media-menu-available-height, 400px), 400px);
+      margin: 0;
+      padding: 0;
+      overflow: hidden !important;
+      overscroll-behavior: none;
+      /* The controls layer lets clicks through to the video; the corner menu is a direct child of it, not of the dock. */
+      pointer-events: auto;
+      border: 0;
+      border-radius: var(--tactile-menu-r);
+      background: var(--tactile-bone);
+      color: var(--tactile-text);
+      box-shadow: var(--tactile-shadow-dock);
+      /* 12px above the dock: the trigger sits 18px inside the 88px dock. */
+      --media-popover-side-offset: calc((var(--tactile-dock-h) - var(--tactile-key-size)) / 2 + 12px);
+      --media-popover-align-offset: 12px;
+      --media-popover-boundary-offset: 12px;
+      --media-popup-side-offset: var(--media-popover-side-offset);
+      transform-origin: bottom right;
+      transition:
+        opacity var(--tactile-dur-menu) var(--tactile-ease),
+        scale var(--tactile-dur-menu) var(--tactile-ease),
+        width var(--tactile-dur-menu) var(--tactile-ease),
+        height var(--tactile-dur-menu) var(--tactile-ease);
+    }
+
+    .tactile-menu:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
+      transform-origin: bottom left;
+    }
+
+    .tactile-menu[data-side="bottom"] {
+      transform-origin: top right;
+    }
+
+    .tactile-menu[data-side="bottom"]:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
+      transform-origin: top left;
+    }
+
+    /* The corner key's menu grows down from the key: 8px below it, right edges aligned. */
+    .tactile-menu-down {
+      --media-popover-side-offset: 8px;
+      --media-popover-align-offset: 0px;
+      --media-popover-boundary-offset: 8px;
+      --media-popup-side-offset: var(--media-popover-side-offset);
+    }
+
+    .tactile-menu:is([data-starting-style], [data-ending-style]) {
+      opacity: 0;
+      scale: var(--tactile-menu-scale);
+    }
+
+    /* Content pages sit inside the panel's 8px ring, so a scrollbar (when one is needed) stays clear of the radius.
+       A page never scrolls by itself: it is clipped, and the skin's script sets `data-scrollable` on it only once the
+       panel has stopped moving and the page measures taller than its box. The attribute comes off before any
+       transition starts, so no scrollbar can show while the panel opens, closes, resizes or slides between pages. */
+    .tactile-menu-content {
+      position: absolute;
+      inset-inline: 8px;
+      top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      max-height: calc(100% - 16px);
+      padding: 0;
+      overflow: hidden;
+      overflow: clip;
+      overscroll-behavior: none;
+      outline-style: none;
+      scrollbar-width: thin;
+      scrollbar-color: var(--tactile-hairline) transparent;
+      transition:
+        translate var(--tactile-dur-menu) var(--tactile-ease),
+        opacity var(--tactile-dur-menu) var(--tactile-ease);
+    }
+
+    /* Safari and older Chromium: the same thin bar, no arrow buttons, kept off the panel's corners. */
+    .tactile-menu-content::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .tactile-menu-content::-webkit-scrollbar-track {
+      margin-block: 4px;
+      background: transparent;
+    }
+
+    .tactile-menu-content::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background: var(--tactile-hairline);
+    }
+
+    .tactile-menu-content::-webkit-scrollbar-button {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
+    .tactile-menu-content[data-scrollable] {
+      overflow: hidden auto;
+    }
+
+    /* Belt and braces: even with the attribute, nothing scrolls while the panel or a page is in transition. */
+    .tactile-menu:is([data-starting-style], [data-ending-style]) .tactile-menu-content,
+    .tactile-menu-content:is([data-starting-style], [data-ending-style]),
+    .tactile-menu-content[data-child-open] {
+      overflow: hidden;
+      overflow: clip;
+    }
+
+    .tactile-menu-content:not([data-submenu])[data-child-open] {
+      translate: calc(-1 * var(--tactile-menu-slide)) 0;
+      opacity: 0;
+    }
+
+    .tactile-menu-content:not([data-submenu])[data-child-open]:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
+      translate: var(--tactile-menu-slide) 0;
+    }
+
+    .tactile-menu-content[data-submenu] {
+      z-index: 10;
+    }
+
+    .tactile-menu-content[data-submenu]:is([data-starting-style], [data-ending-style]) {
+      translate: var(--tactile-menu-slide) 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .tactile-menu-content[data-submenu]:is([data-starting-style], [data-ending-style]):where(
+        :dir(rtl),
+        [dir="rtl"],
+        [dir="rtl"] *
+      ) {
+      translate: calc(-1 * var(--tactile-menu-slide)) 0;
+    }
+
+    /* Rows: 48px, radius 14. Hover or keyboard highlight = key face only; selected = the check only; ring on :focus-visible only. */
+    .tactile-row {
+      display: flex;
+      flex: none;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      min-height: var(--tactile-row-h);
+      padding: 0 14px;
+      border: 0;
+      border-radius: var(--tactile-row-r);
+      background: transparent;
+      background-clip: padding-box;
+      font: inherit;
+      font-size: 15px;
+      color: var(--tactile-text);
+      text-align: start;
+      white-space: nowrap;
+      cursor: pointer;
+      outline-style: none;
+      transition: background-color var(--tactile-dur-status) var(--tactile-ease);
+    }
+
+    .tactile-row[data-highlighted] {
+      background: var(--tactile-key);
+    }
+
+    .tactile-row[data-highlighted=""] {
+      transition-duration: 0ms;
+    }
+
+    .tactile-row:focus-visible {
+      outline: var(--tactile-ring) solid var(--tactile-ink);
+      outline-offset: -3px;
+    }
+
+    /* A menu opened with the pointer focuses its first row programmatically; no ring until the keyboard is used. */
+    :scope[data-input="pointer"] .tactile-row:focus-visible {
+      outline: none;
+    }
+
+    .tactile-row[data-availability="unavailable"],
+    .tactile-row[data-availability="unsupported"],
+    .tactile-row[hidden] {
+      display: none;
+    }
+
+    .tactile-row[data-custom] {
+      font-style: italic;
+    }
+
+    .tactile-row-label {
+      flex: 1 1 auto;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tactile-row-mono,
+    .tactile-row-hint {
+      font-family: var(--tactile-font-mono);
+      font-size: 14px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tactile-row-hint {
+      display: inline-flex;
+      flex: none;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      margin-inline-start: auto;
+      color: var(--tactile-text);
+    }
+
+    .tactile-row-hint-label {
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .tactile-row-hint-label:empty {
+      display: none;
+    }
+
+    .tactile-chevron {
+      flex: none;
+      width: 16px;
+      height: 16px;
+    }
+
+    .tactile-chevron:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
+      transform: scaleX(-1);
+    }
+
+    .tactile-row-back {
+      gap: 8px;
+      color: var(--tactile-text-soft);
+    }
+
+    .tactile-row-back .tactile-row-label {
+      flex: 0 1 auto;
+    }
+
+    .tactile-chevron-back {
+      transform: rotate(180deg);
+    }
+
+    .tactile-chevron-back:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
+      transform: none;
+    }
+
+    .tactile-menu-sep {
+      flex: none;
+      height: 1px;
+      margin: 4px 14px 6px;
+      background: var(--tactile-hairline);
+    }
+
+    .tactile-radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .tactile-row-indicator {
+      flex: none;
+      margin-inline-start: auto;
+      opacity: 0;
+      transition: opacity var(--tactile-dur-status) var(--tactile-ease);
+    }
+
+    .tactile-row[aria-checked="true"] .tactile-row-indicator {
+      opacity: 1;
+    }
+
+    .tactile-check {
+      width: 18px;
+      height: 18px;
+    }
+
+    .tactile-badge {
+      flex: none;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: rgb(42 39 36 / 0.08);
+      font-family: var(--tactile-font-mono);
+      font-size: 12px;
+      color: var(--tactile-text-soft);
+    }
+
+    .tactile-badge:empty {
+      display: none;
+    }
+
+    .tactile-tier {
+      padding-inline-start: 2px;
+      font-size: 11px;
+      line-height: 1;
+      color: var(--tactile-text-soft);
+    }
+
+    @media (forced-colors: active) {
+      .tactile-menu {
+        border: 1px solid CanvasText;
+      }
+
+      .tactile-row[data-highlighted] {
+        forced-color-adjust: none;
+        background: Highlight;
+        color: HighlightText;
+        box-shadow: none;
+      }
+
+      .tactile-row:focus-visible {
+        outline-color: Highlight;
+      }
+
+      .tactile-badge {
+        border: 1px solid CanvasText;
+      }
+    }
+
+    /* ---------------------------------------------------------------- Buffering ------------------------------ */
+    .tactile-buffering-group {
+      display: contents;
+    }
+
+    .tactile-buffering {
+      position: absolute;
+      inset: 0;
+      z-index: 25;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      zoom: var(--tactile-scale);
+    }
+
+    .tactile-buffering:not([data-visible]) {
+      display: none;
+    }
+
+    /* From 760px up the dock's status display reads LOADING. Narrower players have no display in the dock, so the
+       same pill floats in the middle of the frame (the centre is free: loading means not paused). */
+    .tactile-loading-pill {
+      display: none;
+    }
+
+    /* ---------------------------------------------------------------- Error screen --------------------------- */
+    /* NO SIGNAL in the display, one sentence, one bone key that reloads the source. An alert dialog over the frame. */
+    .tactile-dialog-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 40;
+      background: var(--tactile-signal);
+    }
+
+    .tactile-dialog-backdrop:not([data-open]) {
+      display: none;
+    }
+
+    .tactile-dialog-backdrop[data-scope="document"] {
+      position: fixed;
+    }
+
+    .tactile-dialog {
+      position: absolute;
+      inset: 0;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 16px 24px;
+      overflow: auto;
+      color: var(--tactile-signal-text);
+      text-align: center;
+      outline-style: none;
+    }
+
+    .tactile-dialog:not([data-open]) {
+      display: none;
+    }
+
+    .tactile-dialog[data-scope="document"] {
+      position: fixed;
+    }
+
+    /* The popup takes focus when it opens; the ring is the frame's own double ring, in the screen's colours. */
+    .tactile-dialog:focus-visible {
+      outline: var(--tactile-ring) solid var(--tactile-signal-text);
+      outline-offset: -5px;
+    }
+
+    .tactile-dialog-title {
+      flex: none;
+    }
+
+    .tactile-dialog-description {
+      max-width: 420px;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    .tactile-key.tactile-dialog-close {
+      height: 44px;
+      padding: 0 18px;
+      border-radius: 22px;
+      font-size: 14px;
+    }
+
+    .tactile-dialog-close:focus-visible {
+      outline-color: var(--tactile-signal-text);
+    }
+
+    @media (forced-colors: active) {
+      .tactile-dialog-close:focus-visible {
+        outline-color: Highlight;
+      }
+    }
+
+    /* ---------------------------------------------------------------- Centre key ----------------------------- */
+    /* One big key in the middle of the frame: Play before the first play (READY) and Replay at the END, at every
+       size; on mobile also while paused. At the END a small display sits under it. */
+    .tactile-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      pointer-events: none;
+    }
+
+    /* Off: faded out and a touch smaller (150ms), then out of the Tab order. Reduced motion keeps the fade only. */
+    .tactile-key.tactile-center-play {
+      width: 112px;
+      height: 64px;
+      border-radius: 32px;
+      box-shadow: var(--tactile-shadow-play-big);
+      visibility: hidden;
+      opacity: 0;
+      scale: var(--tactile-center-scale);
+      pointer-events: none;
+      transition:
+        translate var(--tactile-dur-release) var(--tactile-ease-return),
+        box-shadow var(--tactile-dur-release) var(--tactile-ease),
+        opacity var(--tactile-dur-show) var(--tactile-ease),
+        scale var(--tactile-dur-show) var(--tactile-ease),
+        visibility 0s linear var(--tactile-dur-show);
+    }
+
+    .tactile-key.tactile-center-play:not([data-started]),
+    .tactile-key.tactile-center-play[data-ended] {
+      visibility: visible;
+      opacity: 1;
+      scale: 1;
+      pointer-events: auto;
+      transition-delay: 0s;
+    }
+
+    .tactile-status-end {
+      display: none;
+    }
+
+    .tactile-center:has(.tactile-center-play[data-ended]) .tactile-status-end {
+      display: flex;
+    }
+
+    .tactile-center-play > .tactile-icon {
+      width: 26px;
+      height: 26px;
+    }
+
+    .tactile-center-play:active:not(:disabled) {
+      box-shadow: var(--tactile-shadow-play-latched);
+    }
+
+    /* ---------------------------------------------------------------- Narrower players ----------------------- */
+    /* Thresholds follow the 68px dock: each keeps the seek fader at 145px or more. Under 880px the volume fader
+       goes; mute stays. */
+    @container media-root (width < 880px) {
+      .tactile-volume-wrap {
+        display: none;
+      }
+    }
+
+    /* Under 760px the status pill goes and the times move above the seek fader, as on mobile. */
+    @container media-root (width < 760px) {
+      .tactile-status {
+        display: none;
+      }
+
+      .tactile-loading-pill {
+        display: flex;
+      }
+
+      /* The times sit above a 22px fader here: the fader's top is this far under the dock's top edge. */
+      .tactile-preview {
+        --tactile-preview-lift: calc((var(--tactile-dock-h) + 21px - 22px) / 2 + var(--tactile-float-gap));
+      }
+
+      .tactile-seek-wrap {
+        gap: 9px;
+        height: auto;
+        padding: 0 6px;
+      }
+
+      .tactile-seek-times {
+        display: flex;
+        justify-content: space-between;
+        font-family: var(--tactile-font-mono);
+        font-size: 12px;
+        font-weight: 500;
+        font-variant-numeric: tabular-nums;
+        line-height: 1;
+        color: var(--tactile-text);
+      }
+
+      .tactile-seek-times:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
+        flex-direction: row-reverse;
+      }
+
+      .tactile-seek-times .tactile-time-duration {
+        color: var(--tactile-text-faint);
+      }
+
+      .tactile-seek-times [data-unavailable] {
+        opacity: 0.5;
+      }
+
+      /* The visible fader is thin; a pseudo-element keeps the hit area at 44px. */
+      .tactile-seek {
+        height: 22px;
+        min-height: 0;
+      }
+
+      .tactile-seek::before {
+        content: "";
+        position: absolute;
+        inset: -12px 0 -10px;
+      }
+    }
+
+    /* ---------------------------------------------------------------- Mobile (container under 560px) --------- */
+    @container media-root (width < 560px) {
+      /* A container query cannot style its own container, so the tokens go on its children. */
+      :scope > * {
+        --tactile-inset: 8px;
+        --tactile-dock-h: 60px;
+        --tactile-dock-pad: 8px;
+        --tactile-gap: 8px;
+        --tactile-key-size: 44px;
+        --tactile-play-w: 60px;
+        --tactile-play-r: 22px;
+        --tactile-icon: 20px;
+        --tactile-icon-play: 20px;
+        --tactile-cap-w: 12px;
+        --tactile-cap-h: 22px;
+        --tactile-cap-ribs: var(--tactile-cap-ribs-mobile);
+        /* The seek preview must fit between the top of a 16:9 frame and the dock: full size (176 × 99) from 375px
+           up, smaller below, 8px above the dock. */
+        --tactile-float-gap: 8px;
+        --tactile-preview-w: clamp(112px, calc(100cqi - 199px), 176px);
+        --tactile-preview-h: calc(var(--tactile-preview-w) * 0.5625);
+      }
+
+      /* Captions clear the 60px dock. */
+      :scope[data-controls-visible] video,
+      :scope[data-controls-visible] mux-video {
+        --media-caption-track-y: -76px;
+      }
+
+      /* Captions and Settings leave the dock; Settings comes back as the corner key, with Captions as a menu row. */
+      .tactile-dock .tactile-key-cc,
+      .tactile-dock .tactile-key-settings {
+        display: none;
+      }
+
+      .tactile-key.tactile-settings-corner {
+        display: grid;
+      }
+
+      /* The corner menu shows Speed and Captions only, so it fits whole under the key in a 219px player. Fullscreen
+         has the room, so Quality comes back there. */
+      :scope:not(:fullscreen) .tactile-menu-down .tactile-row[commandfor="tactile-menu-quality-corner"] {
+        display: none;
+      }
+
+      .tactile-seek-wrap {
+        padding: 0 4px;
+      }
+
+      /* Paused: the dock rests, the big key sits in the middle, and a small PAUSED pill reads the time. */
+      .tactile-key.tactile-center-play[data-paused] {
+        visibility: visible;
+        opacity: 1;
+        scale: 1;
+        pointer-events: auto;
+        transition-delay: 0s;
+      }
+
+      .tactile-controls .tactile-dock:has(.tactile-dock-play[data-paused]) {
+        opacity: 0;
+        translate: 0 var(--tactile-hide-offset);
+        pointer-events: none;
+      }
+
+      .tactile-controls:has(.tactile-dock-play[data-paused]) .tactile-settings-corner:not([aria-expanded="true"]) {
+        opacity: 0;
+        translate: 0 calc(-1 * var(--tactile-hide-offset));
+        pointer-events: none;
+      }
+
+      .tactile-status-idle {
+        inset-inline-start: 12px;
+        bottom: 12px;
+      }
+
+      .tactile-status-idle[data-paused][data-started]:not([data-ended]) {
+        display: flex;
+      }
+    }
+
+    /* ---------------------------------------------------------------- Media box ------------------------------ */
+    .media-container > slot::slotted(video),
+    :scope.media-container > slot::slotted(video) {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: 100% !important;
+      margin: 0;
+      border-radius: inherit;
+      object-fit: var(--media-object-fit, contain);
+      object-position: var(--media-object-position, center);
+    }
+  }
+}

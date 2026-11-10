@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tactile — new player states</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.fr{position:relative;width:560px;height:315px;border-radius:14px;overflow:hidden;background:#111}
+.fr img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.dk{position:absolute;left:8px;right:8px;bottom:8px;height:60px;border-radius:30px;box-sizing:border-box;padding:0 8px;display:flex;align-items:center;gap:8px;background:#E7E4DE;box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 0 0 1px rgba(40,30,20,.12),0 10px 24px rgba(0,0,0,.3)}
+.k{position:relative;width:44px;height:44px;flex:none;border-radius:50%;border:1.25px solid #2A2724;background:#F3F0EB;box-sizing:border-box;display:grid;place-items:center;color:#1D1B19;box-shadow:0 2px 0 #C2BBB1}
+.pk{width:60px;border-radius:22px;background:#D9531E;color:#160C07;box-shadow:0 1px 0 #8F3210}
+.pill{height:32px;padding:0 12px;border-radius:16px;background:#151413;color:#F4F1EC;font-family:'Geist Mono',monospace;font-size:11px;display:flex;align-items:center;gap:8px;flex:none;box-sizing:border-box}
+.tr{position:relative;flex:1 1 auto;height:2px;background:#2A2724;border-radius:2px}
+.cap{position:absolute;top:50%;width:12px;height:24px;margin-left:-6px;transform:translateY(-50%);border-radius:4px;background:#D9531E;box-shadow:0 2px 0 #8F3210}
+.lbl{font-size:12px;color:#4A4640;margin:0 0 10px;font-family:'Geist Mono',monospace}
+.ttl{font-size:16px;font-weight:600;color:#1B1A18;margin:12px 0 4px}
+.dsc{font-size:13px;line-height:1.45;color:#3C3934;margin:0;max-width:540px}
+.led{width:6px;height:6px;border-radius:50%;background:#45413C}
+.led.on{background:#D9531E}
+</style>
+</helmet>
+<div style="width: 1880px; height: 1120px; box-sizing: border-box; padding: 64px 72px; background: #D9D6D0; font-family: Geist, sans-serif; display: flex; flex-direction: column; gap: 40px;">
+  <div>
+    <h1 style="margin: 0; font-size: 36px; font-weight: 600; letter-spacing: -0.02em; color: #1B1A18;">New player states</h1>
+    <p style="margin: 8px 0 0; font-size: 16px; color: #3C3934; max-width: 760px;">Complete, not crowded: no new keys in the dock. Everything new speaks the same language — bone keys, ink outline, the black display pill, one accent.</p>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 40px; row-gap: 36px;">
+
+    <div>
+      <p class="lbl">01 · READY</p>
+      <div class="fr">
+        <img class="bg" src="/_blob/afa310e13de65c4a73357c864444e19d" alt="">
+        <div style="position: absolute; inset: 0; display: grid; place-items: center;">
+          <div class="k pk" style="width: 112px; height: 64px; border-radius: 32px; box-shadow: 0 3px 0 #8F3210, 0 10px 24px rgba(0,0,0,.35);"><svg width="26" height="26" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><path d="M5.5 3.6 14 9l-8.5 5.4z"></path></svg></div>
+        </div>
+        <div class="pill" style="position: absolute; left: 12px; bottom: 12px;">0:26</div>
+      </div>
+      <p class="ttl">One big key on the poster</p>
+      <p class="dsc">Before the first play: the play key, scaled up, and the duration. No dock yet.</p>
+    </div>
+
+    <div>
+      <p class="lbl">02 · LOADING</p>
+      <div class="fr">
+        <img class="bg" src="/_blob/afa310e13de65c4a73357c864444e19d" alt="" style="filter: brightness(.6);">
+        <div class="dk">
+          <div class="k pk"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6.5 4v10M11.5 4v10"></path></svg></div>
+          <div class="pill"><span style="font-weight: 600; letter-spacing: .08em;">LOADING</span><span class="led"></span><span class="led on"></span><span class="led"></span></div>
+          <div class="tr"><div style="position: absolute; left: 0; top: -1px; height: 4px; width: 40%; background: #D9531E; border-radius: 2px;"></div><div class="cap" style="left: 40%;"></div></div>
+          <div class="k"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.5v-4h4M11.5 2.5h4v4M15.5 11.5v4h-4M6.5 15.5h-4v-4"></path></svg></div>
+        </div>
+      </div>
+      <p class="ttl">The display counts, the dock waits</p>
+      <p class="dsc">Three LEDs step left to right inside the status pill (one lit at a time, 300 ms). Reduced motion: all three dim, the word LOADING does the work. Shown only after 400 ms, so fast loads never flash.</p>
+    </div>
+
+    <div>
+      <p class="lbl">03 · SEEK PREVIEW</p>
+      <div class="fr">
+        <img class="bg" src="/_blob/cb65d62f6e1534393273f19c33a1c413" alt="">
+        <div style="position: absolute; left: 196px; bottom: 82px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+          <div style="width: 176px; height: 99px; border-radius: 12px; border: 1.25px solid #2A2724; background: #E7E4DE; padding: 4px; box-sizing: border-box; box-shadow: 0 10px 24px rgba(0,0,0,.25);">
+            <img src="/_blob/e6cfbacdd2cde84ceef6bd1b2bea9783" alt="" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </div>
+          <div class="pill" style="height: 26px; font-size: 12px; font-weight: 600;">0:07</div>
+        </div>
+        <div class="dk">
+          <div class="k pk"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6.5 4v10M11.5 4v10"></path></svg></div>
+          <div class="tr"><div style="position: absolute; left: 0; top: -1px; height: 4px; width: 62%; background: #D9531E; border-radius: 2px;"></div><div style="position: absolute; left: 34%; top: -9px; width: 1.5px; height: 20px; background: #1B1A18;"></div><div class="cap" style="left: 62%;"></div></div>
+          <div class="k"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.7h2.8l3.9-3.2v11l-3.9-3.2H2.5z"></path><path d="M12 6.3a3.8 3.8 0 0 1 0 5.4"></path></svg></div>
+          <div class="k"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.5v-4h4M11.5 2.5h4v4M15.5 11.5v4h-4M6.5 15.5h-4v-4"></path></svg></div>
+        </div>
+      </div>
+      <p class="ttl">A frame in a bone bezel</p>
+      <p class="dsc">Hover or drag the timeline: Mux storyboard thumbnail in a bone frame with the ink outline, time in the black pill, a thin ink hairline marks the exact spot. Follows the pointer with no easing; clamps at the player edges.</p>
+    </div>
+
+    <div>
+      <p class="lbl">04 · TOOLTIP</p>
+      <div class="fr">
+        <img class="bg" src="/_blob/cb65d62f6e1534393273f19c33a1c413" alt="">
+        <div style="position: absolute; right: 108px; bottom: 82px; display: flex; flex-direction: column; align-items: center;">
+          <div class="pill" style="height: 30px; font-family: Geist, sans-serif; font-size: 13px; gap: 8px;">Captions <span style="font-family: 'Geist Mono', monospace; font-size: 11px; padding: 1px 6px; border-radius: 5px; border: 1px solid #6A645B; color: #E8E3DB;">C</span></div>
+          <div style="width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 6px solid #151413;"></div>
+        </div>
+        <div class="dk">
+          <div class="k pk"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6.5 4v10M11.5 4v10"></path></svg></div>
+          <div class="tr"><div style="position: absolute; left: 0; top: -1px; height: 4px; width: 50%; background: #D9531E; border-radius: 2px;"></div><div class="cap" style="left: 50%;"></div></div>
+          <div class="k"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="14" height="10" rx="2.5"></rect><path d="M5 8h3M10 8h3M5 11h6"></path></svg></div>
+          <div class="k"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.5v-4h4M11.5 2.5h4v4M15.5 11.5v4h-4M6.5 15.5h-4v-4"></path></svg></div>
+        </div>
+      </div>
+      <p class="ttl">Name + shortcut, in the display style</p>
+      <p class="dsc">On hover (after 500 ms) and on keyboard focus: the key’s name and its shortcut in a small black pill. Hidden on touch. The label always matches the button’s accessible name.</p>
+    </div>
+
+    <div>
+      <p class="lbl">05 · END</p>
+      <div class="fr">
+        <img class="bg" src="/_blob/afa310e13de65c4a73357c864444e19d" alt="" style="filter: brightness(.55);">
+        <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;">
+          <div class="k pk" style="width: 112px; height: 64px; border-radius: 32px; box-shadow: 0 3px 0 #8F3210, 0 10px 24px rgba(0,0,0,.35);"><svg width="24" height="24" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 9a6.75 6.75 0 1 0 6.75-6.75A7.3 7.3 0 0 0 3.95 4.3L2.25 6"></path><path d="M2.25 2.25V6H6"></path></svg></div>
+          <div class="pill"><span style="font-weight: 600; letter-spacing: .08em;">END</span><span>0:26 / 0:26</span></div>
+        </div>
+      </div>
+      <p class="ttl">Replay, same place as play</p>
+      <p class="dsc">The big key returns with the replay glyph; the pill reads END. Space or Enter restarts. The dock stays hidden until the pointer moves.</p>
+    </div>
+
+    <div>
+      <p class="lbl">06 · ERROR</p>
+      <div class="fr" style="background: #1E1D1D;">
+        <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;">
+          <div class="pill"><span style="font-weight: 600; letter-spacing: .08em;">NO SIGNAL</span><span class="led on"></span></div>
+          <p style="margin: 0; color: #F3E7D2; font-size: 15px;">This video can’t be played right now.</p>
+          <div class="k" style="width: auto; height: 44px; border-radius: 22px; padding: 0 18px; font-size: 14px; font-weight: 500;">Try again</div>
+        </div>
+      </div>
+      <p class="ttl">Plain words, one action</p>
+      <p class="dsc">Network or source error: NO SIGNAL in the display, one sentence, one bone key that retries. Announced through the status announcer.</p>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1880,"height":1120}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

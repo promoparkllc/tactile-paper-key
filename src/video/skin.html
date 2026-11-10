@@ -1,0 +1,435 @@
+<media-container class="media-skin media-container media-video" data-theme="tactile" data-preset="video">
+<!-- Add a compatible media component here. -->
+<media-poster class="media-poster">
+<img alt="" decoding="async" class="media-poster-image">
+</media-poster>
+<media-error-dialog>
+<media-dialog-backdrop class="tactile-dialog-backdrop">
+</media-dialog-backdrop>
+<media-dialog-popup class="tactile-dialog">
+<media-dialog-title class="tactile-pill tactile-pill-sm tactile-dialog-title">
+<span class="tactile-pill-label">No signal</span>
+<span class="tactile-led-on" aria-hidden="true"></span>
+</media-dialog-title>
+<media-dialog-description class="tactile-dialog-description">This video can’t be played right now.</media-dialog-description>
+<media-dialog-close class="tactile-key tactile-key-wide tactile-dialog-close" data-tactile-retry>Try again</media-dialog-close>
+</media-dialog-popup>
+</media-error-dialog>
+<media-controls>
+<media-controls-group class="tactile-buffering-group">
+<media-buffering-indicator class="tactile-buffering" delay="400">
+<span class="tactile-pill tactile-pill-sm tactile-loading-pill">
+<span class="tactile-pill-label">Loading</span>
+<span class="tactile-leds" aria-hidden="true">
+<span></span>
+<span></span>
+<span></span>
+</span>
+</span>
+</media-buffering-indicator>
+</media-controls-group>
+<media-controls-content class="tactile-controls">
+<media-tooltip-group>
+<media-controls-group class="tactile-center">
+<media-play-button class="tactile-key tactile-key-play tactile-center-play" id="tactile-center-play">
+<media-icon family="tactile" name="playpause" class="tactile-icon tactile-icon-play-morph">
+</media-icon>
+<media-icon family="tactile" name="play" class="tactile-icon tactile-icon-play">
+</media-icon>
+<media-icon family="tactile" name="pause" class="tactile-icon tactile-icon-pause">
+</media-icon>
+<media-icon family="tactile" name="restart" class="tactile-icon tactile-icon-restart">
+</media-icon>
+</media-play-button>
+<media-tooltip trigger="tactile-center-play" side="top" align="center" delay="500" class="tactile-tip tactile-tip-center">
+<media-tooltip-label>
+</media-tooltip-label>
+<media-tooltip-shortcut class="tactile-kbd">
+</media-tooltip-shortcut>
+<kbd class="tactile-kbd">Space</kbd>
+</media-tooltip>
+<span class="tactile-pill tactile-pill-sm tactile-status-end">
+<span class="tactile-pill-label">End</span>
+<media-time-group class="tactile-pill-times tactile-pill-times-inline">
+<media-time class="tactile-time-current" type="current">
+</media-time>
+<media-time-separator class="tactile-time-separator">
+</media-time-separator>
+<media-time class="tactile-time-duration" type="duration">
+</media-time>
+</media-time-group>
+</span>
+</media-controls-group>
+<tactile-status class="tactile-pill tactile-pill-sm tactile-status-idle">
+<span class="tactile-status-state">
+<media-text token="buttons.play" class="tactile-status-play">Play</media-text>
+<media-text token="status.paused" class="tactile-status-paused">Paused</media-text>
+</span>
+<media-time-group class="tactile-pill-times tactile-pill-times-inline">
+<media-time class="tactile-time-current" type="current">
+</media-time>
+<media-time-separator class="tactile-time-separator">
+</media-time-separator>
+<media-time class="tactile-time-duration" type="duration">
+</media-time>
+</media-time-group>
+</tactile-status>
+<media-controls-group class="tactile-dock">
+<media-play-button class="tactile-key tactile-key-play tactile-dock-play" id="tactile-play">
+<media-icon family="tactile" name="playpause" class="tactile-icon tactile-icon-play-morph">
+</media-icon>
+<media-icon family="tactile" name="play" class="tactile-icon tactile-icon-play">
+</media-icon>
+<media-icon family="tactile" name="pause" class="tactile-icon tactile-icon-pause">
+</media-icon>
+<media-icon family="tactile" name="restart" class="tactile-icon tactile-icon-restart">
+</media-icon>
+</media-play-button>
+<media-tooltip trigger="tactile-play" side="top" align="start" delay="500" class="tactile-tip tactile-tip-play">
+<media-tooltip-label>
+</media-tooltip-label>
+<media-tooltip-shortcut class="tactile-kbd">
+</media-tooltip-shortcut>
+<kbd class="tactile-kbd">Space</kbd>
+</media-tooltip>
+<tactile-status class="tactile-pill tactile-status">
+<span class="tactile-status-state">
+<media-text token="buttons.play" class="tactile-status-play">Play</media-text>
+<media-text token="status.paused" class="tactile-status-paused">Paused</media-text>
+<span class="tactile-status-loading">Loading</span>
+</span>
+<span class="tactile-status-meta">
+<span data-part="rate" class="tactile-status-rate"></span>
+<span class="tactile-leds" aria-hidden="true">
+<span></span>
+<span></span>
+<span></span>
+</span>
+</span>
+<span class="tactile-pill-sep" aria-hidden="true"></span>
+<media-time-group class="tactile-pill-times">
+<media-time class="tactile-time-current" type="current">
+</media-time>
+<media-time class="tactile-time-duration" type="duration">
+</media-time>
+</media-time-group>
+<span class="tactile-pill-dot" aria-hidden="true"></span>
+</tactile-status>
+<div class="tactile-seek-wrap">
+<media-time-group class="tactile-seek-times">
+<media-time class="tactile-time-current" type="current">
+</media-time>
+<media-time class="tactile-time-duration" type="duration">
+</media-time>
+</media-time-group>
+<media-time-slider class="tactile-fader tactile-seek" thumb-alignment="edge">
+<media-slider-track class="tactile-fader-track">
+<media-slider-buffer class="tactile-fader-buffer">
+</media-slider-buffer>
+<media-slider-fill class="tactile-fader-fill">
+</media-slider-fill>
+</media-slider-track>
+<span class="tactile-seek-mark" aria-hidden="true"></span>
+<media-slider-thumb class="tactile-fader-cap">
+</media-slider-thumb>
+<tactile-seek-preview class="tactile-preview">
+<span class="tactile-preview-frame">
+<span class="tactile-preview-crop">
+<media-slider-thumbnail class="tactile-preview-thumb">
+<img alt="" aria-hidden="true" decoding="async" class="tactile-preview-image">
+</media-slider-thumbnail>
+</span>
+</span>
+<media-slider-value type="pointer" class="tactile-pill tactile-preview-time">
+</media-slider-value>
+</tactile-seek-preview>
+</media-time-slider>
+</div>
+<media-mute-button class="tactile-key tactile-key-mute" id="tactile-mute">
+<media-icon family="tactile" name="volume-high" class="tactile-icon tactile-icon-volume-high">
+</media-icon>
+<media-icon family="tactile" name="volume-low" class="tactile-icon tactile-icon-volume-low">
+</media-icon>
+<media-icon family="tactile" name="volume-off" class="tactile-icon tactile-icon-volume-off">
+</media-icon>
+</media-mute-button>
+<media-tooltip trigger="tactile-mute" side="top" align="center" delay="500" class="tactile-tip">
+<media-tooltip-label>
+</media-tooltip-label>
+<media-tooltip-shortcut class="tactile-kbd">
+</media-tooltip-shortcut>
+</media-tooltip>
+<div class="tactile-volume-wrap">
+<media-volume-slider class="tactile-fader tactile-volume" thumb-alignment="edge">
+<media-slider-track class="tactile-fader-track">
+<media-slider-fill class="tactile-fader-fill">
+</media-slider-fill>
+</media-slider-track>
+<media-slider-thumb class="tactile-fader-cap">
+</media-slider-thumb>
+</media-volume-slider>
+</div>
+<media-captions-button class="tactile-key tactile-key-cc" id="tactile-cc">
+<media-icon family="tactile" name="captions" class="tactile-icon">
+</media-icon>
+</media-captions-button>
+<media-tooltip trigger="tactile-cc" side="top" align="center" delay="500" class="tactile-tip">
+<media-tooltip-label>
+</media-tooltip-label>
+<media-tooltip-shortcut class="tactile-kbd">
+</media-tooltip-shortcut>
+</media-tooltip>
+<button type="button" commandfor="tactile-settings-menu" class="tactile-key tactile-key-settings" id="tactile-settings-trigger">
+<media-icon family="tactile" name="settings" class="tactile-icon">
+</media-icon>
+<media-text class="tactile-sr-only" token="menu.settings">Settings</media-text>
+</button>
+<media-tooltip trigger="tactile-settings-trigger" side="top" align="center" delay="500" class="tactile-tip">
+<media-tooltip-label>
+<media-text token="menu.settings">Settings</media-text>
+</media-tooltip-label>
+</media-tooltip>
+<media-menu side="top" align="end" class="tactile-menu" id="tactile-settings-menu">
+<media-menu-content class="tactile-menu-content">
+<media-menu-item commandfor="tactile-menu-speed" class="tactile-row">
+<media-text class="tactile-row-label" token="menu.speed">Speed</media-text>
+<span class="tactile-row-hint">
+<span data-part="value" class="tactile-row-hint-label"></span>
+<media-icon family="tactile" name="chevron" class="tactile-chevron">
+</media-icon>
+</span>
+</media-menu-item>
+<media-menu-item commandfor="tactile-menu-captions" class="tactile-row">
+<media-text class="tactile-row-label" token="menu.captions">Captions</media-text>
+<span class="tactile-row-hint">
+<span data-part="value" class="tactile-row-hint-label"></span>
+<media-icon family="tactile" name="chevron" class="tactile-chevron">
+</media-icon>
+</span>
+</media-menu-item>
+<media-menu-item commandfor="tactile-menu-quality" class="tactile-row">
+<media-text class="tactile-row-label" token="menu.quality">Quality</media-text>
+<span class="tactile-row-hint">
+<span data-part="value" class="tactile-row-hint-label"></span>
+<media-icon family="tactile" name="chevron" class="tactile-chevron">
+</media-icon>
+</span>
+</media-menu-item>
+</media-menu-content>
+<media-menu-content class="tactile-menu-content" id="tactile-menu-speed">
+<media-menu-item class="tactile-row tactile-row-back">
+<media-icon family="tactile" name="chevron" class="tactile-chevron tactile-chevron-back">
+</media-icon>
+<media-text class="tactile-row-label" token="menu.speed">Speed</media-text>
+</media-menu-item>
+<media-menu-separator class="tactile-menu-sep">
+</media-menu-separator>
+<media-playback-rate-radio-group class="tactile-radio-group" rates="0.5 1 1.25 1.5 2">
+<template>
+<media-menu-radio-item class="tactile-row">
+<span data-part="label" class="tactile-row-label tactile-row-mono"></span>
+<media-menu-item-indicator force-mount class="tactile-row-indicator">
+<media-icon family="tactile" name="check" class="tactile-check">
+</media-icon>
+</media-menu-item-indicator>
+</media-menu-radio-item>
+</template>
+</media-playback-rate-radio-group>
+</media-menu-content>
+<media-menu-content class="tactile-menu-content" id="tactile-menu-captions">
+<media-menu-item class="tactile-row tactile-row-back">
+<media-icon family="tactile" name="chevron" class="tactile-chevron tactile-chevron-back">
+</media-icon>
+<media-text class="tactile-row-label" token="menu.captions">Captions</media-text>
+</media-menu-item>
+<media-menu-separator class="tactile-menu-sep">
+</media-menu-separator>
+<media-captions-radio-group class="tactile-radio-group">
+<template>
+<media-menu-radio-item class="tactile-row">
+<span data-part="label" class="tactile-row-label"></span>
+<span data-part="badge" class="tactile-badge"></span>
+<media-menu-item-indicator force-mount class="tactile-row-indicator">
+<media-icon family="tactile" name="check" class="tactile-check">
+</media-icon>
+</media-menu-item-indicator>
+</media-menu-radio-item>
+</template>
+</media-captions-radio-group>
+</media-menu-content>
+<media-menu-content class="tactile-menu-content" id="tactile-menu-quality">
+<media-menu-item class="tactile-row tactile-row-back">
+<media-icon family="tactile" name="chevron" class="tactile-chevron tactile-chevron-back">
+</media-icon>
+<media-text class="tactile-row-label" token="menu.quality">Quality</media-text>
+</media-menu-item>
+<media-menu-separator class="tactile-menu-sep">
+</media-menu-separator>
+<media-quality-radio-group class="tactile-radio-group">
+<template>
+<media-menu-radio-item class="tactile-row">
+<span class="tactile-row-label">
+<span data-part="label"></span>
+<sup data-part="tier" class="tactile-tier"></sup>
+</span>
+<span data-part="badge" class="tactile-badge"></span>
+<media-menu-item-indicator force-mount class="tactile-row-indicator">
+<media-icon family="tactile" name="check" class="tactile-check">
+</media-icon>
+</media-menu-item-indicator>
+</media-menu-radio-item>
+</template>
+</media-quality-radio-group>
+</media-menu-content>
+</media-menu>
+<media-fullscreen-button class="tactile-key tactile-key-fullscreen" id="tactile-fullscreen">
+<media-icon family="tactile" name="fullscreen-enter" class="tactile-icon tactile-icon-fs-enter">
+</media-icon>
+<media-icon family="tactile" name="fullscreen-exit" class="tactile-icon tactile-icon-fs-exit">
+</media-icon>
+</media-fullscreen-button>
+<media-tooltip trigger="tactile-fullscreen" side="top" align="end" delay="500" class="tactile-tip tactile-tip-end">
+<media-tooltip-label>
+</media-tooltip-label>
+<media-tooltip-shortcut class="tactile-kbd">
+</media-tooltip-shortcut>
+</media-tooltip>
+</media-controls-group>
+<!-- Mobile (< 560px): a Settings key in the top-right corner, after Fullscreen in the Tab order. Its menu opens downward. -->
+<button type="button" commandfor="tactile-settings-menu-corner" class="tactile-key tactile-key-settings tactile-settings-corner" id="tactile-settings-trigger-corner">
+<media-icon family="tactile" name="settings" class="tactile-icon">
+</media-icon>
+<media-text class="tactile-sr-only" token="menu.settings">Settings</media-text>
+</button>
+<media-tooltip trigger="tactile-settings-trigger-corner" side="bottom" align="end" delay="500" class="tactile-tip tactile-tip-end tactile-tip-corner">
+<media-tooltip-label>
+<media-text token="menu.settings">Settings</media-text>
+</media-tooltip-label>
+</media-tooltip>
+<media-menu side="bottom" align="end" class="tactile-menu tactile-menu-down" id="tactile-settings-menu-corner">
+<media-menu-content class="tactile-menu-content">
+<media-menu-item commandfor="tactile-menu-speed-corner" class="tactile-row">
+<media-text class="tactile-row-label" token="menu.speed">Speed</media-text>
+<span class="tactile-row-hint">
+<span data-part="value" class="tactile-row-hint-label"></span>
+<media-icon family="tactile" name="chevron" class="tactile-chevron">
+</media-icon>
+</span>
+</media-menu-item>
+<media-menu-item commandfor="tactile-menu-captions-corner" class="tactile-row">
+<media-text class="tactile-row-label" token="menu.captions">Captions</media-text>
+<span class="tactile-row-hint">
+<span data-part="value" class="tactile-row-hint-label"></span>
+<media-icon family="tactile" name="chevron" class="tactile-chevron">
+</media-icon>
+</span>
+</media-menu-item>
+<media-menu-item commandfor="tactile-menu-quality-corner" class="tactile-row">
+<media-text class="tactile-row-label" token="menu.quality">Quality</media-text>
+<span class="tactile-row-hint">
+<span data-part="value" class="tactile-row-hint-label"></span>
+<media-icon family="tactile" name="chevron" class="tactile-chevron">
+</media-icon>
+</span>
+</media-menu-item>
+</media-menu-content>
+<media-menu-content class="tactile-menu-content" id="tactile-menu-speed-corner">
+<media-menu-item class="tactile-row tactile-row-back">
+<media-icon family="tactile" name="chevron" class="tactile-chevron tactile-chevron-back">
+</media-icon>
+<media-text class="tactile-row-label" token="menu.speed">Speed</media-text>
+</media-menu-item>
+<media-menu-separator class="tactile-menu-sep">
+</media-menu-separator>
+<media-playback-rate-radio-group class="tactile-radio-group" rates="0.5 1 1.25 1.5 2">
+<template>
+<media-menu-radio-item class="tactile-row">
+<span data-part="label" class="tactile-row-label tactile-row-mono"></span>
+<media-menu-item-indicator force-mount class="tactile-row-indicator">
+<media-icon family="tactile" name="check" class="tactile-check">
+</media-icon>
+</media-menu-item-indicator>
+</media-menu-radio-item>
+</template>
+</media-playback-rate-radio-group>
+</media-menu-content>
+<media-menu-content class="tactile-menu-content" id="tactile-menu-captions-corner">
+<media-menu-item class="tactile-row tactile-row-back">
+<media-icon family="tactile" name="chevron" class="tactile-chevron tactile-chevron-back">
+</media-icon>
+<media-text class="tactile-row-label" token="menu.captions">Captions</media-text>
+</media-menu-item>
+<media-menu-separator class="tactile-menu-sep">
+</media-menu-separator>
+<media-captions-radio-group class="tactile-radio-group">
+<template>
+<media-menu-radio-item class="tactile-row">
+<span data-part="label" class="tactile-row-label"></span>
+<span data-part="badge" class="tactile-badge"></span>
+<media-menu-item-indicator force-mount class="tactile-row-indicator">
+<media-icon family="tactile" name="check" class="tactile-check">
+</media-icon>
+</media-menu-item-indicator>
+</media-menu-radio-item>
+</template>
+</media-captions-radio-group>
+</media-menu-content>
+<media-menu-content class="tactile-menu-content" id="tactile-menu-quality-corner">
+<media-menu-item class="tactile-row tactile-row-back">
+<media-icon family="tactile" name="chevron" class="tactile-chevron tactile-chevron-back">
+</media-icon>
+<media-text class="tactile-row-label" token="menu.quality">Quality</media-text>
+</media-menu-item>
+<media-menu-separator class="tactile-menu-sep">
+</media-menu-separator>
+<media-quality-radio-group class="tactile-radio-group">
+<template>
+<media-menu-radio-item class="tactile-row">
+<span class="tactile-row-label">
+<span data-part="label"></span>
+<sup data-part="tier" class="tactile-tier"></sup>
+</span>
+<span data-part="badge" class="tactile-badge"></span>
+<media-menu-item-indicator force-mount class="tactile-row-indicator">
+<media-icon family="tactile" name="check" class="tactile-check">
+</media-icon>
+</media-menu-item-indicator>
+</media-menu-radio-item>
+</template>
+</media-quality-radio-group>
+</media-menu-content>
+</media-menu>
+</media-tooltip-group>
+</media-controls-content>
+</media-controls>
+<media-hotkey keys="Space" action="togglePaused">
+</media-hotkey>
+<media-hotkey keys="k" action="togglePaused">
+</media-hotkey>
+<media-hotkey keys="ArrowRight" action="seekStep">
+</media-hotkey>
+<media-hotkey keys="ArrowLeft" action="seekStep">
+</media-hotkey>
+<media-hotkey keys="ArrowUp" action="volumeStep">
+</media-hotkey>
+<media-hotkey keys="ArrowDown" action="volumeStep">
+</media-hotkey>
+<media-hotkey keys="m" action="toggleMuted">
+</media-hotkey>
+<media-hotkey keys="f" action="toggleFullscreen">
+</media-hotkey>
+<media-hotkey keys="c" action="toggleSubtitles">
+</media-hotkey>
+<media-gesture type="tap" action="togglePaused" pointer="mouse" region="center">
+</media-gesture>
+<media-gesture type="tap" action="toggleControls" pointer="touch">
+</media-gesture>
+<media-gesture type="doubletap" action="seekStep" region="left">
+</media-gesture>
+<media-gesture type="doubletap" action="toggleFullscreen" region="center">
+</media-gesture>
+<media-gesture type="doubletap" action="seekStep" region="right">
+</media-gesture>
+<media-status-announcer class="tactile-sr-only">
+</media-status-announcer>
+</media-container>

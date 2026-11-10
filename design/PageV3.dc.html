@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tactile — Paper Key · showcase v3</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Geist+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#1E1D1D}
+a{color:#F3E7D2}a:hover{color:#BFB39E}
+.sc{container-type:inline-size}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(16px,4vw,48px)}
+.disp{font-family:Michroma,sans-serif;text-transform:uppercase;letter-spacing:-0.03em;line-height:1}
+.out{color:transparent;-webkit-text-stroke:1.5px #F3E7D2}
+.out-d{color:transparent;-webkit-text-stroke:1.5px #1E1D1D}
+.lbl{font-family:Michroma,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.02em}
+.mono{font-family:'Geist Mono',monospace}
+.sec{padding-top:140px}
+.eyebrow{display:flex;gap:14px;align-items:baseline;margin-bottom:18px;color:#BFB39E}
+.h2{margin:0;font-size:40px}
+.lead{margin:16px 0 0;font-size:18px;line-height:1.55;color:#E8DCC6;max-width:640px}
+.cell{border:1px solid rgba(243,231,210,.28);border-radius:6px;background:#1E1D1D;box-sizing:border-box}
+.chip{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:8px;border:1.25px solid #1E1D1D;background:transparent;font-family:Michroma,sans-serif;text-transform:uppercase;font-size:11px;color:#1E1D1D;cursor:pointer}
+.chip.sel{background:#1E1D1D;color:#F3E7D2}
+.sw{width:40px;height:40px;border-radius:50%;border:1.25px solid #1E1D1D;padding:0;cursor:pointer}
+.sw.sel{outline:2px solid #1E1D1D;outline-offset:3px}
+.kbd{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;padding:0 7px;border-radius:6px;border:1px solid rgba(243,231,210,.45);font-family:'Geist Mono',monospace;font-size:12px;box-sizing:border-box;color:#F3E7D2}
+.k{position:relative;width:44px;height:44px;flex:none;border-radius:50%;border:1.25px solid;box-sizing:border-box;display:grid;place-items:center}
+.dock{display:flex;align-items:center;gap:10px;box-sizing:border-box;padding:0 12px;height:68px;border-radius:34px}
+.pill{height:36px;padding:0 14px;border-radius:18px;background:#151413;color:#F4F1EC;font-family:'Geist Mono',monospace;font-size:13px;display:flex;align-items:center;gap:10px;flex:none;box-sizing:border-box}
+.tr{position:relative;flex:1 1 auto;min-width:40px;height:2px;border-radius:2px}
+.cap{position:absolute;top:50%;width:12px;height:26px;margin-left:-6px;transform:translateY(-50%);border-radius:4px;background:#D9531E;box-shadow:0 2px 0 #8F3210}
+.bar{position:absolute;bottom:6px;left:50%;width:13px;height:2.5px;margin-left:-6.5px;border-radius:2px}
+.callnum{position:absolute;width:26px;height:26px;border-radius:50%;background:#F3E7D2;color:#1E1D1D;font-family:'Geist Mono',monospace;font-size:12px;font-weight:600;display:grid;place-items:center}
+.stile{border:1px solid rgba(243,231,210,.28);border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:10px;background:#1E1D1D}
+.sframe{position:relative;aspect-ratio:16/9;border-radius:3px;overflow:hidden;background:#111}
+.sframe img{width:100%;height:100%;object-fit:cover;display:block}
+.code{background:#151413;border:1px solid rgba(243,231,210,.2);border-radius:6px;padding:18px 20px;font-family:'Geist Mono',monospace;font-size:13px;line-height:1.7;color:#F3E7D2;white-space:pre;overflow-x:auto}
+@container (max-width: 760px){
+  .g3,.g2,.g4,.g5,.g6{grid-template-columns:minmax(0,1fr) !important}
+  .hide-s{display:none !important}
+  .h1{font-size:34px !important}
+  .h2{font-size:26px !important}
+  .nav{display:none !important}
+}
+</style>
+</helmet>
+<div class="sc" style="font-family: 'Instrument Sans', sans-serif; color: #F3E7D2; background: #1E1D1D;">
+
+  <header class="wrap" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 24px; padding-bottom: 24px;">
+    <span class="disp" style="font-size: 18px;">Tactile</span>
+    <nav class="nav" aria-label="Sections" style="display: flex; gap: 22px;">
+      <a class="lbl" href="#origin">Origin</a><a class="lbl" href="#anatomy">Anatomy</a><a class="lbl" href="#site">Any site</a><a class="lbl" href="#states">States</a><a class="lbl" href="#access">Access</a><a class="lbl" href="#specs">Specs</a><a class="lbl" href="#install">Install</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="wrap" style="padding-top: 40px; text-align: center;">
+    <p class="lbl" style="margin: 0 0 18px; color: #BFB39E;">A skin for Video.js 10 · by promopark.studio</p>
+    <h1 class="disp h1" style="margin: 0; font-size: 64px;">A player<br><span class="out">you can press</span></h1>
+    <p style="margin: 22px auto 0; max-width: 560px; font-size: 19px; line-height: 1.5; color: #E8DCC6;">Built like a desk object: keys that latch, faders that scrub, a display that holds state.</p>
+  </section>
+  <section class="wrap" style="padding-top: 40px;">
+    <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: #111;">
+      <img src="/_blob/afa310e13de65c4a73357c864444e19d" alt="Poster: a graphite key lit by a warm rim light" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+      <div style="position: absolute; inset: 0; display: grid; place-items: center;">
+        <button aria-label="Play" style="width: 112px; height: 64px; border-radius: 32px; border: 1.25px solid #2A2724; background: #D9531E; color: #160C07; display: grid; place-items: center; box-shadow: 0 3px 0 #8F3210, 0 10px 24px rgba(0,0,0,.35); cursor: pointer;"><svg width="26" height="26" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><path d="M5.5 3.6 14 9l-8.5 5.4z"></path></svg></button>
+      </div>
+      <div class="pill" style="position: absolute; left: 16px; bottom: 16px; height: 32px;">0:26</div>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 20px; padding-top: 22px; font-size: 14px; color: #E8DCC6;">
+      <span><span class="kbd">Space</span> <span class="kbd">K</span> Play</span><span><span class="kbd">←</span> <span class="kbd">→</span> Seek 5 s</span><span><span class="kbd">↑</span> <span class="kbd">↓</span> Volume</span><span><span class="kbd">M</span> Mute</span><span><span class="kbd">C</span> Captions</span><span><span class="kbd">F</span> Full screen</span>
+    </div>
+  </section>
+
+  <!-- 01 ORIGIN -->
+  <section id="origin" class="wrap sec">
+    <div class="eyebrow"><span class="lbl">01</span><span class="lbl">Where it comes from</span></div>
+    <h2 class="disp h2">Object first. <span class="out">Interface second.</span></h2>
+    <p class="lead">We didn’t start in a design tool. We built a desk keypad in Blender, pressed it, lit it, and then flattened it piece by piece until it became the player.</p>
+
+    <div class="g5" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 48px;">
+      <div class="cell" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+        <span class="mono" style="font-size: 12px; color: #BFB39E;">1 · BRIEF</span>
+        <div style="aspect-ratio: 4/3; border-radius: 3px; background: #F3E7D2; color: #1E1D1D; padding: 14px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; gap: 6px; font-family: Michroma, sans-serif; font-size: 11px; text-transform: uppercase; line-height: 1.4;"><span>A desk object</span><span>Keys that latch</span><span>A small display</span><span>One glaze</span></div>
+        <span style="font-size: 14px; line-height: 1.45;">Hi-fi panels and desk instruments, not screens. Matte, quiet, one accent.</span>
+      </div>
+      <div class="cell" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+        <span class="mono" style="font-size: 12px; color: #BFB39E;">2 · THREE DIRECTIONS</span>
+        <div style="aspect-ratio: 4/3; border-radius: 3px; background: #2A2928; padding: 12px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; gap: 10px;">
+          <div style="height: 22px; border-radius: 11px; background: #232427; display: flex; align-items: center; gap: 5px; padding: 0 6px; opacity: .55;"><span style="width: 22px; height: 12px; border-radius: 6px; background: #FF5A1F;"></span><span style="width: 12px; height: 12px; border-radius: 50%; background: #3A3B3F;"></span><span style="flex: 1; height: 2px; background: #0A0A0B;"></span></div>
+          <div style="height: 22px; border-radius: 11px; background: #E7E4DE; display: flex; align-items: center; gap: 5px; padding: 0 6px; outline: 1.5px solid #D9531E; outline-offset: 2px;"><span style="width: 22px; height: 12px; border-radius: 6px; background: #D9531E;"></span><span style="width: 12px; height: 12px; border-radius: 50%; border: 1px solid #2A2724; box-sizing: border-box;"></span><span style="flex: 1; height: 1.5px; background: #2A2724;"></span></div>
+          <div style="height: 22px; border-radius: 6px; background: #96999D; display: flex; align-items: center; gap: 5px; padding: 0 6px; opacity: .55;"><span style="width: 14px; height: 14px; border-radius: 50%; background: #ECEBE7;"></span><span style="width: 26px; height: 12px; border-radius: 2px; background: #E6CC3C;"></span><span style="flex: 1; height: 2px; background: #1A1B1D;"></span></div>
+        </div>
+        <span style="font-size: 14px; line-height: 1.45;">Graphite read as a default dark UI; Instrument got busy. Paper Key won.</span>
+      </div>
+      <div class="cell" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+        <span class="mono" style="font-size: 12px; color: #BFB39E;">3 · THE OBJECT</span>
+        <img src="/_blob/979ecffb641f9839a625c743221b7540" alt="Exploded view of the keypad: keys, faders and display lifted above the body, with measurements" style="aspect-ratio: 4/3; width: 100%; object-fit: cover; border-radius: 3px; display: block;">
+        <span style="font-size: 14px; line-height: 1.45;">Real parts, real numbers: Ø 52 keys, 2 mm travel, a 14×32 fader cap.</span>
+      </div>
+      <div class="cell" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+        <span class="mono" style="font-size: 12px; color: #BFB39E;">4 · THE FLATTEN</span>
+        <img src="/_blob/cb65d62f6e1534393273f19c33a1c413" alt="Half lit 3D object, half flat interface on an 8 px grid" style="aspect-ratio: 4/3; width: 100%; object-fit: cover; border-radius: 3px; display: block;">
+        <span style="font-size: 14px; line-height: 1.45;">The engraved ring became a 1.25 px border. The groove became the timeline.</span>
+      </div>
+      <div class="cell" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+        <span class="mono" style="font-size: 12px; color: #BFB39E;">5 · THE SKIN</span>
+        <div style="aspect-ratio: 4/3; border-radius: 3px; background: #111 url('/_blob/351fb9641ac4c8bb5cb4f55335e7926c') center/cover; display: flex; align-items: flex-end; padding: 8px; box-sizing: border-box;">
+          <div style="width: 100%; height: 26px; border-radius: 13px; background: #E7E4DE; display: flex; align-items: center; gap: 5px; padding: 0 6px; box-sizing: border-box;"><span style="width: 26px; height: 16px; border-radius: 8px; background: #D9531E;"></span><span style="flex: 1; height: 1.5px; background: #2A2724;"></span><span style="width: 16px; height: 16px; border-radius: 50%; border: 1px solid #2A2724; box-sizing: border-box; background: #F3F0EB;"></span><span style="width: 16px; height: 16px; border-radius: 50%; border: 1px solid #2A2724; box-sizing: border-box; background: #F3F0EB;"></span></div>
+        </div>
+        <span style="font-size: 14px; line-height: 1.45;">What ships: the same object, now CSS, over any footage.</span>
+      </div>
+    </div>
+    <p class="mono" style="margin: 18px 0 0; font-size: 13px; color: #BFB39E;">▶ The film in the player above is this process, 26 seconds, rendered in Blender.</p>
+  </section>
+
+  <!-- 02 ANATOMY -->
+  <section id="anatomy" class="wrap sec">
+    <div class="eyebrow"><span class="lbl">02</span><span class="lbl">Anatomy</span></div>
+    <h2 class="disp h2">Eight parts. <span class="out">One dock.</span></h2>
+    <p class="lead">Every control shows its own state on its face — latched, lit or moved — so you can read the player without opening anything.</p>
+    <div class="cell" style="margin-top: 44px; padding: 72px 40px 48px; background: #2A2928;">
+      <div style="position: relative;">
+        <div class="dock" style="background: #E7E4DE; box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 14px 30px rgba(0,0,0,.35);">
+          <span class="k" style="width: 76px; border-radius: 22px; background: #D9531E; color: #160C07; border-color: #2A2724; box-shadow: 0 1px 0 #8F3210;"><svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6.5 4v10M11.5 4v10"></path></svg></span>
+          <span class="pill"><b style="font-size: 10px; letter-spacing: .08em;">PLAY 1.0×</b><span style="width: 1px; height: 16px; background: #45413C;"></span><span>0:12</span><span style="color: #A8A39B;">0:26</span></span>
+          <span class="tr" style="background: #2A2724;"><span style="position: absolute; left: 0; top: -1px; height: 4px; width: 46%; background: #D9531E; border-radius: 2px;"></span><span class="cap" style="left: 46%;"></span></span>
+          <span class="k" style="background: #F3F0EB; border-color: #2A2724; color: #1D1B19; box-shadow: 0 2px 0 #C2BBB1;"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.7h2.8l3.9-3.2v11l-3.9-3.2H2.5z"></path><path d="M12 6.3a3.8 3.8 0 0 1 0 5.4M14 4.3a6.6 6.6 0 0 1 0 9.4"></path></svg></span>
+          <span class="hide-s" style="width: 70px; flex: none; height: 2px; background: #2A2724; position: relative;"><span style="position: absolute; left: 70%; top: 50%; width: 12px; height: 22px; margin-left: -6px; transform: translateY(-50%); border-radius: 4px; background: #F3F0EB; border: 1.25px solid #2A2724; box-sizing: border-box;"></span></span>
+          <span class="k" style="background: #F3F0EB; border-color: #2A2724; color: #1D1B19; transform: translateY(1px);"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="14" height="10" rx="2.5"></rect><path d="M5 11h8M5 8.6h4.5"></path></svg><span class="bar" style="background: #D9531E;"></span></span>
+          <span class="k" style="background: #F3F0EB; border-color: #2A2724; color: #1D1B19; box-shadow: 0 2px 0 #C2BBB1;"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M2.5 5h13M2.5 9h13M2.5 13h13"></path><rect x="5" y="3.2" width="2.8" height="3.6" rx="1" fill="#F3F0EB"></rect><rect x="10.5" y="7.2" width="2.8" height="3.6" rx="1" fill="#F3F0EB"></rect><rect x="6.5" y="11.2" width="2.8" height="3.6" rx="1" fill="#F3F0EB"></rect></svg></span>
+          <span class="k" style="background: #F3F0EB; border-color: #2A2724; color: #1D1B19; box-shadow: 0 2px 0 #C2BBB1;"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.5v-4h4M11.5 2.5h4v4M15.5 11.5v4h-4M6.5 15.5h-4v-4"></path></svg></span>
+        </div>
+        <span class="callnum" style="left: 37px; top: -46px;">1</span>
+        <span class="callnum" style="left: 170px; top: -46px;">2</span>
+        <span class="callnum" style="left: 46%; top: -46px;">3</span>
+        <span class="callnum hide-s" style="right: 352px; top: -46px;">4</span>
+        <span class="callnum hide-s" style="right: 275px; top: -46px;">5</span>
+        <span class="callnum hide-s" style="right: 177px; top: -46px;">6</span>
+        <span class="callnum hide-s" style="right: 123px; top: -46px;">7</span>
+        <span class="callnum hide-s" style="right: 69px; top: -46px;">8</span>
+      </div>
+    </div>
+    <div class="g4" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: rgba(243,231,210,.28); border: 1px solid rgba(243,231,210,.28); border-radius: 6px; overflow: hidden; margin-top: 12px;">
+      <div style="background: #1E1D1D; padding: 20px; display: flex; flex-direction: column; gap: 6px;"><span class="mono" style="font-size: 12px; color: #BFB39E;">1 · PLAY KEY</span><span style="font-size: 14px; line-height: 1.5;">The only orange key. Its glyph morphs between play and pause.</span></div>
+      <div style="background: #1E1D1D; padding: 20px; display: flex; flex-direction: column; gap: 6px;"><span class="mono" style="font-size: 12px; color: #BFB39E;">2 · DISPLAY</span><span style="font-size: 14px; line-height: 1.5;">State, speed and time in one black pill: PLAY 1.0×, PAUSED, LOADING, END.</span></div>
+      <div style="background: #1E1D1D; padding: 20px; display: flex; flex-direction: column; gap: 6px;"><span class="mono" style="font-size: 12px; color: #BFB39E;">3 · SEEK FADER</span><span style="font-size: 14px; line-height: 1.5;">A ribbed cap on an engraved line. Hover for a framed preview of that moment.</span></div>
+      <div style="background: #1E1D1D; padding: 20px; display: flex; flex-direction: column; gap: 6px;"><span class="mono" style="font-size: 12px; color: #BFB39E;">4 · MUTE</span><span style="font-size: 14px; line-height: 1.5;">Speaker glyph shows the level in waves; muted shows a cross.</span></div>
+      <div style="background: #1E1D1D; padding: 20px; display: flex; flex-direction: column; gap: 6px;"><span class="mono" style="font-size: 12px; color: #BFB39E;">5 · VOLUME FADER</span><span style="font-size: 14px; line-height: 1.5;">A short bone fader. Arrow keys move it in 5 % steps.</span></div>
+      <div style="background: #1E1D1D; padding: 20px; display: flex; flex-direction: column; gap: 6px;"><span class="mono" style="font-size: 12px; color: #BFB39E;">6 · CAPTIONS</span><span style="font-size: 14px; line-height: 1.5;">Latches down 1 px and lights an LED bar when on.</span></div>
+      <div style="background: #1E1D1D; padding: 20px; display: flex; flex-direction: column; gap: 6px;"><span class="mono" style="font-size: 12px; color: #BFB39E;">7 · SETTINGS</span><span style="font-size: 14px; line-height: 1.5;">Speed, captions and quality, in a bone panel that opens from the key.</span></div>
+      <div style="background: #1E1D1D; padding: 20px; display: flex; flex-direction: column; gap: 6px;"><span class="mono" style="font-size: 12px; color: #BFB39E;">8 · FULL SCREEN</span><span style="font-size: 14px; line-height: 1.5;">Corners out to enter, corners in to leave. The dock scales up to 1.25×.</span></div>
+    </div>
+  </section>
+
+  <!-- 03 ANY SITE -->
+  <section id="site" class="wrap sec">
+    <div class="eyebrow"><span class="lbl">03</span><span class="lbl">Fits any site</span></div>
+    <h2 class="disp h2">Pick a glaze. <span class="out">Pick an accent.</span></h2>
+    <p class="lead">Two variables restyle every part of the player: --tactile-glaze for the material, --media-accent-color for the light. Try it.</p>
+    <div style="margin-top: 40px; background: #F3E7D2; color: #1E1D1D; border-radius: 6px; padding: 22px 24px; display: flex; flex-wrap: wrap; gap: 22px 40px; align-items: flex-end;">
+      <div style="display: flex; flex-direction: column; gap: 10px;"><span class="lbl">Glaze</span><div style="display: flex; gap: 8px;"><sc-for list="{{glazes}}" as="g" hint-placeholder-count="3"><button class="{{g.cls}}" onClick="{{g.pick}}" aria-pressed="{{g.pressed}}">{{g.label}}</button></sc-for></div></div>
+      <div style="display: flex; flex-direction: column; gap: 10px;"><span class="lbl">--media-accent-color</span><div style="display: flex; gap: 12px;"><sc-for list="{{accents}}" as="a" hint-placeholder-count="4"><button class="{{a.cls}}" aria-label="{{a.label}}" aria-pressed="{{a.pressed}}" onClick="{{a.pick}}" style="background: {{a.hex}};"></button></sc-for></div></div>
+      <div style="display: flex; flex-direction: column; gap: 10px;"><span class="lbl">Device</span><div style="display: flex; gap: 8px;"><button class="{{deskCls}}" onClick="{{goDesk}}">Desktop</button><button class="{{phoneCls}}" onClick="{{goPhone}}">Phone</button></div></div>
+    </div>
+    <div style="margin-top: 12px; padding: 40px; border-radius: 6px; background: #2A2928; display: flex; justify-content: center;">
+      <div style="position: relative; width: {{previewW}}; max-width: 100%; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; background: #111;">
+        <img src="/_blob/9411c6c874c383df10089dc4a39a265a" alt="Podcast studio footage behind the player" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+        <div class="dock" style="position: absolute; left: 10px; right: 10px; bottom: 10px; background: {{g.dock}}; box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 12px 26px rgba(0,0,0,.35);">
+          <span class="k" style="width: 76px; border-radius: 22px; background: {{accent}}; color: {{accentInk}}; border-color: {{g.edge}};"><svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6.5 4v10M11.5 4v10"></path></svg></span>
+          <span class="pill hide-phone" style="display: {{pillDisplay}};"><b style="font-size: 10px; letter-spacing: .08em;">PLAY 1.0×</b><span>0:12</span><span style="color: #A8A39B;">0:26</span></span>
+          <span class="tr" style="background: {{g.ink}};"><span style="position: absolute; left: 0; top: -1px; height: 4px; width: 46%; background: {{accent}}; border-radius: 2px;"></span><span class="cap" style="left: 46%; background: {{accent}}; box-shadow: none;"></span></span>
+          <span class="k" style="background: {{g.key}}; border-color: {{g.edge}}; color: {{g.ink}};"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.7h2.8l3.9-3.2v11l-3.9-3.2H2.5z"></path><path d="M12 6.3a3.8 3.8 0 0 1 0 5.4"></path></svg></span>
+          <span class="k" style="display: {{pillDisplay}}; background: {{g.key}}; border-color: {{g.edge}}; color: {{g.ink}}; transform: translateY(1px);"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="14" height="10" rx="2.5"></rect><path d="M5 11h8M5 8.6h4.5"></path></svg><span class="bar" style="background: {{accent}};"></span></span>
+          <span class="k" style="background: {{g.key}}; border-color: {{g.edge}}; color: {{g.ink}};"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.5v-4h4M11.5 2.5h4v4M15.5 11.5v4h-4M6.5 15.5h-4v-4"></path></svg></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 STATES -->
+  <section id="states" class="wrap sec">
+    <div class="eyebrow"><span class="lbl">04</span><span class="lbl">Every state</span></div>
+    <h2 class="disp h2">Twelve moments. <span class="out">All designed.</span></h2>
+    <p class="lead">Captured from the real player, not drawn. Mouse, keyboard and thumb.</p>
+    <div class="g4" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 40px;">
+      <sc-for list="{{states}}" as="s" hint-placeholder-count="12">
+        <div class="stile">
+          <div class="sframe"><img src="{{s.img}}" alt=""><span class="mono" style="position: absolute; left: 8px; top: 8px; font-size: 10px; padding: 3px 6px; border-radius: 4px; background: rgba(21,20,19,.85); color: #F3E7D2;">CAPTURE</span></div>
+          <span class="mono" style="font-size: 12px; color: #BFB39E;">{{s.n}} · {{s.group}}</span>
+          <span style="font-size: 15px; font-weight: 600;">{{s.title}}</span>
+          <span style="font-size: 13px; line-height: 1.45; color: #E8DCC6;">{{s.how}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- 05 ACCESS -->
+  <section id="access" class="wrap sec">
+    <div class="eyebrow"><span class="lbl">05</span><span class="lbl">Accessibility</span></div>
+    <h2 class="disp h2">Readable over <span class="out">any frame.</span></h2>
+    <p class="lead">The dock is opaque, so contrast never depends on the video. Switch the footage and watch nothing change.</p>
+    <div style="margin-top: 40px; display: flex; gap: 8px; flex-wrap: wrap;">
+      <sc-for list="{{footage}}" as="f" hint-placeholder-count="4"><button class="{{f.cls}}" onClick="{{f.pick}}" aria-pressed="{{f.pressed}}" style="border-color: #F3E7D2; color: {{f.fg}}; background: {{f.bg}};">{{f.label}}</button></sc-for>
+    </div>
+    <div style="position: relative; margin-top: 12px; width: 100%; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: #111;">
+      <img src="{{footImg}}" alt="{{footAlt}}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+      <div style="position: absolute; left: 50%; bottom: 96px; transform: translateX(-50%); padding: 6px 14px; border-radius: 8px; background: rgba(14,13,12,.82); color: #F4F1EC; font-size: 18px;">Readable over any frame.</div>
+      <div class="dock" style="position: absolute; left: 16px; right: 16px; bottom: 16px; background: #E7E4DE; box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 12px 26px rgba(0,0,0,.35);">
+        <span class="k" style="width: 76px; border-radius: 22px; background: #D9531E; color: #160C07; border-color: #2A2724;"><svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6.5 4v10M11.5 4v10"></path></svg></span>
+        <span class="pill hide-s"><b style="font-size: 10px; letter-spacing: .08em;">PLAY 1.0×</b><span>0:12</span><span style="color: #A8A39B;">0:26</span></span>
+        <span class="tr" style="background: #2A2724;"><span style="position: absolute; left: 0; top: -1px; height: 4px; width: 46%; background: #D9531E; border-radius: 2px;"></span><span class="cap" style="left: 46%;"></span></span>
+        <span class="k" style="background: #F3F0EB; border-color: #2A2724; color: #1D1B19;"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="14" height="10" rx="2.5"></rect><path d="M5 11h8M5 8.6h4.5"></path></svg><span class="bar" style="background: #D9531E;"></span></span>
+        <span class="k" style="background: #F3F0EB; border-color: #2A2724; color: #1D1B19;"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.5v-4h4M11.5 2.5h4v4M15.5 11.5v4h-4M6.5 15.5h-4v-4"></path></svg></span>
+      </div>
+    </div>
+    <div class="g3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: rgba(243,231,210,.28); border: 1px solid rgba(243,231,210,.28); border-radius: 6px; overflow: hidden; margin-top: 12px;">
+      <div style="background: #1E1D1D; padding: 26px; display: flex; flex-direction: column; gap: 10px;"><span class="disp" style="font-size: 36px;">[0]</span><span style="font-size: 14px; line-height: 1.5;">axe (WCAG 2.1 AA) violations, desktop and phone, menus open. <span class="mono" style="color: #BFB39E;">[result from the audit]</span></span></div>
+      <div style="background: #1E1D1D; padding: 26px; display: flex; flex-direction: column; gap: 10px;"><span class="disp" style="font-size: 36px;">13<span class="out">:1</span></span><span style="font-size: 14px; line-height: 1.5;">Ink on keys. Display text 16:1. Fills and fader lines ≥ 3:1.</span></div>
+      <div style="background: #1E1D1D; padding: 26px; display: flex; flex-direction: column; gap: 10px;"><span class="disp" style="font-size: 36px;">44 <span class="out">px</span></span><span style="font-size: 14px; line-height: 1.5;">Minimum target everywhere, including the 2 px timeline.</span></div>
+      <div style="background: #1E1D1D; padding: 26px; display: flex; flex-direction: column; gap: 10px;"><span class="disp" style="font-size: 36px;">2 <span class="out">px</span></span><span style="font-size: 14px; line-height: 1.5;">Focus ring, 3 px gap, separate from the pressed state. Keyboard only.</span></div>
+      <div style="background: #1E1D1D; padding: 26px; display: flex; flex-direction: column; gap: 10px;"><span class="disp" style="font-size: 36px;">HC</span><span style="font-size: 14px; line-height: 1.5;">Forced colours: keys, LED bars and focus map to system colours.</span></div>
+      <div style="background: #1E1D1D; padding: 26px; display: flex; flex-direction: column; gap: 10px;"><span class="disp" style="font-size: 36px;">RM</span><span style="font-size: 14px; line-height: 1.5;">Reduced motion: every state still changes; nothing travels.</span></div>
+    </div>
+  </section>
+
+  <!-- 06 SPECS -->
+  <section id="specs" class="wrap sec">
+    <div class="eyebrow"><span class="lbl">06</span><span class="lbl">Specifications</span></div>
+    <h2 class="disp h2">Drawn <span class="out">to scale.</span></h2>
+    <div class="g2" style="display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 12px; margin-top: 40px;">
+      <div class="cell" style="padding: 40px 28px; background: #2A2928; display: flex; flex-direction: column; gap: 28px;">
+        <div style="display: flex; align-items: flex-end; gap: 22px;">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;"><span class="k" style="width: 76px; border-radius: 22px; background: #D9531E; border-color: #2A2724;"></span><span class="mono" style="font-size: 11px; color: #BFB39E;">76 × 44</span></div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;"><span class="k" style="background: #F3F0EB; border-color: #2A2724;"></span><span class="mono" style="font-size: 11px; color: #BFB39E;">Ø 44 · 1.25</span></div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;"><span class="pill" style="width: 120px;"></span><span class="mono" style="font-size: 11px; color: #BFB39E;">h 36 · r 18</span></div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;"><span style="width: 12px; height: 26px; border-radius: 4px; background: #D9531E;"></span><span class="mono" style="font-size: 11px; color: #BFB39E;">12 × 26</span></div>
+        </div>
+        <div style="position: relative; height: 68px; border-radius: 34px; background: #E7E4DE;"><span class="mono" style="position: absolute; right: -6px; top: 50%; transform: translate(100%, -50%); font-size: 11px; color: #BFB39E;">68</span></div>
+        <span class="mono" style="font-size: 12px; color: #BFB39E;">Dock 68 · radius 34 · padding 12 · gap 10 · LED bar 13 × 2.5 · scales to 1.25× in full screen.</span>
+      </div>
+      <div class="cell" style="padding: 0; overflow: hidden;">
+        <div class="code" style="border: 0; border-radius: 0;">--media-accent-color  #D9531E
+--tactile-glaze       bone | graphite | stone
+--media-font-family   'Geist Mono', ui-monospace
+--media-border-radius 16px
+--tactile-dock-height 68px
+--tactile-key-size    44px</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 INSTALL -->
+  <section id="install" class="wrap sec">
+    <div class="eyebrow"><span class="lbl">07</span><span class="lbl">Install</span></div>
+    <h2 class="disp h2">Three lines. <span class="out">Apache 2.0.</span></h2>
+    <div class="code" style="margin-top: 40px;">[INSTALL COMMAND — from the repo, e.g. npm i or copy src/]
+&lt;link rel="stylesheet" href="tactile.css"&gt;
+&lt;video-player&gt;&lt;tactile-skin&gt;&lt;mux-video playback-id="…"&gt;&lt;/mux-video&gt;&lt;/tactile-skin&gt;&lt;/video-player&gt;</div>
+    <p class="mono" style="margin: 14px 0 0; font-size: 13px; color: #BFB39E;">Source: [REPO URL] · works with any Video.js 10 media element.</p>
+  </section>
+
+  <footer class="wrap" style="padding-top: 140px; padding-bottom: 40px; display: flex; flex-direction: column; gap: 18px;">
+    <span class="disp" style="font-size: 76px;">Tactile <span class="out">Paper Key</span></span>
+    <span class="lbl" style="color: #BFB39E;">promopark.studio · Video.js Skins Design Challenge · Apache 2.0</span>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":6400}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { glaze: 'bone', accent: '#D9531E', device: 'desktop', foot: 'snow' }; }
+  renderVals() {
+    const G = {
+      bone: { label: 'Bone', dock: '#E7E4DE', key: '#F3F0EB', ink: '#2A2724', edge: '#2A2724' },
+      graphite: { label: 'Graphite', dock: '#2A2B2E', key: '#3A3B3F', ink: '#ECE8E2', edge: '#0E0E10' },
+      stone: { label: 'Stone', dock: '#A7A39C', key: '#C2BEB7', ink: '#1B1A18', edge: '#2A2724' }
+    };
+    const A = [
+      { hex: '#D9531E', ink: '#160C07', label: 'Burnt orange' },
+      { hex: '#FFA31A', ink: '#1E1D1D', label: 'Amber' },
+      { hex: '#3F6FD8', ink: '#FFFFFF', label: 'Blue' },
+      { hex: '#2A9D6A', ink: '#08170F', label: 'Green' }
+    ];
+    const F = {
+      snow: { label: 'Bright · snow', img: '/_blob/b5a582569948df54ac13fde0a58e0d90', alt: 'Very bright snowy ridge' },
+      night: { label: 'Dark · night', img: '/_blob/144ff313537a16ba66e25d60fc0601f2', alt: 'Dark rainy street at night' },
+      market: { label: 'Busy · market', img: '/_blob/351fb9641ac4c8bb5cb4f55335e7926c', alt: 'Busy colourful flower market' },
+      studio: { label: 'Real · studio', img: '/_blob/9411c6c874c383df10089dc4a39a265a', alt: 'Warm podcast studio' }
+    };
+    const g = G[this.state.glaze];
+    const a = A.find((x) => x.hex === this.state.accent) || A[0];
+    const phone = this.state.device === 'phone';
+    const S = [
+      ['01', 'START', 'Ready to play', 'One big key on the poster. Click, tap or Space.', '/_blob/afa310e13de65c4a73357c864444e19d'],
+      ['02', 'START', 'Loading', 'Three LEDs step in the display. Only after 400 ms.', '/_blob/144ff313537a16ba66e25d60fc0601f2'],
+      ['03', 'WATCHING', 'Playing', 'The dock: play, display, faders, keys.', '/_blob/b5a582569948df54ac13fde0a58e0d90'],
+      ['04', 'WATCHING', 'Controls hidden', 'Fades away when the pointer rests.', '/_blob/9411c6c874c383df10089dc4a39a265a'],
+      ['05', 'FINDING', 'Seek preview', 'A framed thumbnail follows the pointer.', '/_blob/351fb9641ac4c8bb5cb4f55335e7926c'],
+      ['06', 'FINDING', 'Dragging', 'The cap lifts 1 px while you hold it.', '/_blob/cb65d62f6e1534393273f19c33a1c413'],
+      ['07', 'SOUND', 'Muted', 'Speaker with a cross; the fader keeps its level.', '/_blob/144ff313537a16ba66e25d60fc0601f2'],
+      ['08', 'CAPTIONS', 'Captions on', 'Key latches, LED bar lights, text above the dock.', '/_blob/144ff313537a16ba66e25d60fc0601f2'],
+      ['09', 'SETTINGS', 'Menu open', 'Speed, captions, quality in a bone panel.', '/_blob/9411c6c874c383df10089dc4a39a265a'],
+      ['10', 'KEYBOARD', 'Focus + tooltip', 'Ink ring, name and shortcut in a pill.', '/_blob/351fb9641ac4c8bb5cb4f55335e7926c'],
+      ['11', 'END', 'Replay', 'The big key returns with the replay glyph.', '/_blob/afa310e13de65c4a73357c864444e19d'],
+      ['12', 'PHONE', 'Phone layout', '60 px dock, settings in the corner.', '/_blob/b5a582569948df54ac13fde0a58e0d90']
+    ].map((r) => ({ n: r[0], group: r[1], title: r[2], how: r[3], img: r[4] }));
+    return {
+      g, accent: a.hex, accentInk: a.ink,
+      glazes: Object.keys(G).map((k) => ({ label: G[k].label, cls: k === this.state.glaze ? 'chip sel' : 'chip', pressed: k === this.state.glaze ? 'true' : 'false', pick: () => this.setState({ glaze: k }) })),
+      accents: A.map((x) => ({ ...x, cls: x.hex === a.hex ? 'sw sel' : 'sw', pressed: x.hex === a.hex ? 'true' : 'false', pick: () => this.setState({ accent: x.hex }) })),
+      deskCls: phone ? 'chip' : 'chip sel', phoneCls: phone ? 'chip sel' : 'chip',
+      goDesk: () => this.setState({ device: 'desktop' }), goPhone: () => this.setState({ device: 'phone' }),
+      previewW: phone ? '390px' : '100%', pillDisplay: phone ? 'none' : 'flex',
+      states: S,
+      footage: Object.keys(F).map((k) => ({ label: F[k].label, pressed: k === this.state.foot ? 'true' : 'false', cls: 'chip', fg: k === this.state.foot ? '#1E1D1D' : '#F3E7D2', bg: k === this.state.foot ? '#F3E7D2' : 'transparent', pick: () => this.setState({ foot: k }) })),
+      footImg: F[this.state.foot].img, footAlt: F[this.state.foot].alt
+    };
+  }
+}
+</script>
+</body>
+</html>

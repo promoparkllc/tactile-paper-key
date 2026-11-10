@@ -1,0 +1,5 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8" /><title>bare video (capture dry run)</title>
+<style>html,body{margin:0;background:#000} video{display:block;width:1200px;height:675px}</style></head>
+<body><video id="v" muted playsinline preload="auto"></video>
+<script>document.getElementById('v').src = new URLSearchParams(location.search).get('src');</script></body></html>

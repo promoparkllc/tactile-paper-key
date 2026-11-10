@@ -1,0 +1,13 @@
+{
+ "_note": "linear base multipliers = target / measured (measure.py ratio), per material, under AgX (round 2, 2026-11-09); per-object gains now live in build_scene FAN_GAINS / PASS_GAIN",
+ "GlazeBone": [
+  1.0,
+  1.0,
+  1.0
+ ],
+ "GlazeOrange": [
+  1.0,
+  1.0,
+  1.0
+ ]
+}

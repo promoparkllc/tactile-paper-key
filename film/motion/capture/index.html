@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tactile · live capture</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: #000;
+        overflow: hidden;
+      }
+      /* The board's player: 1200 × 675 CSS px; the browser context runs at deviceScaleFactor 1.6 → 1920 × 1080. */
+      #stage,
+      #stage video-player,
+      #stage .media-container {
+        display: block;
+        width: var(--w, 1200px);
+        height: var(--h, 675px);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stage"></div>
+    <script type="module" src="./capture.ts"></script>
+  </body>
+</html>

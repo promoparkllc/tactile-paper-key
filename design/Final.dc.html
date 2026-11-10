@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tactile Player — final</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.f-dock{background:#E7E4DE;box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 0 0 1px rgba(40,30,20,.12),0 14px 34px rgba(30,22,14,.28)}
+.f-key{position:relative;width:52px;height:52px;flex:none;border-radius:50%;border:1.25px solid #2A2724;padding:0;display:grid;place-items:center;color:#1D1B19;background:#F3F0EB;box-shadow:0 2px 0 #C2BBB1,0 3px 6px rgba(60,50,40,.12);cursor:pointer}
+.f-key.on{transform:translateY(1px);box-shadow:0 1px 0 #C2BBB1}
+.f-key.sm{width:44px;height:44px}
+.f-focus{outline:2px solid #2A2724;outline-offset:3px}
+.f-dot{position:absolute;top:5px;left:50%;width:5px;height:5px;margin-left:-2.5px;border-radius:50%}
+.f-track{position:relative;flex:1 1 auto;height:2px;background:#2A2724;border-radius:2px}
+.f-cap{position:absolute;top:50%;width:14px;height:32px;margin-left:-7px;transform:translateY(-50%);border-radius:5px;box-shadow:0 2px 0 #8F3210,0 3px 6px rgba(60,30,10,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.f-rib{width:8px;height:1.5px;border-radius:1px;background:rgba(40,12,2,.45)}
+.f-pill{border-radius:22px;background:#151413;color:#F4F1EC;font-family:'Geist Mono',monospace;font-variant-numeric:tabular-nums;display:flex;align-items:center;flex:none;box-sizing:border-box}
+.f-row{display:flex;align-items:center;gap:12px;width:100%;min-height:48px;box-sizing:border-box;padding:0 14px;border:0;border-radius:14px;background:transparent;font:inherit;color:#1D1B19;text-align:left;cursor:pointer}
+.f-lbl{font-size:12px;color:#4A4640;margin:0 0 12px}
+</style>
+</helmet>
+<div style="width: 1880px; height: 900px; box-sizing: border-box; padding: 72px 80px; background: #D9D6D0; font-family: Geist, sans-serif; display: flex; gap: 80px; align-items: flex-start;">
+
+  <div style="flex: none;">
+    <p class="f-lbl">Desktop · 1200 × 675 · playing · settings open · keyboard focus on Mute</p>
+    <div style="position: relative; width: 1200px; height: 675px; border-radius: 22px; overflow: hidden; background: linear-gradient(180deg, #CFE0EC 0%, #EEF2F2 55%, #F7F2E8 100%); box-shadow: 0 30px 60px rgba(40,30,20,.2);">
+      <p style="position: absolute; top: 20px; left: 24px; margin: 0; font-size: 12px; color: #2E3A44;">Placeholder · bright footage</p>
+
+      <div role="menu" aria-label="Settings" class="f-dock" style="position: absolute; right: 96px; bottom: 124px; width: 272px; border-radius: 24px; padding: 8px; box-sizing: border-box; display: flex; flex-direction: column; gap: 2px;">
+        <button class="f-row" role="menuitem" style="background: #F3F0EB; box-shadow: inset 0 0 0 1.25px #2A2724;">
+          <span style="flex: 1 1 auto; font-size: 15px;">Speed</span>
+          <span style="font-family: 'Geist Mono', monospace; font-size: 14px;">1.0×</span>
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4l5 5-5 5"></path></svg>
+        </button>
+        <button class="f-row" role="menuitem">
+          <span style="flex: 1 1 auto; font-size: 15px;">Captions</span>
+          <span style="font-family: 'Geist Mono', monospace; font-size: 14px;">English</span>
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4l5 5-5 5"></path></svg>
+        </button>
+        <button class="f-row" role="menuitem">
+          <span style="flex: 1 1 auto; font-size: 15px;">Quality</span>
+          <span style="font-family: 'Geist Mono', monospace; font-size: 14px;">Auto</span>
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4l5 5-5 5"></path></svg>
+        </button>
+      </div>
+
+      <div class="f-dock" style="position: absolute; left: 24px; right: 24px; bottom: 24px; height: 88px; border-radius: 44px; box-sizing: border-box; padding: 0 18px; display: flex; align-items: center; gap: 14px;">
+        <button class="f-key on" aria-label="Pause" style="width: 96px; border-radius: 26px; background: {{accent}}; color: #160C07; box-shadow: 0 1px 0 #8F3210;">
+          <svg width="24" height="24" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6.5 4v10M11.5 4v10"></path></svg>
+        </button>
+
+        <div class="f-pill" aria-label="Playing at normal speed, 1:24 of 4:10" style="height: 44px; padding: 0 18px; gap: 14px; font-size: 14px;">
+          <span style="font-size: 11px; font-weight: 600; letter-spacing: .08em; color: #E8E3DB;">PLAY 1.0×</span>
+          <span style="width: 1px; height: 18px; background: #45413C;"></span>
+          <span>01:24</span><span style="color: #A8A39B;">04:10</span>
+          <span style="width: 6px; height: 6px; border-radius: 50%; background: {{accent}};"></span>
+        </div>
+
+        <div style="flex: 1 1 auto; height: 52px; display: flex; align-items: center; padding: 0 10px;">
+          <div class="f-track">
+            <div style="position: absolute; left: 0; top: -1px; height: 4px; width: 56%; border-radius: 2px; background: #A49D93;"></div>
+            <div style="position: absolute; left: 0; top: -1px; height: 4px; width: 34%; border-radius: 2px; background: {{accent}};"></div>
+            <div class="f-cap" style="left: 34%; background: {{accent}};"><span class="f-rib"></span><span class="f-rib"></span><span class="f-rib"></span><span class="f-rib"></span></div>
+          </div>
+        </div>
+
+        <button class="f-key f-focus" aria-label="Mute">
+          <svg width="22" height="22" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.7h2.8l3.9-3.2v11l-3.9-3.2H2.5z"></path><path d="M12 6.3a3.8 3.8 0 0 1 0 5.4M14 4.3a6.6 6.6 0 0 1 0 9.4"></path></svg>
+        </button>
+        <div style="width: 84px; height: 52px; display: flex; align-items: center; flex: none; padding: 0 8px; box-sizing: border-box;">
+          <div class="f-track">
+            <div style="position: absolute; left: 0; top: -1px; height: 4px; width: 70%; border-radius: 2px; background: #2A2724;"></div>
+            <div class="f-cap" style="left: 70%; background: #F3F0EB; border: 1.25px solid #2A2724; box-shadow: 0 2px 0 #C2BBB1;"><span class="f-rib" style="background: #2A2724;"></span><span class="f-rib" style="background: #2A2724;"></span></div>
+          </div>
+        </div>
+
+        <button class="f-key on" aria-label="Captions on">
+          <span class="f-dot" style="background: {{accent}};"></span>
+          <svg width="22" height="22" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="14" height="10" rx="2.5"></rect><path d="M5 8h3M10 8h3M5 11h6"></path></svg>
+        </button>
+        <button class="f-key on" aria-label="Settings" aria-expanded="true" style="background: #E2DDD5;">
+          <svg width="22" height="22" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M2.5 5h13M2.5 9h13M2.5 13h13"></path><rect x="5" y="3.2" width="2.8" height="3.6" rx="1" fill="#E2DDD5"></rect><rect x="10.5" y="7.2" width="2.8" height="3.6" rx="1" fill="#E2DDD5"></rect><rect x="6.5" y="11.2" width="2.8" height="3.6" rx="1" fill="#E2DDD5"></rect></svg>
+        </button>
+        <button class="f-key" aria-label="Enter fullscreen">
+          <svg width="22" height="22" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.5v-4h4M11.5 2.5h4v4M15.5 11.5v4h-4M6.5 15.5h-4v-4"></path></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div style="flex: none; display: flex; flex-direction: column; gap: 48px;">
+    <div>
+      <p class="f-lbl">Mobile · 390 × 219 · playing</p>
+      <div style="position: relative; width: 390px; height: 219px; border-radius: 16px; overflow: hidden; background: radial-gradient(60% 80% at 35% 40%, #4A3C31 0%, #221D1A 55%, #0F1012 100%);">
+        <div class="f-dock" style="position: absolute; left: 8px; right: 8px; bottom: 8px; height: 60px; border-radius: 30px; box-sizing: border-box; padding: 0 8px; display: flex; align-items: center; gap: 8px;">
+          <button class="f-key sm on" aria-label="Pause" style="width: 60px; border-radius: 22px; background: {{accent}}; color: #160C07; box-shadow: 0 1px 0 #8F3210;">
+            <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6.5 4v10M11.5 4v10"></path></svg>
+          </button>
+          <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 9px; padding: 0 4px;">
+            <div style="display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; font-variant-numeric: tabular-nums; color: #1D1B19;"><span>01:24</span><span style="color: #5C574F;">04:10</span></div>
+            <div class="f-track" style="flex: none; height: 2px;">
+              <div style="position: absolute; left: 0; top: -1px; height: 4px; width: 34%; border-radius: 2px; background: {{accent}};"></div>
+              <div class="f-cap" style="left: 34%; width: 12px; height: 22px; margin-left: -6px; background: {{accent}};"><span class="f-rib" style="width: 6px;"></span><span class="f-rib" style="width: 6px;"></span></div>
+            </div>
+          </div>
+          <button class="f-key sm" aria-label="Mute">
+            <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.7h2.8l3.9-3.2v11l-3.9-3.2H2.5z"></path><path d="M12 6.3a3.8 3.8 0 0 1 0 5.4"></path></svg>
+          </button>
+          <button class="f-key sm" aria-label="Enter fullscreen">
+            <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.5v-4h4M11.5 2.5h4v4M15.5 11.5v4h-4M6.5 15.5h-4v-4"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <p class="f-lbl">Mobile · paused, controls idle · tap anywhere to play</p>
+      <div style="position: relative; width: 390px; height: 219px; border-radius: 16px; overflow: hidden; background: linear-gradient(180deg, #D5E3EC 0%, #F3F1EA 100%); display: grid; place-items: center;">
+        <button class="f-key" aria-label="Play" style="width: 112px; height: 64px; border-radius: 32px; background: {{accent}}; color: #160C07; box-shadow: 0 3px 0 #8F3210, 0 10px 24px rgba(40,20,10,.28);">
+          <svg width="26" height="26" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><path d="M5.5 3.6 14 9l-8.5 5.4z"></path></svg>
+        </button>
+        <div class="f-pill" style="position: absolute; left: 12px; bottom: 12px; height: 32px; padding: 0 12px; gap: 8px; font-size: 12px;">
+          <span style="font-size: 10px; font-weight: 600; letter-spacing: .08em; color: #E8E3DB;">PAUSED</span><span>01:24 / 04:10</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="width: 390px; display: flex; flex-direction: column; gap: 10px;">
+      <p class="f-lbl" style="margin: 0;">Reduced motion</p>
+      <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #2A2724;">Keys still change state (latched, LED dot, icon) but without the 1–2 px press travel or the menu lift; the dock appears and hides with an opacity fade only.</p>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D9531E","options":["#D9531E","#E6CC3C","#3F6FD8","#2A2724"]},"$preview":{"width":1880,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return { accent: this.props.accent ?? '#D9531E' }; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,468 @@
+{
+"set": "wipe",
+"size": [
+1920,
+1080
+],
+"fps": 30,
+"frame_base": 1,
+"labels": {},
+"frames": {
+"391": {
+"wipe_m": 10.0,
+"x_top": 90813.2,
+"x_bottom": 96461.2,
+"visible": false
+},
+"392": {
+"wipe_m": 10.0,
+"x_top": 90789.4,
+"x_bottom": 96433.1,
+"visible": false
+},
+"393": {
+"wipe_m": 10.0,
+"x_top": 90765.6,
+"x_bottom": 96405.0,
+"visible": false
+},
+"394": {
+"wipe_m": 10.0,
+"x_top": 90741.8,
+"x_bottom": 96377.0,
+"visible": false
+},
+"395": {
+"wipe_m": 10.0,
+"x_top": 90603.2,
+"x_bottom": 96213.5,
+"visible": false
+},
+"396": {
+"wipe_m": 10.0,
+"x_top": 90276.7,
+"x_bottom": 95828.8,
+"visible": false
+},
+"397": {
+"wipe_m": 10.0,
+"x_top": 89689.1,
+"x_bottom": 95136.7,
+"visible": false
+},
+"398": {
+"wipe_m": 10.0,
+"x_top": 88764.2,
+"x_bottom": 94048.9,
+"visible": false
+},
+"399": {
+"wipe_m": 10.0,
+"x_top": 87387.4,
+"x_bottom": 92436.2,
+"visible": false
+},
+"400": {
+"wipe_m": 10.0,
+"x_top": 85476.4,
+"x_bottom": 90208.0,
+"visible": false
+},
+"401": {
+"wipe_m": 10.0,
+"x_top": 83000.2,
+"x_bottom": 87334.7,
+"visible": false
+},
+"402": {
+"wipe_m": 10.0,
+"x_top": 79951.6,
+"x_bottom": 83824.2,
+"visible": false
+},
+"403": {
+"wipe_m": 10.0,
+"x_top": 76396.5,
+"x_bottom": 79764.9,
+"visible": false
+},
+"404": {
+"wipe_m": 10.0,
+"x_top": 72469.7,
+"x_bottom": 75319.1,
+"visible": false
+},
+"405": {
+"wipe_m": 10.0,
+"x_top": 68348.2,
+"x_bottom": 70694.4,
+"visible": false
+},
+"406": {
+"wipe_m": 0.75,
+"x_top": 3267.0,
+"x_bottom": 3542.7,
+"visible": true
+},
+"407": {
+"wipe_m": 0.75,
+"x_top": 3140.6,
+"x_bottom": 3373.4,
+"visible": true
+},
+"408": {
+"wipe_m": 0.74999,
+"x_top": 3015.6,
+"x_bottom": 3205.0,
+"visible": true
+},
+"409": {
+"wipe_m": 0.74996,
+"x_top": 2901.7,
+"x_bottom": 3049.4,
+"visible": true
+},
+"410": {
+"wipe_m": 0.74987,
+"x_top": 2799.7,
+"x_bottom": 2909.1,
+"visible": true
+},
+"411": {
+"wipe_m": 0.74967,
+"x_top": 2698.7,
+"x_bottom": 2774.7,
+"visible": true
+},
+"412": {
+"wipe_m": 0.74932,
+"x_top": 2597.7,
+"x_bottom": 2646.9,
+"visible": true
+},
+"413": {
+"wipe_m": 0.74874,
+"x_top": 2503.2,
+"x_bottom": 2533.1,
+"visible": true
+},
+"414": {
+"wipe_m": 0.74785,
+"x_top": 2429.6,
+"x_bottom": 2447.1,
+"visible": true
+},
+"415": {
+"wipe_m": 0.74656,
+"x_top": 2377.0,
+"x_bottom": 2386.8,
+"visible": true
+},
+"416": {
+"wipe_m": 0.74475,
+"x_top": 2334.4,
+"x_bottom": 2339.9,
+"visible": true
+},
+"417": {
+"wipe_m": 0.74232,
+"x_top": 2294.6,
+"x_bottom": 2298.0,
+"visible": true
+},
+"418": {
+"wipe_m": 0.73912,
+"x_top": 2256.9,
+"x_bottom": 2259.2,
+"visible": true
+},
+"419": {
+"wipe_m": 0.73501,
+"x_top": 2222.5,
+"x_bottom": 2224.1,
+"visible": true
+},
+"420": {
+"wipe_m": 0.72984,
+"x_top": 2189.4,
+"x_bottom": 2190.4,
+"visible": true
+},
+"421": {
+"wipe_m": 0.72344,
+"x_top": 2154.9,
+"x_bottom": 2155.5,
+"visible": true
+},
+"422": {
+"wipe_m": 0.71561,
+"x_top": 2117.0,
+"x_bottom": 2117.4,
+"visible": true
+},
+"423": {
+"wipe_m": 0.70618,
+"x_top": 2074.5,
+"x_bottom": 2074.8,
+"visible": true
+},
+"424": {
+"wipe_m": 0.69492,
+"x_top": 2026.3,
+"x_bottom": 2026.5,
+"visible": true
+},
+"425": {
+"wipe_m": 0.68162,
+"x_top": 1971.6,
+"x_bottom": 1971.7,
+"visible": true
+},
+"426": {
+"wipe_m": 0.66605,
+"x_top": 1909.2,
+"x_bottom": 1909.3,
+"visible": true
+},
+"427": {
+"wipe_m": 0.64796,
+"x_top": 1838.0,
+"x_bottom": 1838.1,
+"visible": true
+},
+"428": {
+"wipe_m": 0.62709,
+"x_top": 1756.9,
+"x_bottom": 1756.9,
+"visible": true
+},
+"429": {
+"wipe_m": 0.60317,
+"x_top": 1664.4,
+"x_bottom": 1664.5,
+"visible": true
+},
+"430": {
+"wipe_m": 0.57592,
+"x_top": 1559.5,
+"x_bottom": 1559.5,
+"visible": true
+},
+"431": {
+"wipe_m": 0.54504,
+"x_top": 1440.6,
+"x_bottom": 1440.6,
+"visible": true
+},
+"432": {
+"wipe_m": 0.51023,
+"x_top": 1306.7,
+"x_bottom": 1306.7,
+"visible": true
+},
+"433": {
+"wipe_m": 0.47116,
+"x_top": 1156.5,
+"x_bottom": 1156.5,
+"visible": true
+},
+"434": {
+"wipe_m": 0.4275,
+"x_top": 988.8,
+"x_bottom": 988.8,
+"visible": true
+},
+"435": {
+"wipe_m": 0.3789,
+"x_top": 802.2,
+"x_bottom": 802.2,
+"visible": true
+},
+"436": {
+"wipe_m": 0.325,
+"x_top": 595.2,
+"x_bottom": 595.2,
+"visible": true
+},
+"437": {
+"wipe_m": 0.2711,
+"x_top": 388.2,
+"x_bottom": 388.2,
+"visible": true
+},
+"438": {
+"wipe_m": 0.2225,
+"x_top": 201.6,
+"x_bottom": 201.6,
+"visible": true
+},
+"439": {
+"wipe_m": 0.17884,
+"x_top": 34.0,
+"x_bottom": 33.9,
+"visible": true
+},
+"440": {
+"wipe_m": 0.13977,
+"x_top": -116.1,
+"x_bottom": -116.1,
+"visible": true
+},
+"441": {
+"wipe_m": 0.10496,
+"x_top": -249.8,
+"x_bottom": -249.8,
+"visible": true
+},
+"442": {
+"wipe_m": 0.07408,
+"x_top": -368.3,
+"x_bottom": -368.3,
+"visible": true
+},
+"443": {
+"wipe_m": 0.04683,
+"x_top": -473.0,
+"x_bottom": -473.0,
+"visible": true
+},
+"444": {
+"wipe_m": 0.02291,
+"x_top": -564.8,
+"x_bottom": -564.8,
+"visible": true
+},
+"445": {
+"wipe_m": 0.00204,
+"x_top": -644.9,
+"x_bottom": -645.0,
+"visible": true
+},
+"446": {
+"wipe_m": -0.01605,
+"x_top": -714.4,
+"x_bottom": -714.4,
+"visible": true
+},
+"447": {
+"wipe_m": -0.03162,
+"x_top": -774.2,
+"x_bottom": -774.2,
+"visible": true
+},
+"448": {
+"wipe_m": -0.04492,
+"x_top": -825.3,
+"x_bottom": -825.3,
+"visible": true
+},
+"449": {
+"wipe_m": -0.05618,
+"x_top": -868.5,
+"x_bottom": -868.5,
+"visible": true
+},
+"450": {
+"wipe_m": -0.06561,
+"x_top": -904.7,
+"x_bottom": -904.8,
+"visible": true
+},
+"451": {
+"wipe_m": -0.07344,
+"x_top": -934.8,
+"x_bottom": -934.8,
+"visible": true
+},
+"452": {
+"wipe_m": -0.07984,
+"x_top": -958.7,
+"x_bottom": -958.7,
+"visible": true
+},
+"453": {
+"wipe_m": -0.08501,
+"x_top": -977.8,
+"x_bottom": -977.8,
+"visible": true
+},
+"454": {
+"wipe_m": -0.08912,
+"x_top": -992.8,
+"x_bottom": -992.8,
+"visible": true
+},
+"455": {
+"wipe_m": -0.09232,
+"x_top": -1002.9,
+"x_bottom": -1002.9,
+"visible": true
+},
+"456": {
+"wipe_m": -0.09475,
+"x_top": -1006.5,
+"x_bottom": -1006.5,
+"visible": true
+},
+"457": {
+"wipe_m": -0.09656,
+"x_top": -998.9,
+"x_bottom": -998.9,
+"visible": true
+},
+"458": {
+"wipe_m": -0.09785,
+"x_top": -977.1,
+"x_bottom": -977.1,
+"visible": true
+},
+"459": {
+"wipe_m": -0.09874,
+"x_top": -944.0,
+"x_bottom": -944.0,
+"visible": true
+},
+"460": {
+"wipe_m": -0.09932,
+"x_top": -903.6,
+"x_bottom": -903.6,
+"visible": true
+},
+"461": {
+"wipe_m": -0.09967,
+"x_top": -853.6,
+"x_bottom": -853.3,
+"visible": true
+},
+"462": {
+"wipe_m": -0.09987,
+"x_top": -770.1,
+"x_bottom": -769.2,
+"visible": true
+},
+"463": {
+"wipe_m": -0.09996,
+"x_top": -623.1,
+"x_bottom": -621.8,
+"visible": true
+},
+"464": {
+"wipe_m": -0.09999,
+"x_top": -405.1,
+"x_bottom": -403.0,
+"visible": true
+},
+"465": {
+"wipe_m": -0.1,
+"x_top": -185.9,
+"x_bottom": -178.6,
+"visible": true
+},
+"466": {
+"wipe_m": -0.1,
+"x_top": -21.6,
+"x_bottom": 0.4,
+"visible": true
+}
+}
+}

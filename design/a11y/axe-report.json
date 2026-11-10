@@ -1,0 +1,199 @@
+{
+  "date": "2026-11-10",
+  "base": "http://127.0.0.1:5196",
+  "tags": [
+    "wcag2a",
+    "wcag2aa",
+    "wcag21a",
+    "wcag21aa"
+  ],
+  "total": 0,
+  "runs": [
+    {
+      "name": "page",
+      "url": "http://127.0.0.1:5196/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "violations": [],
+      "passes": 29,
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 14
+        }
+      ]
+    },
+    {
+      "name": "page",
+      "url": "http://127.0.0.1:5196/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "violations": [],
+      "passes": 30,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 8
+        }
+      ]
+    },
+    {
+      "name": "page · menus open",
+      "url": "http://127.0.0.1:5196/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "violations": [],
+      "passes": 29,
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "impact": "critical",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 22
+        }
+      ]
+    },
+    {
+      "name": "page · menus open",
+      "url": "http://127.0.0.1:5196/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "violations": [],
+      "passes": 32,
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "impact": "critical",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 8
+        },
+        {
+          "id": "duplicate-id-aria",
+          "impact": "critical",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "name": "player",
+      "url": "http://127.0.0.1:5196/lab.html?src=/footage/snow.mp4&captions=/footage/snow.en.vtt",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "violations": [],
+      "passes": 25,
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "impact": "critical",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "name": "player",
+      "url": "http://127.0.0.1:5196/lab.html?src=/footage/snow.mp4&captions=/footage/snow.en.vtt&width=390",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "violations": [],
+      "passes": 26,
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "impact": "critical",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "name": "player · graphite",
+      "url": "http://127.0.0.1:5196/lab.html?src=/footage/night.mp4&glaze=graphite",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "violations": [],
+      "passes": 24,
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "impact": "critical",
+          "nodes": 1
+        },
+        {
+          "id": "video-caption",
+          "impact": "critical",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "name": "player · stone",
+      "url": "http://127.0.0.1:5196/lab.html?src=/footage/market.mp4&glaze=stone",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "violations": [],
+      "passes": 24,
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "impact": "critical",
+          "nodes": 1
+        },
+        {
+          "id": "video-caption",
+          "impact": "critical",
+          "nodes": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tactile — Paper Key · lab</title>
+    <!--
+      One real player, alone, for the page's tooling: the state captures (scripts/capture-states.mjs) and the axe audit
+      of the player (scripts/axe.mjs). Not part of the build.
+      ?src=/footage/snow.mp4  or  ?mux=<playback id>   · &captions=/footage/snow.en.vtt  · &width=1280 (CSS px)
+      · &glaze=graphite|stone  · &accent=%23FFA31A  · &pinned=1  · &poster=/poster.webp
+    -->
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: #1e1d1d;
+      }
+      #stage {
+        width: var(--w, 1280px);
+        aspect-ratio: 16 / 9;
+        --media-border-radius: 0px;
+      }
+      #stage media-i18n,
+      #stage video-player {
+        display: contents;
+      }
+      #stage .media-skin {
+        aspect-ratio: 16 / 9;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1 style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%)">Tactile player</h1>
+      <div id="stage"></div>
+    </main>
+    <script type="module" src="/src/lab/main.ts"></script>
+  </body>
+</html>

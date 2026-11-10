@@ -1,0 +1,39 @@
+{
+  "_note": "DEV FIXTURE, not the export. Values transcribed from film/scripts/build_scene.py (26 s, 120 BPM, B(k) = 1 + 15k) so the layer can be developed before film/scenes.json exists. Used only via MOTION_SCENES=fixtures/scenes.dev.json npm run sync; stills.mjs refuses it. Delete once the real export lands.",
+  "fps": 30,
+  "bpm": 120,
+  "fpb": 15,
+  "frame_base": 1,
+  "size": [1920, 1080],
+  "film_s": 26.0,
+  "frames": 780,
+  "hard_cut": 676,
+  "scenes": [
+    { "id": "S1", "n": 1, "name": "Hook", "start": 1, "end": 60 },
+    { "id": "S2", "n": 2, "name": "Exploded", "start": 61, "end": 180 },
+    { "id": "S3", "n": 3, "name": "Glaze", "start": 181, "end": 270 },
+    { "id": "S4", "n": 4, "name": "Press", "start": 271, "end": 345 },
+    { "id": "S5", "n": 5, "name": "Flatten", "start": 346, "end": 465 },
+    { "id": "S6", "n": 6, "name": "Fader", "start": 466, "end": 555 },
+    { "id": "S7", "n": 7, "name": "Display", "start": 556, "end": 645 },
+    { "id": "S8", "n": 8, "name": "Hand-off", "start": 646, "end": 720 },
+    { "id": "END", "n": 9, "name": "End", "start": 721, "end": 780 }
+  ],
+  "events": {
+    "explode": [76, 106, 136, 166],
+    "fan": [186, 226],
+    "bone_up": [226, 241],
+    "press": 301,
+    "led": [305, 309],
+    "keys_flat": { "cc": 376, "mute": 391, "settings": 406, "fs": 421, "play": 436 },
+    "flat_len": 30,
+    "wipe": [391, 466],
+    "cap_slide": [481, 526],
+    "fader_flat": [541, 556],
+    "display_on": [586, 592],
+    "display_flat": [601, 631],
+    "dock_flat": [653, 661],
+    "morph": 661
+  },
+  "seek": { "from": 0.1, "fill": 0.865, "end": 0.923, "time_dur": "0:26" }
+}

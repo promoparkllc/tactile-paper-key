@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tactile — dock size study</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.strip{position:relative;width:1200px;height:300px;border-radius:18px;overflow:hidden}
+.strip img{position:absolute;left:0;bottom:0;width:1200px;height:675px;object-fit:cover}
+.dock{position:absolute;left:24px;right:24px;display:flex;align-items:center;box-sizing:border-box;background:#E7E4DE;box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 0 0 1px rgba(40,30,20,.12),0 12px 28px rgba(30,22,14,.25)}
+.key{flex:none;border-radius:50%;border:1.25px solid #2A2724;background:#F3F0EB;box-sizing:border-box;display:grid;place-items:center;color:#1D1B19;box-shadow:0 2px 0 #C2BBB1}
+.play{background:#D9531E;color:#160C07;box-shadow:0 1px 0 #8F3210}
+.pill{background:#151413;color:#F4F1EC;font-family:'Geist Mono',monospace;display:flex;align-items:center;flex:none;box-sizing:border-box}
+.tr{position:relative;flex:1 1 auto;height:2px;background:#2A2724;border-radius:2px}
+.cap{position:absolute;top:50%;transform:translateY(-50%);background:#D9531E;box-shadow:0 2px 0 #8F3210}
+.lbl{font-family:'Geist Mono',monospace;font-size:13px;color:#3C3934;margin:0 0 10px}
+.ttl{font-size:18px;font-weight:600;color:#1B1A18;margin:0 0 4px}
+.dsc{font-size:14px;color:#3C3934;margin:0 0 14px;max-width:900px;line-height:1.45}
+</style>
+</helmet>
+<div style="width: 1360px; height: 1340px; box-sizing: border-box; padding: 56px 80px; background: #D9D6D0; font-family: Geist, sans-serif; display: flex; flex-direction: column; gap: 40px;">
+  <div>
+    <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.02em; color: #1B1A18;">Dock size study · player 1200 × 675</h1>
+    <p class="dsc" style="margin-top: 8px;">Bottom 300 px of the same player. Reference: YouTube ≈ 48 px bar, Video.js default / Plyr ≈ 48–56 px. All three keep a 44 px hit area (WCAG 2.5.5).</p>
+  </div>
+
+  <div>
+    <p class="lbl">A · CURRENT — dock 88 · keys 52 · play 96×52 · 13 % of height (and it scales up to ×1.75)</p>
+    <div class="strip"><img src="/_blob/cb65d62f6e1534393273f19c33a1c413" alt="">
+      <div class="dock" style="bottom: 24px; height: 88px; border-radius: 44px; padding: 0 18px; gap: 14px;">
+        <span class="key play" style="width: 96px; height: 52px; border-radius: 26px;"><svg width="22" height="22" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6.5 4v10M11.5 4v10"></path></svg></span>
+        <span class="pill" style="height: 44px; border-radius: 22px; padding: 0 18px; gap: 14px; font-size: 14px;"><b style="font-size: 11px; letter-spacing: .08em;">PLAY 1.0×</b><span>0:12</span><span style="color: #A8A39B;">0:26</span></span>
+        <span class="tr"><span class="cap" style="left: 46%; width: 14px; height: 32px; margin-left: -7px; border-radius: 5px;"></span><span style="position: absolute; left: 0; top: -1px; height: 4px; width: 46%; background: #D9531E;"></span></span>
+        <span class="key" style="width: 52px; height: 52px;"></span><span class="key" style="width: 52px; height: 52px;"></span><span class="key" style="width: 52px; height: 52px;"></span><span class="key" style="width: 52px; height: 52px;"></span>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <p class="lbl">B · COMPACT (recommended) — dock 68 · keys 44 · play 76×44 · 10 % of height · max scale ×1.25</p>
+    <div class="strip"><img src="/_blob/cb65d62f6e1534393273f19c33a1c413" alt="">
+      <div class="dock" style="bottom: 20px; height: 68px; border-radius: 34px; padding: 0 12px; gap: 10px;">
+        <span class="key play" style="width: 76px; height: 44px; border-radius: 22px;"><svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6.5 4v10M11.5 4v10"></path></svg></span>
+        <span class="pill" style="height: 36px; border-radius: 18px; padding: 0 14px; gap: 10px; font-size: 13px;"><b style="font-size: 10px; letter-spacing: .08em;">PLAY 1.0×</b><span>0:12</span><span style="color: #A8A39B;">0:26</span></span>
+        <span class="tr"><span class="cap" style="left: 46%; width: 12px; height: 26px; margin-left: -6px; border-radius: 4px;"></span><span style="position: absolute; left: 0; top: -1px; height: 4px; width: 46%; background: #D9531E;"></span></span>
+        <span class="key" style="width: 44px; height: 44px;"></span><span class="key" style="width: 44px; height: 44px;"></span><span class="key" style="width: 44px; height: 44px;"></span><span class="key" style="width: 44px; height: 44px;"></span>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <p class="lbl">C · SLIM — dock 56 · keys 40 visual (44 hit) · play 64×40 · 8 % of height — close to default, but keys start to read as icons</p>
+    <div class="strip"><img src="/_blob/cb65d62f6e1534393273f19c33a1c413" alt="">
+      <div class="dock" style="bottom: 16px; height: 56px; border-radius: 28px; padding: 0 8px; gap: 8px;">
+        <span class="key play" style="width: 64px; height: 40px; border-radius: 20px;"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6.5 4v10M11.5 4v10"></path></svg></span>
+        <span class="pill" style="height: 32px; border-radius: 16px; padding: 0 12px; gap: 8px; font-size: 12px;"><b style="font-size: 10px; letter-spacing: .08em;">PLAY 1.0×</b><span>0:12</span><span style="color: #A8A39B;">0:26</span></span>
+        <span class="tr"><span class="cap" style="left: 46%; width: 10px; height: 22px; margin-left: -5px; border-radius: 4px;"></span><span style="position: absolute; left: 0; top: -1px; height: 4px; width: 46%; background: #D9531E;"></span></span>
+        <span class="key" style="width: 40px; height: 40px;"></span><span class="key" style="width: 40px; height: 40px;"></span><span class="key" style="width: 40px; height: 40px;"></span><span class="key" style="width: 40px; height: 40px;"></span>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":1340}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+1
+00:00:09,200 --> 00:00:11,300
+A key you can feel…
+
+2
+00:00:11,700 --> 00:00:15,300
+…becomes a key you can see.
+
+3
+00:00:15,700 --> 00:00:18,300
+Scrubbing is a fader.
+
+4
+00:00:18,700 --> 00:00:21,300
+State lives on a display.
+
+5
+00:00:21,700 --> 00:00:24,400
+Readable over any frame.
