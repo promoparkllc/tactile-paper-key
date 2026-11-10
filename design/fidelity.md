@@ -270,7 +270,8 @@ not changed.
   display macro at 41/255) and play; the chip label times come from the constants. Swatches are `<button aria-pressed aria-label>` and set `--media-accent-color` and
   `--media-accent-text-color` on the player. Tab order: player controls → Daylight → Night → four swatches.
 - **Images.** `frame-flatten.webp`, `frame-key.webp`, `frame-glazes.webp` (1600 × 900 WebP from film/frames) with the
-  board's alt texts. `og.png` 1200 × 630 from the poster frame (film frame 45) plus the title; `favicon.svg` is the
+  board's alt texts. `og.png` 1200 × 630 from the poster frame (film frame 45) plus the title (replaced on 2026-11-10 by
+  `og-1200x630.png`, made by design/cover/render.mjs from design/Cover.dc.html); `favicon.svg` is the
   play key.
 - **Differences.** The band grows past 52px at 390 (min-height instead of height) because the 26px title needs two lines; the
   board's fixed 52px clips it. Focus rings are ink, not cream, inside the cream test bar. Headings: h2 for "Test it"

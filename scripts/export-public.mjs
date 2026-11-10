@@ -34,7 +34,8 @@ const EXCLUDE = [
   { path: 'film/motion/stills/' }, // large stills and contact sheets
   { path: 'demo-footage/' }, // source clips; the page's own copies in apps/preview/public/footage stay
   { path: '_tmp/' },
-  { path: 'apps/preview/public/_upload/' }, // files parked on the site for a moment (a video on its way to Mux)
+  { path: 'apps/preview/public/_upload/' },
+  { path: 'design/cover/cover-1920x1080.png' }, // the submission cover (677 KB): over the public repo's 500 KB image limit; design/cover/render.mjs remakes it // files parked on the site for a moment (a video on its way to Mux)
   { path: 'design/implementation/', keep: ['design/implementation/icons.png'] }, // captures; the icon sheet is embedded in fidelity.md
   { path: 'design/lighthouse/', keep: ['design/lighthouse/README.md'] }, // raw reports; the README has the scores
 ];

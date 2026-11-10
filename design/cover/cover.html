@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tactile — submission cover</title>
+    <!--
+      The submission cover and the OG image, from design/Cover.dc.html ("SUBMISSION · cover 1920×1080 + OG 1200×630").
+      The key on the left is frame 30 of the final film's 3D render (film/render/final/out/0030.png, the same shot as the
+      film, without its title layer); the player on the right is the real skin, live. render.mjs serves this page with
+      Vite and exports it: ?format=cover (1920 × 1080) or ?format=og (1200 × 630, no subtitle). The OG is the cover's
+      parts at 0.625, anchored to its top and bottom edges, the player scaled with them (same 900 px layout).
+    -->
+    <style>
+      @font-face {
+        font-family: Michroma;
+        font-weight: 400;
+        src: url("/fonts/michroma-latin.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Geist Mono";
+        font-weight: 100 900;
+        src: url("/fonts/geist-mono-latin.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Instrument Sans";
+        font-weight: 400 700;
+        src: url("/fonts/instrument-sans-latin.woff2") format("woff2");
+      }
+
+      html,
+      body {
+        margin: 0;
+        background: #141313;
+      }
+
+      /* --s: the scale of every part (1 for the cover, 0.625 for the OG). */
+      .frame {
+        --s: 1;
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #141313;
+        font-family: Michroma, sans-serif;
+      }
+
+      .frame[data-format="og"] {
+        --s: 0.625;
+        width: 1200px;
+        height: 630px;
+      }
+
+      .key {
+        position: absolute;
+        left: calc(-120px * var(--s));
+        top: calc(-40px * var(--s));
+        width: calc(1340px * var(--s));
+        height: calc(100% + 80px * var(--s));
+        object-fit: cover;
+        object-position: 30% 50%;
+        opacity: 0.95;
+      }
+
+      .shade {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgb(20 19 19 / 0) 30%, rgb(20 19 19 / 0.85) 62%, #141313 78%);
+      }
+
+      .eyebrow,
+      .site {
+        position: absolute;
+        left: calc(80px * var(--s));
+        font-family: "Geist Mono", monospace;
+        font-size: calc(18px * var(--s));
+        color: #bfb39e;
+      }
+
+      .eyebrow {
+        top: calc(78px * var(--s));
+        letter-spacing: 0.12em;
+      }
+
+      .site {
+        bottom: calc(70px * var(--s));
+        letter-spacing: 0.04em;
+      }
+
+      .title {
+        position: absolute;
+        right: calc(80px * var(--s));
+        top: calc(150px * var(--s));
+        text-align: right;
+      }
+
+      .title div {
+        font-size: calc(112px * var(--s));
+        letter-spacing: -0.03em;
+      }
+
+      .t1 {
+        line-height: 1;
+        color: #f3e7d2;
+      }
+
+      .t2 {
+        line-height: 1.05;
+        color: transparent;
+        -webkit-text-stroke: calc(2px * var(--s)) #f3e7d2;
+      }
+
+      .title .sub {
+        margin-top: calc(22px * var(--s));
+        font-family: "Instrument Sans", sans-serif;
+        font-size: calc(30px * var(--s));
+        letter-spacing: normal;
+        color: #e8dcc6;
+      }
+
+      .frame[data-format="og"] .sub {
+        display: none;
+      }
+
+      .player {
+        position: absolute;
+        right: calc(80px * var(--s));
+        bottom: calc(110px * var(--s));
+        width: calc(900px * var(--s));
+        height: calc(506px * var(--s));
+        overflow: hidden;
+        border-radius: calc(14px * var(--s));
+        box-shadow: 0 calc(30px * var(--s)) calc(80px * var(--s)) rgb(0 0 0 / 0.6), 0 0 0 1px rgb(243 231 210 / 0.18);
+      }
+
+      /* The skin always lays out at 900 px; the OG scales the result, it does not reflow it. */
+      .player-inner {
+        width: 900px;
+        height: 506px;
+        transform: scale(var(--s));
+        transform-origin: top left;
+        --media-border-radius: 0px;
+      }
+
+      .player-inner media-i18n,
+      .player-inner video-player {
+        display: contents;
+      }
+
+      .player-inner .media-skin {
+        width: 900px;
+        height: 506px;
+      }
+
+      .band {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: calc(10px * var(--s));
+        background: linear-gradient(#e9a23b 0 50%, #d9531e 50% 100%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="frame" id="frame">
+      <img class="key" src="./key-f30.jpg" alt="" />
+      <div class="shade"></div>
+      <div class="eyebrow">VIDEO.JS V10 SKIN · OPEN SOURCE</div>
+      <div class="title">
+        <div class="t1">TACTILE</div>
+        <div class="t2">PAPER KEY</div>
+        <div class="sub">A video player you can press.</div>
+      </div>
+      <div class="player"><div class="player-inner" id="player"></div></div>
+      <div class="site">tactile.promopark.studio · Promopark Studio</div>
+      <div class="band"></div>
+    </div>
+    <script type="module" src="./cover.js"></script>
+  </body>
+</html>
