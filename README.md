@@ -3,7 +3,7 @@
 A Video.js 10 skin built like a desk object: keys that latch, faders that scrub, a display that holds state. HTML
 custom elements and CSS, three glazes, any accent, keyboard first, readable over any frame.
 
-**Live page:** https://tactile-paper-key.vercel.app · by [promopark.studio](https://promopark.studio) · Apache 2.0
+**Live page:** https://tactile.promopark.studio · by [promopark.studio](https://promopark.studio) · Apache 2.0
 
 ![Playing: the bone dock over a snowy ridge](apps/preview/public/states/03-playing.webp)
 
