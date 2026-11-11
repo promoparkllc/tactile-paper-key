@@ -6,7 +6,7 @@ import '@/video/skin';
 import skinTemplate from '@/video/skin.html?raw';
 
 export function bootPlayers(): void {
-  /** Poster before playback: frame 43 of the film's 3D render, the rim-lit key with no title over it (1920 px WebP in `public/`). */
+  /** Poster before playback: frame 43 of the film's 3D render, the key at 0.55 in the left third so the centred READY key never covers its glyph (design/poster/render.mjs; 1920 px WebP in `public/`). */
   const POSTER_SRC = './poster.webp';
 
   /** The film "From object to interface" (27.5 s, 1080p) on Mux, HLS through `mux-video`. Playback ID is public. */

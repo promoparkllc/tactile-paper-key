@@ -1939,15 +1939,3 @@ kbd {
   border-top: 0;
   border-bottom: 5px solid #151413;
 }
-
-/* Hero, READY, player under 520 px: the poster (render f43) has the key's glyph above the centre, where the 88 × 52
-   Play key would cover its lower-left corner. The frame is 16:9 like the poster, so object-position has no room to
-   move it; the key goes to the bottom-right corner instead, 12 px in like the duration pill opposite. END and the
-   phone's paused key stay centred. */
-@container media-root (width < 520px) {
-  #hero-frame .tactile-center:has(.tactile-center-play:not([data-started])) {
-    align-items: flex-end;
-    justify-content: flex-end;
-    padding: 0 12px 12px 0;
-  }
-}

@@ -261,7 +261,7 @@ not changed.
   stats box with the ticker row and the 3-column grid, 76px footer. Narrow (container ≤ 700px): h1 34, titles 26,
   footer 30, single-column grids, stacked test bar.
 - **Hero.** The board's mock dock over a still is the real Video.js v10 player with the skin (`--media-border-radius:
-  16px`). The poster (`POSTER_SRC`) is frame 43 of the final film's 3D render since 2026-11-11 (the rim-lit key with no burned-in title, so the READY key never sits on a title; `poster.webp` 1920 px; it was film frame 45);
+  16px`). The poster (`POSTER_SRC`) is frame 43 of the final film's 3D render since 2026-11-11, composed by design/poster/render.mjs: the key at 0.55, its glyph centred at 26 % × 45 % on the render's black with a vignette, no text, so the centred READY key (112 × 64, 88 × 52 under 520 px) clears the glyph at 1440, 810 and 390 (gaps 105, 52, 8 px); `poster.webp` 1920 px; it was film frame 45);
   the flatten frame would double the dock. The media is the film on Mux (playback ID in `VIDEO_SOURCE`,
   2026-11-10), with `captions.en.vtt` (one cue per shot 4–8, off by default) as the one text track.
 - **H1.** Two intended lines on desktop, "A PLAYER" / "YOU CAN PRESS", via a `<br>`; under 700px the break is

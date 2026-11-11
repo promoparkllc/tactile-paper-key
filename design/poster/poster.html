@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tactile — hero poster</title>
+    <!--
+      The hero poster (apps/preview/public/poster.webp, 1920 × 1080), made by render.mjs. Frame 43 of the final film's
+      3D render (the same frame as the cover, design/cover/key-f43.jpg) on the render's own black, scaled to --k and
+      placed so the key's glyph (render box x 1010–1670, y 160–560, centre 1340 × 360) is centred at --gx × --gy. The
+      centred READY key must never touch the glyph: at 390 px the 88 × 52 key starts at 37.7 % of the width, so the
+      glyph ends before it (k 0.55 at 26 %: right edge at 35.5 %). The image fades into the black at its cut edges,
+      which keeps the render's vignette. No text.
+    -->
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: #000;
+      }
+
+      .frame {
+        --k: 0.55;
+        --gx: 499px; /* 26 % of 1920 */
+        --gy: 486px; /* 45 % of 1080 */
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #000;
+      }
+
+      .key {
+        position: absolute;
+        left: calc(var(--gx) - 1340px * var(--k));
+        top: calc(var(--gy) - 360px * var(--k));
+        width: calc(1920px * var(--k));
+        height: calc(1080px * var(--k));
+        /* the top and bottom cut edges fade into the black; the right one is under the vignette */
+        mask-image: linear-gradient(transparent, #000 14%, #000 80%, transparent);
+      }
+
+      /* The render's vignette, carried on: clear over the glyph and the lit rim, black by the image's right edge, so the key
+         face darkens away instead of ending at a cut. */
+      .vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 460px 430px at 350px 500px, transparent 73%, #000 100%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="frame" id="frame"><img class="key" src="../cover/key-f43.jpg" alt="" /><div class="vignette"></div></div>
+  </body>
+</html>
