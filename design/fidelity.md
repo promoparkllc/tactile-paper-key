@@ -298,9 +298,9 @@ not changed.
 | `volume-off` | derived | speaker + cross `M12 7l4 4M16 7l-4 4`, stroke 1.4 |
 | `fullscreen-enter` | board | four outward corners in a 13px box (2.5–15.5), stroke 1.5 |
 | `fullscreen-exit` | derived (2026-11-09) | the same 13px box, arms turned inward to (7, 7) / (11, 11), stroke 1.5 |
-| `captions` | brief 2026-11-10 | rect 14 × 10 r2.5 + two lines against the bottom edge, long over short (`M5 9h8M6.5 11.5h5`), stroke 1.4 |
+| `captions` | brief 2026-11-10, centred 2026-11-11 | rect 14 × 10 r2.5 (y 4–14) + two lines centred in it, short over long (`M5 10.2h8M6.75 7.8h4.5`: the pair on y 9, both on x 9), stroke 1.4 |
 | `settings` | board | three lines + three knobs filled with the key face (`--tactile-knob`), stroke 1.4 |
-| `chevron` | board | `M7 4l5 5-5 5`, stroke 1.6 |
+| `chevron` | board, centred 2026-11-11 | `M6.5 4l5 5-5 5` (box on x 9; the board had `M7 4l5 5-5 5`), stroke 1.6 |
 | `check` | derived | `M4 9.5l3.2 3.2L14 6`, stroke 1.6 |
 
 ## Showcase · 2026-11-09 additions

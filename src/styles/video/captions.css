@@ -15,7 +15,10 @@
       transition-delay: var(--media-caption-track-delay);
     }
 
-    :scope[data-controls-visible] {
+    /* Controls pinned with visibility="always" stay on screen while the pointer rests (the container loses
+       data-controls-visible), so the captions stay above them too. */
+    :scope[data-controls-visible],
+    :scope:has(media-controls[visibility="always"]) {
       --media-caption-track-y: var(--media-caption-controls-y);
     }
 

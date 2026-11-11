@@ -4,6 +4,7 @@ import './showcase.css';
 // Sections 06 and 07 (Copy keys, token links, their reveal) and the players load after the page's load event.
 const start = () => {
   void import('./specs-install');
+  void import('./states');
   void import('./players').then((m) => m.bootPlayers());
 };
 if (document.readyState === 'complete') void start();

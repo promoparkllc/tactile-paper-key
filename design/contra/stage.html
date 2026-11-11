@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tactile — Contra cover video stage</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!--
+      The stage for tactile_contra_cover_4x3.mp4 (1600 × 1200, 4:3), rendered frame by frame by render.mjs. The layout
+      is the Contra cover's (design/cover/cover.html ?format=contra): the title top-left over the key (render f43), the
+      player window 84 % wide below it, the footer and the band. The window holds three layers, faded by the timeline:
+      #poster (a real player held at 44 % of the snow clip, never touched, so the last frame equals the first), #film
+      (frames of the final film's 3D render: the press, then the flatten; no HUD) and #action (a real player driven
+      by pointer input: play, scrub, captions, glazes). A ring shows the pointer, since screenshots carry no cursor.
+      Text set here is 24 px or larger.
+    -->
+    <style>
+      @font-face {
+        font-family: Michroma;
+        font-weight: 400;
+        src: url("/fonts/michroma-latin.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Geist Mono";
+        font-weight: 100 900;
+        src: url("/fonts/geist-mono-latin.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Instrument Sans";
+        font-weight: 400 700;
+        src: url("/fonts/instrument-sans-latin.woff2") format("woff2");
+      }
+
+      html,
+      body {
+        margin: 0;
+        background: #141313;
+        overflow: hidden;
+      }
+
+      .frame {
+        position: relative;
+        width: 1600px;
+        height: 1200px;
+        overflow: hidden;
+        background: #141313;
+        font-family: Michroma, sans-serif;
+      }
+
+      .key {
+        --k: 0.725;
+        position: absolute;
+        left: 268px;
+        top: -76px;
+        width: calc(1920px * var(--k));
+        height: calc(1080px * var(--k));
+        opacity: 0.95;
+        mask-image: linear-gradient(#000 70%, transparent);
+      }
+
+      .shade {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgb(20 19 19 / 0.86) 0%, rgb(20 19 19 / 0.8) 48%, rgb(20 19 19 / 0) 60%);
+      }
+
+      .eyebrow,
+      .site {
+        position: absolute;
+        left: 120px;
+        font-family: "Geist Mono", monospace;
+        font-size: 24px;
+        color: #bfb39e;
+      }
+
+      .eyebrow {
+        top: 54px;
+        letter-spacing: 0.1em;
+      }
+
+      .site {
+        bottom: 56px;
+        letter-spacing: 0.03em;
+      }
+
+      .title {
+        position: absolute;
+        left: 120px;
+        top: 100px;
+      }
+
+      .title div {
+        font-size: 84px;
+        letter-spacing: -0.03em;
+      }
+
+      .t1 {
+        line-height: 1;
+        color: #f3e7d2;
+      }
+
+      .t2 {
+        line-height: 1.05;
+        color: transparent;
+        -webkit-text-stroke: 2px #f3e7d2;
+      }
+
+      .title .sub {
+        margin-top: 16px;
+        font-family: "Instrument Sans", sans-serif;
+        font-size: 28px;
+        letter-spacing: normal;
+        color: #e8dcc6;
+      }
+
+      .window {
+        position: absolute;
+        left: 128px;
+        top: 356px;
+        width: 1344px;
+        height: 756px;
+        overflow: hidden;
+        border-radius: 18px;
+        background: #000;
+        box-shadow: 0 30px 80px rgb(0 0 0 / 0.6), 0 0 0 1px rgb(243 231 210 / 0.18);
+      }
+
+      /* each layer is its own stacking context, so nothing inside one player rises above the layer over it */
+      .layer {
+        position: absolute;
+        inset: 0;
+        isolation: isolate;
+      }
+
+      #action-layer {
+        z-index: 1;
+      }
+
+      #film-layer {
+        z-index: 2;
+      }
+
+      #poster-layer {
+        z-index: 3;
+      }
+
+      /* only the action player takes the pointer (both layers are also inert: the skin sets pointer-events on its dock) */
+      #film-layer,
+      #poster-layer {
+        pointer-events: none;
+      }
+
+      /* the skin lays out at 800 px (the display pill stays) and is scaled to the window, so its text reads larger */
+      .player-inner {
+        width: 800px;
+        height: 450px;
+        transform: scale(1.68);
+        transform-origin: top left;
+        --media-border-radius: 0px;
+      }
+
+      .player-inner media-i18n,
+      .player-inner video-player {
+        display: contents;
+      }
+
+      .player-inner .media-skin {
+        width: 800px;
+        height: 450px;
+      }
+
+      #film {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .band {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 10px;
+        background: linear-gradient(#e9a23b 0 50%, #d9531e 50% 100%);
+      }
+
+      /* the pointer: a cream ring that fills when pressed */
+      #pointer {
+        position: absolute;
+        z-index: 10;
+        width: 30px;
+        height: 30px;
+        margin: -15px 0 0 -15px;
+        border: 3px solid #f3e7d2;
+        border-radius: 50%;
+        box-sizing: border-box;
+        background: rgb(243 231 210 / 0.15);
+        box-shadow: 0 2px 8px rgb(0 0 0 / 0.45);
+        pointer-events: none;
+        opacity: 0;
+      }
+
+      #pointer[data-down] {
+        background: rgb(243 231 210 / 0.7);
+        scale: 0.85;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="frame" id="frame">
+      <img class="key" src="/cover/key-f43.jpg" alt="" />
+      <div class="shade"></div>
+      <div class="eyebrow">VIDEO.JS V10 SKIN · OPEN SOURCE</div>
+      <div class="title">
+        <div class="t1">TACTILE</div>
+        <div class="t2">PAPER KEY</div>
+        <div class="sub">A video player you can press.</div>
+      </div>
+      <div class="window" id="window">
+        <div class="layer" id="action-layer"><div class="player-inner" id="action"></div></div>
+        <div class="layer" id="film-layer" inert><img id="film" alt="" /></div>
+        <div class="layer" id="poster-layer" inert><div class="player-inner" id="poster"></div></div>
+      </div>
+      <div class="site">tactile.promopark.studio · Promopark Studio</div>
+      <div class="band"></div>
+      <div id="pointer"></div>
+    </div>
+    <script type="module" src="./stage.js"></script>
+  </body>
+</html>

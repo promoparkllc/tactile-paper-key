@@ -1636,7 +1636,9 @@
 
       /* Captions clear the 60px dock. */
       :scope[data-controls-visible] video,
-      :scope[data-controls-visible] mux-video {
+      :scope[data-controls-visible] mux-video,
+      :scope:has(media-controls[visibility="always"]) video,
+      :scope:has(media-controls[visibility="always"]) mux-video {
         --media-caption-track-y: -76px;
       }
 

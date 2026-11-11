@@ -86,7 +86,7 @@ is not covered. Where this section and the older lines above disagree, this sect
 - **Latch bar** (replaces the LED dot): a latched bone key (captions on, settings open) lights a 13 × 2.5 bar, radius
   2, centred, 6px from the key's bottom edge, in the accent colour, with a 150ms fade. The key still sits 1px down.
   Forced colours: the bar is `Highlight`; outline and glyph keep their colours.
-- **Captions icon**: the same frame, with two lines against the bottom edge, long over short (`M5 9h8M6.5 11.5h5`),
+- **Captions icon**: the same frame, with two lines centred in it, short over long (`M5 10.2h8M6.75 7.8h4.5`, since 2026-11-11; it was long over short against the bottom edge),
   stroke 1.4, 18 grid. The spinner icon is gone (LOADING replaced it).
 - **Text.** `Loading`, `End`, `No signal`, the error sentence and `Try again` are English text in `skin.html`:
   Video.js has no translation keys for them.

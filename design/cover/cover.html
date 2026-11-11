@@ -166,6 +166,76 @@
         height: calc(10px * var(--s));
         background: linear-gradient(#e9a23b 0 50%, #d9531e 50% 100%);
       }
+
+      /* ?format=contra — 1600 × 1200 (4:3) for Contra. Text top-left over the key, the player 84 % wide below it, footer
+         and band under the player. Everything aligns on x 120, the player's left edge. The key is large across the top:
+         its lit rim runs behind the text, its glyph (render box x 1010–1670, y 160–560) sits to the right of the title
+         at x 1000–1480, above the player, and the shade ends at 60 % (x 960), short of the glyph. */
+      .frame[data-format="contra"] {
+        width: 1600px;
+        height: 1200px;
+      }
+
+      .frame[data-format="contra"] .key {
+        --k: 0.725;
+        left: 268px;
+        top: -76px;
+        width: calc(1920px * var(--k));
+        height: calc(1080px * var(--k));
+        object-fit: fill;
+        opacity: 0.95;
+        /* the image's bottom edge shows beside the player: it fades out there */
+        mask-image: linear-gradient(#000 70%, transparent);
+      }
+
+      .frame[data-format="contra"] .shade {
+        /* strong under the whole title (to x 770), then gone by 60 %, short of the glyph */
+        background: linear-gradient(90deg, rgb(20 19 19 / 0.86) 0%, rgb(20 19 19 / 0.8) 48%, rgb(20 19 19 / 0) 60%);
+      }
+
+      .frame[data-format="contra"] .eyebrow,
+      .frame[data-format="contra"] .site {
+        left: 120px;
+      }
+
+      .frame[data-format="contra"] .eyebrow {
+        top: 58px;
+      }
+
+      .frame[data-format="contra"] .title {
+        left: 120px;
+        right: auto;
+        top: 100px;
+        text-align: left;
+      }
+
+      .frame[data-format="contra"] .title div {
+        font-size: 84px;
+      }
+
+      .frame[data-format="contra"] .title .sub {
+        margin-top: 16px;
+        font-size: 28px;
+      }
+
+      .frame[data-format="contra"] .player {
+        left: 128px;
+        right: auto;
+        top: 356px;
+        bottom: auto;
+        width: 1344px;
+        height: 756px;
+        border-radius: 18px;
+      }
+
+      /* the skin lays out at 900 px, as on the cover, and is scaled up: the dock reads at the cover's proportions */
+      .frame[data-format="contra"] .player-inner {
+        transform: scale(calc(1344 / 900));
+      }
+
+      .frame[data-format="contra"] .site {
+        bottom: 46px;
+      }
     </style>
   </head>
   <body>

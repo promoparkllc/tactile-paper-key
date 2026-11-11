@@ -5,7 +5,8 @@ import '@/video/skin';
 import '@/skin.css';
 import skinTemplate from '@/video/skin.html?raw';
 
-const format = new URLSearchParams(location.search).get('format') === 'og' ? 'og' : 'cover';
+const asked = new URLSearchParams(location.search).get('format');
+const format = asked === 'og' || asked === 'contra' ? asked : 'cover';
 document.getElementById('frame').dataset.format = format;
 
 const media =

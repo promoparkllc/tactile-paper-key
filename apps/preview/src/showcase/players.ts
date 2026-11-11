@@ -467,7 +467,14 @@ export function bootPlayers(): void {
    * control gets the ring. Visual only: no focus, no action. Before any card reaches the band, the first is active.
    */
   const header = document.querySelector<HTMLElement>('.site-header')!;
-  const setHeaderH = () => document.documentElement.style.setProperty('--header-h', `${header.offsetHeight}px`);
+  // only on the panel that uses it, and only when it changes: a custom property set on the root restyles the whole page
+  let headerH = 0;
+  const setHeaderH = () => {
+    const h = header.offsetHeight;
+    if (h === headerH) return;
+    headerH = h;
+    anatomyPanel.style.setProperty('--header-h', `${h}px`);
+  };
   setHeaderH();
   new ResizeObserver(setHeaderH).observe(header);
 

@@ -320,7 +320,7 @@ kbd {
 .steps {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 12px;
+  gap: 28px;
   margin: 48px 0 0;
   padding: 0;
   list-style: none;
@@ -331,6 +331,26 @@ kbd {
   flex-direction: column;
   gap: 12px;
   padding: 16px;
+}
+
+/* The steps read as one process: a thin arrow in the gap after each card (none after the last); one card per row, a
+   short line down between them instead. */
+.step {
+  position: relative;
+}
+
+.step:not(:last-child)::after {
+  content: "→" / "";
+  position: absolute;
+  top: 50%;
+  right: -22px;
+  width: 16px;
+  font-family: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
+  font-size: 14px;
+  line-height: 1;
+  text-align: center;
+  color: var(--muted);
+  translate: 0 -50%;
 }
 
 .step-n {
@@ -793,13 +813,38 @@ kbd {
   background: var(--bg);
 }
 
-.stile img {
+/* The state's still is the poster; its clip plays over it on hover or focus (on a phone: the card in the middle of
+   the screen). Both fill the same 16:9 box. */
+.stile-media {
+  position: relative;
   display: block;
-  width: 100%;
   aspect-ratio: 16 / 9;
-  object-fit: cover;
+  overflow: hidden;
   border-radius: 3px;
   background: #111;
+}
+
+.stile-media img,
+.stile-clip {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.stile-clip {
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.stile-clip[data-on] {
+  opacity: 1;
+}
+
+.stile:focus-visible {
+  outline-offset: 2px;
 }
 
 .stile-n {
@@ -1863,6 +1908,18 @@ kbd {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  .step:not(:last-child)::after {
+    content: "";
+    top: auto;
+    right: auto;
+    bottom: -22px;
+    left: 50%;
+    width: 1px;
+    height: 16px;
+    background: var(--muted);
+    translate: 0;
+  }
+
   .anatomy-panel {
     padding: 56px 12px 24px;
   }
@@ -1905,6 +1962,11 @@ kbd {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  /* three per row: no arrow at a row's end */
+  .step:nth-child(3)::after {
+    content: none;
+  }
+
   .states,
   .parts {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1914,6 +1976,11 @@ kbd {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  /* no clips: the stills only */
+  .stile-clip {
+    display: none;
   }
 
   .chip,

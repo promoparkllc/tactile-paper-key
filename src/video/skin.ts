@@ -99,8 +99,8 @@ registerIcons('tactile', {
   'fullscreen-enter': stroke(1.5, '<path d="M2.5 6.5v-4h4M11.5 2.5h4v4M15.5 11.5v4h-4M6.5 15.5h-4v-4"/>'),
   // Exit mirrors enter: same 13px optical box, arms turned inward.
   'fullscreen-exit': stroke(1.5, '<path d="M7 2.5V7H2.5M11 2.5V7h4.5M15.5 11H11v4.5M2.5 11H7v4.5"/>'),
-  // The frame with its text set as a subtitle: two lines against the bottom edge, a long one over a short one.
-  captions: stroke(1.4, '<rect x="2" y="4" width="14" height="10" rx="2.5"/><path d="M5 9h8M6.5 11.5h5"/>', ''),
+  // The frame with two lines of text, a short one over a long one, both centred in it (the pair on y 9, the frame's middle).
+  captions: stroke(1.4, '<rect x="2" y="4" width="14" height="10" rx="2.5"/><path d="M5 10.2h8M6.75 7.8h4.5"/>', ''),
   settings: stroke(
     1.4,
     '<path d="M2.5 5h13M2.5 9h13M2.5 13h13"/>' +
@@ -109,7 +109,8 @@ registerIcons('tactile', {
       '<rect class="tactile-knob" x="6.5" y="11.2" width="2.8" height="3.6" rx="1"/>',
     ''
   ),
-  chevron: stroke(1.6, '<path d="M7 4l5 5-5 5"/>'),
+  // centred on the grid (box x 6.5–11.5 around 9); it was 0.5 to the right
+  chevron: stroke(1.6, '<path d="M6.5 4l5 5-5 5"/>'),
   check: stroke(1.6, '<path d="M4 9.5l3.2 3.2L14 6"/>'),
 });
 

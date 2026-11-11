@@ -19,6 +19,9 @@ apps/preview/public/_upload/
 film/frames/
 film/render/
 
+# Contra cover video renders (design/contra/render.mjs): delivered by hand, not versioned.
+design/contra/out/
+
 # Not part of the public repository.
 film/audio/music/
 film/audio/sfx/

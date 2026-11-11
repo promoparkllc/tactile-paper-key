@@ -1,8 +1,9 @@
 // render.mjs — exports the submission cover and the OG image from design/cover/cover.html with the real skin.
-//   node design/cover/render.mjs
+//   node design/cover/render.mjs [cover,og,contra]
 // Serves cover.html with Vite (the repo's config: `@/` → src; the page's public folder for the fonts and the footage),
 // renders each format in Chrome at deviceScaleFactor 2 with the player held in its playing state at 44 % of the clip,
-// then downscales (lanczos) to cover-1920x1080.png and og-1200x630.png, tagged sRGB, each under 1 MB (quantized to a
+// then downscales (lanczos) to cover-1920x1080.png, og-1200x630.png and cover-1600x1200.png (Contra, 4:3), tagged sRGB,
+// under 1 MB (the Contra cover under 2 MB) (quantized to a
 // dithered palette only if the full-colour PNG is larger). Output in design/cover/.
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, rmSync, statSync } from 'node:fs';
@@ -18,7 +19,10 @@ const MAX = 1024 * 1024;
 const FORMATS = [
   { id: 'cover', file: 'cover-1920x1080.png', width: 1920, height: 1080 },
   { id: 'og', file: 'og-1200x630.png', width: 1200, height: 630 },
+  // Contra's cover: 4:3, at least 1600 × 1200, under 2 MB
+  { id: 'contra', file: 'cover-1600x1200.png', width: 1600, height: 1200, max: 2 * 1024 * 1024 },
 ];
+const only = process.argv[2]?.split(',');
 
 const { createServer } = await import(pathToFileURL(resolve(repo, 'node_modules/vite/dist/node/index.js')).href);
 const server = await createServer({
@@ -33,6 +37,8 @@ const browser = await chromium.launch({ channel: 'chrome', args: ['--autoplay-po
 const ff = (args) => execFileSync('ffmpeg', ['-v', 'error', '-y', ...args], { stdio: ['ignore', 'pipe', 'inherit'] });
 
 for (const f of FORMATS) {
+  if (only && !only.includes(f.id)) continue;
+  const max = f.max ?? MAX;
   const context = await browser.newContext({ viewport: { width: f.width, height: f.height }, deviceScaleFactor: 2 });
   const page = await context.newPage();
   const errors = [];
@@ -77,12 +83,12 @@ for (const f of FORMATS) {
   const scale = `scale=${f.width}:${f.height}:flags=lanczos+accurate_rnd+full_chroma_int`;
   ff(['-i', raw, '-vf', `${scale},format=rgb24,setparams=color_primaries=bt709:color_trc=iec61966-2-1:colorspace=gbr`, '-compression_level', '9', out]);
   let mode = 'rgb24';
-  if (statSync(out).size > MAX) {
+  if (statSync(out).size > max) {
     ff(['-i', raw, '-filter_complex', `[0]${scale},split[a][b];[a]palettegen=max_colors=256:stats_mode=full[p];[b][p]paletteuse=dither=sierra2_4a,setparams=color_primaries=bt709:color_trc=iec61966-2-1:colorspace=gbr`, '-compression_level', '9', out]);
     mode = 'palette 256, dithered';
   }
   const size = statSync(out).size;
-  console.log(`${f.file}: ${(size / 1024).toFixed(0)} KB (${mode})${size > MAX ? ' — OVER 1 MB' : ''} · player at ${at.t.toFixed(2)} / ${at.d.toFixed(2)} s · ${JSON.stringify(state)}${errors.length ? ' · errors: ' + errors.join(' | ') : ''}`);
+  console.log(`${f.file}: ${(size / 1024).toFixed(0)} KB (${mode})${size > max ? ` — OVER ${max / 1048576} MB` : ''} · player at ${at.t.toFixed(2)} / ${at.d.toFixed(2)} s · ${JSON.stringify(state)}${errors.length ? ' · errors: ' + errors.join(' | ') : ''}`);
 }
 await browser.close();
 await server.close();

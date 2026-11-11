@@ -5,7 +5,7 @@ custom elements and CSS, three glazes, any accent, keyboard first, readable over
 
 **Live page:** https://tactile.promopark.studio · by [promopark.studio](https://promopark.studio) · Apache 2.0
 
-![Playing: the bone dock over a snowy ridge](apps/preview/public/states/03-playing.webp)
+![Tactile — Paper Key: the real player with its bone dock, title on the left](design/cover/og-1200x630.png)
 
 ## Install
 
