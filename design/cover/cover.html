@@ -5,8 +5,9 @@
     <title>Tactile — submission cover</title>
     <!--
       The submission cover and the OG image, from design/Cover.dc.html ("SUBMISSION · cover 1920×1080 + OG 1200×630").
-      The key on the left is frame 30 of the final film's 3D render (film/render/final/out/0030.png, the same shot as the
-      film, without its title layer); the player on the right is the real skin, live. render.mjs serves this page with
+      The key on the left is frame 43 of the final film's 3D render (film/render/final/out/0043.png, the sharpest glyph
+      of f40–50, the same shot as the film without its title layer), at 0.6 so the whole glyph sits in the lit area
+      before the shade (which starts at 35 %); the player on the right is the real skin, live. render.mjs serves this page with
       Vite and exports it: ?format=cover (1920 × 1080) or ?format=og (1200 × 630, no subtitle). The OG is the cover's
       parts at 0.625, anchored to its top and bottom edges, the player scaled with them (same 900 px layout).
     -->
@@ -50,21 +51,27 @@
         height: 630px;
       }
 
+      /* The render at --k of its 1920 × 1080, placed so its glyph (render x 1010–1670) ends before the shade starts
+         (35 %); the face is as dark as the ground, so the edges only need a soft fade. */
       .key {
+        --k: 0.6;
         position: absolute;
-        left: calc(-120px * var(--s));
-        top: calc(-40px * var(--s));
-        width: calc(1340px * var(--s));
-        height: calc(100% + 80px * var(--s));
-        object-fit: cover;
-        object-position: 30% 50%;
+        left: calc(var(--key-x) * var(--s));
+        top: calc(var(--key-y) * var(--s));
+        width: calc(1920px * var(--k) * var(--s));
+        height: calc(1080px * var(--k) * var(--s));
+        --key-x: -362px;
+        --key-y: 230px;
         opacity: 0.95;
+        mask-image: linear-gradient(transparent, #000 24%, #000 78%, transparent),
+          linear-gradient(90deg, #000 48%, transparent 96%);
+        mask-composite: intersect;
       }
 
       .shade {
         position: absolute;
         inset: 0;
-        background: linear-gradient(90deg, rgb(20 19 19 / 0) 30%, rgb(20 19 19 / 0.85) 62%, #141313 78%);
+        background: linear-gradient(90deg, rgb(20 19 19 / 0) 35%, rgb(20 19 19 / 0.85) 62%, #141313 78%);
       }
 
       .eyebrow,
@@ -163,7 +170,7 @@
   </head>
   <body>
     <div class="frame" id="frame">
-      <img class="key" src="./key-f30.jpg" alt="" />
+      <img class="key" src="./key-f43.jpg" alt="" />
       <div class="shade"></div>
       <div class="eyebrow">VIDEO.JS V10 SKIN · OPEN SOURCE</div>
       <div class="title">
