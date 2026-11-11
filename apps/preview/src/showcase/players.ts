@@ -136,6 +136,15 @@ export function bootPlayers(): void {
     m.media.addEventListener('loadedmetadata', () => {
       m.media.currentTime = 3;
     }, { once: true });
+    // the controls show once the cap stands at 3 s, so it never moves under the reader's eyes (a layout shift)
+    const ready = () => {
+      if (anatomyFrame.hasAttribute('data-ready')) return;
+      anatomyFrame.setAttribute('data-ready', '');
+      placeCallouts();
+    };
+    // the skin moves the cap on the frames after `seeked`; show the controls once it has
+    m.media.addEventListener('seeked', () => requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(ready, 100))), { once: true });
+    setTimeout(ready, 3000);
     requestAnimationFrame(placeCallouts);
     setTimeout(placeCallouts, 600);
     new ResizeObserver(placeCallouts).observe(anatomyFrame);
@@ -143,15 +152,27 @@ export function bootPlayers(): void {
     return m;
   });
 
-  const PARTS: Record<string, string> = {
-    play: '.tactile-dock-play',
-    display: '.tactile-dock .tactile-pill',
-    seek: '.tactile-seek',
-    mute: '.tactile-key-mute',
-    volume: '.tactile-volume-wrap',
-    cc: '.tactile-key-cc',
-    settings: '.tactile-key-settings',
-    fullscreen: '.tactile-key-fullscreen',
+  /**
+   * What each number points at: the first match that is laid out. Narrow docks move two parts: the display's times go
+   * above the seek fader (under 760 px of player) and Settings becomes the corner key (under 560 px).
+   */
+  const PARTS: Record<string, string[]> = {
+    play: ['.tactile-dock-play'],
+    display: ['.tactile-dock .tactile-pill', '.tactile-seek-times .tactile-time-current'],
+    seek: ['.tactile-seek'],
+    mute: ['.tactile-dock .tactile-key-mute'],
+    volume: ['.tactile-volume-wrap'],
+    cc: ['.tactile-dock .tactile-key-cc'],
+    settings: ['.tactile-dock .tactile-key-settings', '.tactile-settings-corner'],
+    fullscreen: ['.tactile-dock .tactile-key-fullscreen'],
+  };
+  const laidOut = (m: Mounted, selectors: string[]): HTMLElement | null => {
+    for (const s of selectors) {
+      const el = m.container.querySelector<HTMLElement>(s);
+      const r = el?.getBoundingClientRect();
+      if (el && r && r.width > 0 && r.height > 0) return el;
+    }
+    return null;
   };
   const callouts = [...document.querySelectorAll<HTMLElement>('#anatomy-callouts .callnum')];
   const anatomyPanel = anatomyFrame.parentElement!;
@@ -165,21 +186,36 @@ export function bootPlayers(): void {
     // phones (page ≤ 600 px): the numbers sit under the player, their lines up to the controls, nothing over the image
     const below = anatomyPanel.closest<HTMLElement>('.sc')!.clientWidth <= 600;
     anatomyPanel.toggleAttribute('data-below', below);
-    const frameBottom = anatomyFrame.getBoundingClientRect().bottom - panel.top;
+    const frameRect = anatomyFrame.getBoundingClientRect();
+    const frameBottom = frameRect.bottom - panel.top;
     const missing: string[] = [];
     for (const el of callouts) {
       const part = el.dataset.part!;
-      const target = anatomy.container.querySelector<HTMLElement>(PARTS[part]!);
+      const target = laidOut(anatomy, PARTS[part]!);
       const r = target?.getBoundingClientRect();
-      const visible = !!r && r.width > 0 && r.height > 0 && !!dockRect && dockRect.width > 0;
+      const visible = !!r && !!dockRect && dockRect.width > 0;
       el.toggleAttribute('data-placed', visible);
       // the legend lists what this dock has: narrower docks hand some parts elsewhere (see MOVED)
       const card = cards.find((c) => c.dataset.part === part)?.closest('li');
       if (card && dockRect?.width) card.hidden = !visible;
       if (!visible && dockRect?.width) missing.push(part);
+      // a part that moved out of the dock says where it went (the display's times, the corner key)
+      const text = card?.querySelector<HTMLElement>('.part-t[data-corner]');
+      if (text) {
+        text.dataset.dock ??= text.textContent ?? '';
+        const moved = !!target && !target.closest('.tactile-dock .tactile-pill, .tactile-dock .tactile-key-settings');
+        text.textContent = moved ? text.dataset.corner! : text.dataset.dock;
+      }
       if (!visible || !r || !dockRect) continue;
       el.style.left = `${r.left + r.width / 2 - panel.left}px`;
-      if (below) {
+      // the corner key is above the dock: its number sits over the player's top edge, its line down to the key
+      const corner = target!.matches('.tactile-settings-corner');
+      el.toggleAttribute('data-above', corner);
+      if (corner) {
+        const top = frameRect.top - panel.top - NUM_GAP - 26;
+        el.style.top = `${top}px`;
+        el.style.setProperty('--lead', `${Math.max(8, r.top - panel.top - top - 26 - 4)}px`);
+      } else if (below) {
         const top = frameBottom + NUM_GAP;
         el.style.top = `${top}px`;
         el.style.setProperty('--lead', `${Math.max(8, top - (r.bottom - panel.top) - 4)}px`);
@@ -189,18 +225,18 @@ export function bootPlayers(): void {
         el.style.setProperty('--lead', `${Math.max(8, dockRect.top - panel.top - top - 26 - 4)}px`);
       }
     }
-    const note = missing.map((p) => MOVED[p]).filter(Boolean);
+    // on a phone the cards say where Display and Settings went; only the volume needs a line
+    const note = below ? (missing.includes('volume') ? ["Volume follows the phone's buttons."] : []) : missing.map((p) => MOVED[p]).filter(Boolean);
     partsNote.hidden = !note.length;
-    if (note.length) partsNote.textContent = `At this width: ${note.join('; ')}.`;
+    if (note.length) partsNote.textContent = below ? note[0]! : `At this width: ${note.join('; ')}.`;
     placeHint(anatomy, panel, dockRect);
+    watchBand();
   }
 
-  /** Where a part goes when the dock is too narrow for it (the skin's container queries: 880, 760 and 560 px). */
+  /** Where a part goes when the dock is too narrow for it (the skin's container queries: 880 and 560 px). */
   const MOVED: Record<string, string> = {
-    display: 'the times sit above the seek fader',
     volume: 'volume is left to the device, Mute stays',
     cc: 'Captions is a row in the settings menu',
-    settings: 'Settings is the key in the top corner',
   };
   const partsNote = document.getElementById('parts-note')!;
   /** Phones: gap from the frame's bottom edge to the numbers, and from the numbers to TRY IT's arrow. */
@@ -212,12 +248,12 @@ export function bootPlayers(): void {
   /** What the page points at per part, in the dock (a fader's cap, which takes focus, rather than the whole fader). */
   const TARGETS: Record<string, string[]> = {
     play: ['.tactile-dock-play'],
-    display: ['.tactile-dock .tactile-pill'],
+    display: ['.tactile-dock .tactile-pill', '.tactile-seek-times'],
     seek: ['.tactile-seek .tactile-fader-cap'],
     mute: ['.tactile-dock .tactile-key-mute'],
     volume: ['.tactile-volume-wrap .tactile-fader-cap'],
     cc: ['.tactile-dock .tactile-key-cc'],
-    settings: ['.tactile-dock .tactile-key-settings'],
+    settings: ['.tactile-dock .tactile-key-settings', '.tactile-settings-corner'],
     fullscreen: ['.tactile-dock .tactile-key-fullscreen'],
   };
   const HINT_KEY = 'tactile-anatomy-hint';
@@ -423,6 +459,57 @@ export function bootPlayers(): void {
     { threshold: 0.6 }
   );
   nudgeObserver.observe(anatomyFrame);
+
+  // ---------------------------------------------------------------- 02 Anatomy on phones: the card in the band -------
+  /**
+   * On a phone the panel sticks under the header while the cards scroll (CSS). The active card is the one crossing a
+   * 1 px band halfway down the space left under the panel; it gets the accent bar, its number turns accent and its
+   * control gets the ring. Visual only: no focus, no action. Before any card reaches the band, the first is active.
+   */
+  const header = document.querySelector<HTMLElement>('.site-header')!;
+  const setHeaderH = () => document.documentElement.style.setProperty('--header-h', `${header.offsetHeight}px`);
+  setHeaderH();
+  new ResizeObserver(setHeaderH).observe(header);
+
+  let active: string | null = null;
+  let activeEl: HTMLElement | null = null;
+  let bandObserver: IntersectionObserver | null = null;
+  let bandY = 0;
+
+  function setActive(part: string | null): void {
+    if (part === active && (!part || activeEl?.isConnected)) return;
+    active = part;
+    for (const c of callouts) c.classList.toggle('is-active', c.dataset.part === part);
+    for (const c of cards) c.classList.toggle('is-active', c.dataset.part === part);
+    activeEl?.removeAttribute('data-anatomy-active');
+    activeEl = part && anatomyFrame.querySelector('video-player') ? target(getAnatomy(), part) : null;
+    activeEl?.setAttribute('data-anatomy-active', '');
+  }
+
+  function pickActive(): void {
+    const shown = cards.map((c) => c.closest('li')!).filter((li) => !li.hidden);
+    if (!shown.length) return;
+    const inBand = shown.find((li) => { const r = li.getBoundingClientRect(); return r.top <= bandY && r.bottom > bandY; });
+    const pick = inBand ?? (shown[0]!.getBoundingClientRect().top > bandY ? shown[0] : shown[shown.length - 1]);
+    setActive(pick!.querySelector<HTMLButtonElement>('.part-btn')!.dataset.part!);
+  }
+
+  /** The band sits where it will be while the panel is stuck: under the header plus the panel. */
+  function watchBand(): void {
+    bandObserver?.disconnect();
+    bandObserver = null;
+    if (!anatomyPanel.hasAttribute('data-below')) {
+      setActive(null);
+      return;
+    }
+    const h = window.innerHeight;
+    bandY = Math.round((header.offsetHeight + anatomyPanel.offsetHeight + h) / 2);
+    bandObserver = new IntersectionObserver(pickActive, { rootMargin: `-${bandY}px 0px -${Math.max(0, h - bandY - 1)}px 0px` });
+    for (const c of cards) bandObserver.observe(c.closest('li')!);
+    pickActive();
+  }
+  // the phone's address bar changes the viewport height as it shows and hides
+  window.addEventListener('resize', () => requestAnimationFrame(watchBand));
 
   // ---------------------------------------------------------------- 03 Configurator -------------------------------
   const configFrame = document.getElementById('config-frame')!;

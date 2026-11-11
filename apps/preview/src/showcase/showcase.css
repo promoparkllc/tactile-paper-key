@@ -491,6 +491,13 @@ kbd {
   display: none;
 }
 
+/* Until the clip stands at 3 s the controls are laid out but not shown (players.ts sets data-ready). */
+.anatomy-frame:not([data-ready]) .tactile-controls,
+.anatomy-frame:not([data-ready]) .tactile-controls .tactile-dock,
+.anatomy-frame:not([data-ready]) .tactile-controls .tactile-settings-corner {
+  visibility: hidden;
+}
+
 
 .callouts {
   position: absolute;
@@ -1919,9 +1926,39 @@ kbd {
 /* 02 Anatomy on phones: nothing over the image. The numbers sit under the player with their lines up to the
    controls, TRY IT under them with its arrow up; the panel's bottom padding holds both (14 + 26 + 10 + 5 + 24 + 21). */
 @container (max-width: 600px) {
+  /* Number 7 (the corner key) sits over the player's top edge, so the panel has room above it too. While the cards
+     scroll, the panel stays under the header; it lets go where the section ends. */
   .anatomy-panel {
-    padding: 24px 12px 100px;
+    position: sticky;
+    top: var(--header-h, 59px);
+    z-index: 2;
+    padding: 56px 12px 100px;
   }
+}
+
+.anatomy-panel[data-below] .callnum[data-above]::after {
+  top: 100%;
+  bottom: auto;
+}
+
+/* The card in the band (phones): its bar, its number in the accent, the ring on its control. */
+.callnum.is-active {
+  background: var(--accent);
+  color: #160c07;
+}
+
+.callnum.is-active::after {
+  background: var(--accent);
+}
+
+.parts li:has(.part-btn.is-active) {
+  background: #2a2827;
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+.anatomy-frame [data-anatomy-active] {
+  outline: var(--tactile-ring) solid var(--tactile-ink);
+  outline-offset: var(--tactile-ring-offset);
 }
 
 .anatomy-panel[data-below] .callnum::after {
