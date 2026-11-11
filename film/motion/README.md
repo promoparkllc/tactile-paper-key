@@ -54,14 +54,14 @@ How the layer uses the events: hook title at `S1.start + 300 ms` · band centred
 `explode[1] − 5 f`, leave at `explode[3] − 8 f` · fan line types from `fan[0]`, chips from `fan[1]`, bone chip at
 `bone_up[1]` · ruler draws at `S4.start + 300 ms`, playhead from `press` · OBJECT at `S5.start + 300 ms`, INTERFACE
 outline when the first key starts to flatten (`min(keys_flat) − flat_len`), fills at `wipe[1]`; code types from
-`wipe[0]` · timecodes from `S6.start + 300 ms` · TAB chip from `hard_cut`, presses on `tab_hops` · end card from
+`wipe[0]` at 2 glyphs a frame (`MS.codeCharsPerFrame`: 67 glyphs complete at f440, before the layer leaves at f457; at 1 a frame the last two lines never showed) · timecodes from `S6.start + 300 ms` · TAB chip from `hard_cut`, presses on `tab_hops` · end card from
 `END.start + 300 ms`, keys on `END.start + 1·fpb, 2·fpb, 3·fpb`.
 
 ## Placement decisions measured on the retimed preview (2026-11-09)
 
 - Hook title top-left (baseline 330), not the storyboard's mid-left (≈ 540): the rim's glow crosses the mid-left
   from f20 on (cream measures 3.6–4.2:1 there); top-left measures ≥ 6.4:1 over the whole hook.
-- Flatten title right-aligned on the flat side and revealed by the wipe; code block below the dock (y 760). On the
+- Flatten title right-aligned on the flat side and revealed by the wipe; code block below the dock (y 720: its five lines end at y 917, clear of the page dock's bottom 140 px), the real key: `inline-size: 44px` (`--tactile-key-size`), `border: 1.25px solid #2A2724` (`--tactile-outline`, `--tactile-edge`), `border-radius: 50%`. On the
   3D side the window bars stay until the wipe (ink 2.5–4.1:1); on the flat field both measure ≥ 8.9:1.
 - `node scripts/probe.mjs <bgDir> <frames> <x> <y> <w> <h> <hex>` measures a candidate box over frames before placing text.
 - Sizes for the real viewing size (player ≈ 1100 px wide on the page, ×0.57): callouts 24, ruler labels 22, code 26,
@@ -77,10 +77,14 @@ outline when the first key starts to flatten (`min(keys_flat) − flat_len`), fi
   following the cap while it slides and holds, shown only during the cap's longest on-frame run and faded 8 frames at
   its ends); the duration sits 32 px right of `groove_end`. `scripts/fader-interval.mjs` measures the labels on
   every frame of that run (box-based, stricter than the stills).
-- HUD bottom-left at 64 px on every scene except S8, where the dock (3D stand-in, then the live skin) fills the
-  bottom from y 901 and the focused Play key's tooltip sits just above it: there the HUD moves to the top-left corner,
-  level with the Tab chip (`STAGE.hud.overDock`). S8's text turns from cream to ink at Blender f685, mid-way through
-  the live clip's fade-in (`TONE_SWITCH`).
+- HUD = the scene label only ("0N / NAME", no timecode: the player shows the time), top-left at the 64 px margin on
+  every scene, level with the Tab chip. It used to sit bottom-left, where the page's player dock (the bottom 140 px
+  at 1920) covered it. Its colour follows `HUD_TONE_RUNS`, measured on its own box on every frame of the finished
+  background by `scripts/hud-check.mjs`: cream on the dark frames, ink on the light ones, each switch on the first
+  frame where the other colour reads better (f66, 175, 281, 574, 684 in Blender numbers: the dissolves at the starts
+  of S2 and S4, the S2 → S3 cut, S7's fade to black, the live clip's fade-in). The Tab chip's own switch (top-right,
+  f685) stays in `TONE_SWITCH`. Known dip: the S5 wipe's shadow crosses the corner on f412–438 (ink 2.3:1; cream
+  would pass only on 426–437, so no flip).
 - End card: three 64 px keys (dock proportions) on their own row 40 px under the small row's baseline, left edge of
   the block; on the baseline itself a 64 px key would cut into PAPER KEY (60 px above).
 
@@ -94,6 +98,7 @@ npm run typecheck
 node scripts/stills.mjs --bg ../render/final/out   # M1: five stills over the final render + contrast report (gate: ../scenes.json, 26 s)
 node scripts/preview.mjs [--bg ../render/final/out] [--height 720]   # whole layer over the render → out/preview/*.mp4 + stills/preview_contact.jpg (2 fps)
 node scripts/fader-interval.mjs           # S6 labels: ink contrast on every frame of the cap's run → stills/fader_interval.md
+node scripts/hud-check.mjs [--bg out/final/bg]   # the scene label on every frame: contrast, measured switch frames, nothing of the layer in the bottom 140 px → stills/hud_check.md
 node scripts/capture.mjs [--probe]        # live hand-off: the real skin in Chromium (Playwright) playing the film, one PNG per frame of the live window → out/final/capture
 node scripts/final.mjs [--reuse-layer]    # 1080p layer + render + capture → out/final/tactile_from_object_to_interface_1080p.mp4 (H.264 yuv420p BT.709 limited, silent AAC), ffprobe.txt, stills/final_contact.jpg
 node scripts/stills.mjs --dev    # same pipeline on the fixture → stills/_work/dev (test only)

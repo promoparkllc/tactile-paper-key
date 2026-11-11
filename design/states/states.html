@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tactile — state captures</title>
+    <!--
+      The twelve captures of the page's 04 States, on the demo footage (apps/preview/public/footage). capture.mjs serves
+      this page with Vite and drives the real skin into each state: ?clip=<snow|night|market|studio>&w=<player width>
+      &poster=1 (READY over the clip's poster) &thumbs=<storyboard VTT URL> (seek preview frames).
+    -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <style>
+      @font-face {
+        font-family: "Geist Mono";
+        font-weight: 100 900;
+        src: url("/fonts/geist-mono-latin.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: Geist;
+        font-weight: 100 900;
+        src: url("/fonts/geist-latin.woff2") format("woff2");
+      }
+
+      html,
+      body {
+        margin: 0;
+        background: #1e1d1d;
+        overflow: hidden;
+      }
+
+      #stage {
+        width: 100vw;
+        height: 100vh;
+        --media-border-radius: 0px;
+      }
+
+      #stage media-i18n,
+      #stage video-player {
+        display: contents;
+      }
+
+      #stage .media-skin {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stage"></div>
+    <script type="module" src="./states.js"></script>
+  </body>
+</html>

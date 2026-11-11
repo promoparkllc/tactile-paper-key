@@ -53,6 +53,16 @@ code {
   font-size: 0.92em;
 }
 
+/* Token and attribute names in running text never break at their hyphens. */
+p code {
+  white-space: nowrap;
+}
+
+/* Segments of a long command that wraps only where it has a <wbr> (after a slash). */
+.nw {
+  white-space: nowrap;
+}
+
 .sc {
   container-type: inline-size;
   background: var(--bg);
@@ -117,6 +127,14 @@ code {
   font-family: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
 }
 
+/* A label that is a token name: shown exactly as typed. */
+.lbl-code {
+  font-family: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
+  font-size: 12px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
 .muted {
   color: var(--muted);
 }
@@ -131,14 +149,20 @@ code {
   outline-color: var(--ink);
 }
 
+/* Inside a player the skin draws its own ring (ink on the keys); the page's ring above is unlayered and would win. */
+.player-frame :focus-visible {
+  outline: revert-layer;
+  outline-offset: revert-layer;
+}
+
 /* Header: a sticky, quiet bar with the section anchors. */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgb(30 29 29 / 0.86);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  /* Solid: at 0.86 the page's light text read through the bar while it scrolled under. */
+  background: var(--bg);
+  border-bottom: 1px solid rgb(243 231 210 / 0.12);
 }
 
 .header-row {
@@ -435,55 +459,6 @@ kbd {
   background: #1a1b1d;
 }
 
-.skin-card {
-  position: relative;
-  overflow: hidden;
-  background: #111;
-}
-
-.skin-card img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.mini-dock {
-  position: absolute;
-  left: 8px;
-  right: 8px;
-  bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  height: 26px;
-  padding: 0 6px;
-  border-radius: 13px;
-  background: var(--bone);
-}
-
-.mini-play {
-  width: 26px;
-  height: 16px;
-  border-radius: 8px;
-  background: var(--accent);
-}
-
-.mini-line {
-  flex: 1;
-  height: 1.5px;
-  background: var(--edge);
-}
-
-.mini-key {
-  width: 16px;
-  height: 16px;
-  border: 1px solid var(--edge);
-  border-radius: 50%;
-  background: var(--key);
-}
-
 /* 02 Anatomy: the real player, pinned, with the numbers measured onto its controls. */
 .anatomy-panel {
   position: relative;
@@ -495,6 +470,27 @@ kbd {
 .anatomy-frame {
   border-radius: 14px;
 }
+
+/* Anatomy is about the dock: at every size it stays up, with no big key and no PAUSED pill over the frame (the skin
+   hides the dock while paused on a phone). Unlayered, so it wins over the skin's layer. */
+.anatomy-frame .tactile-key.tactile-center-play {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.anatomy-frame .tactile-controls .tactile-dock,
+.anatomy-frame .tactile-controls .tactile-settings-corner {
+  visibility: visible;
+  opacity: 1;
+  translate: 0 0;
+  pointer-events: auto;
+}
+
+.anatomy-frame .tactile-status-idle {
+  display: none;
+}
+
 
 .callouts {
   position: absolute;
@@ -548,12 +544,118 @@ kbd {
   background: var(--line);
 }
 
+.parts li[hidden] {
+  display: none;
+}
+
 .parts li {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 6px;
   padding: 20px;
   background: var(--bg);
+}
+
+/* Each card is a button (its label; ::after stretches it over the card) that shows the part on the player: focus on
+   the control, number lit. Hover/focus as the Specs token rows; the focus ring is drawn on the whole card. */
+.part-btn {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: start;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.part-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.part-btn:focus-visible {
+  outline: none;
+}
+
+.part-btn:focus-visible::after {
+  outline: 2px solid var(--text);
+  outline-offset: -2px;
+}
+
+.parts li:has(.part-btn:is(:hover, :focus-visible, .is-on)) {
+  background: #2a2827;
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+/* The number lit: on hover of its card or control, and for 1.5 s after a card shows its part. */
+.callnum {
+  pointer-events: auto;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.callnum.is-on,
+.callnum.is-lit {
+  background: var(--accent);
+  color: #160c07;
+}
+
+.callnum.is-on::after,
+.callnum.is-lit::after {
+  background: var(--accent);
+}
+
+/* The skin's focus ring, drawn on a control the page points at (hover on a number or card) without moving focus. */
+.anatomy-frame [data-anatomy-ring] {
+  outline: var(--tactile-ring) solid var(--tactile-ink);
+  outline-offset: var(--tactile-ring-offset);
+}
+
+/* TRY IT: the display pill's colours above the seek cap; gone at the first interaction, for the session. */
+.anatomy-hint {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 12px;
+  background: #151413;
+  color: #f4f1ec;
+  font-family: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  pointer-events: none;
+  translate: -50% -100%;
+  visibility: hidden;
+  transition: opacity 150ms ease, visibility 0s linear 150ms;
+}
+
+.anatomy-hint::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  margin-left: -5px;
+  border: 5px solid transparent;
+  border-top-color: #151413;
+  border-bottom: 0;
+}
+
+.anatomy-hint[data-placed] {
+  visibility: visible;
+  transition: opacity 150ms ease;
+}
+
+.anatomy-hint[data-gone] {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 150ms ease, visibility 0s linear 150ms;
 }
 
 .part-n {
@@ -772,7 +874,11 @@ kbd {
   margin-top: 40px;
 }
 
+/* The drawing stays at CSS size (drawn to scale); when the token panel beside it is taller, it sits in the middle. */
 .spec-draw {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   min-width: 0;
   padding: 44px 40px 36px;
   background-color: #2a2827;
@@ -1761,6 +1867,30 @@ kbd {
   .sec {
     padding-top: 96px;
   }
+
+  /* The shortcut list: two columns, three rows whatever the font (as a wrapping row it took two rows in Geist and
+     three in the fallback at 412 px, so the page moved when the font arrived). */
+  .keys {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-content: center;
+    justify-items: start;
+  }
+
+  /* The glaze chips share the row in three equal columns. */
+  .test-group:has(#glazes) {
+    flex-basis: 100%;
+  }
+
+  #glazes {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  #glazes .chip {
+    justify-content: center;
+    padding: 0 8px;
+  }
 }
 
 @container (min-width: 761px) and (max-width: 1000px) {
@@ -1780,7 +1910,32 @@ kbd {
   }
 
   .chip,
-  .config-frame {
+  .config-frame,
+  .callnum {
     transition: none;
   }
+}
+
+/* 02 Anatomy on phones: nothing over the image. The numbers sit under the player with their lines up to the
+   controls, TRY IT under them with its arrow up; the panel's bottom padding holds both (14 + 26 + 10 + 5 + 24 + 21). */
+@container (max-width: 600px) {
+  .anatomy-panel {
+    padding: 24px 12px 100px;
+  }
+}
+
+.anatomy-panel[data-below] .callnum::after {
+  top: auto;
+  bottom: 100%;
+}
+
+.anatomy-hint[data-below] {
+  translate: -50% 0;
+}
+
+.anatomy-hint[data-below]::after {
+  top: auto;
+  bottom: 100%;
+  border-top: 0;
+  border-bottom: 5px solid #151413;
 }

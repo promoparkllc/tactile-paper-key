@@ -261,7 +261,7 @@ not changed.
   stats box with the ticker row and the 3-column grid, 76px footer. Narrow (container ≤ 700px): h1 34, titles 26,
   footer 30, single-column grids, stacked test bar.
 - **Hero.** The board's mock dock over a still is the real Video.js v10 player with the skin (`--media-border-radius:
-  16px`). The poster (`POSTER_SRC`) is frame 45 of the final film (the dark hook, no UI, `poster.webp` 1920 px);
+  16px`). The poster (`POSTER_SRC`) is frame 43 of the final film's 3D render since 2026-11-11 (the rim-lit key with no burned-in title, so the READY key never sits on a title; `poster.webp` 1920 px; it was film frame 45);
   the flatten frame would double the dock. The media is the film on Mux (playback ID in `VIDEO_SOURCE`,
   2026-11-10), with `captions.en.vtt` (one cue per shot 4–8, off by default) as the one text track.
 - **H1.** Two intended lines on desktop, "A PLAYER" / "YOU CAN PRESS", via a `<br>`; under 700px the break is
@@ -269,6 +269,11 @@ not changed.
 - **Test bar.** Daylight / Night seek to `DAY_T` / `NIGHT_T` (12.5 s, the flatten at mean luma 206/255; 20 s, the
   display macro at 41/255) and play; the chip label times come from the constants. Swatches are `<button aria-pressed aria-label>` and set `--media-accent-color` and
   `--media-accent-text-color` on the player. Tab order: player controls → Daylight → Night → four swatches.
+- **State captures and step 5.** Since 2026-11-11 the twelve 04 States images and Origin step 5 (`img/step-skin.webp`)
+  come from `design/states/capture.mjs`: the real skin on the demo footage, driven by real pointer, keyboard, touch and
+  network input (LOADING by holding the clip after 320 KB; the seek preview from a storyboard made for the capture).
+  None is a film frame any more (05 had shown dock A with its LED). 03 · The object is the final film's S2 frame cropped
+  4:3 so every label fits and the corner HUD is out.
 - **Images.** `frame-flatten.webp` (1600 × 900 WebP). Since 2026-11-11 it is frame 434 of the final film's 3D render
   (S5, the wipe between the fader and the Captions key, dock B, no burned-in title), cropped 1:1; the board's
   `frame-key.webp` and `frame-glazes.webp` were unused and are deleted. `og.png` 1200 × 630 from the poster frame (film frame 45) plus the title (replaced on 2026-11-10 by

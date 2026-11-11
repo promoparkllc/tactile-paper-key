@@ -24,6 +24,7 @@ export const MS = {
   wordStagger: 90, // hook words
   calloutStagger: 60, // exploded callouts (the hold is ~1 s: 60 ms apart, 2 glyphs a frame, visible until 8 f before the reunion)
   calloutCharsPerFrame: 2,
+  codeCharsPerFrame: 2, // S5 CSS block: 67 glyphs from the wipe start; at 1 a frame it would end after the layer leaves (f472 vs exit f457), at 2 it completes at f440 and holds
   calloutExitLead: 8, // frames before the parts rejoin (explode[3]) when every callout leaves together
   chipStagger: 120, // fan chips
   leader: 250, // callout leader line draw (ease-out-quint)

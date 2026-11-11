@@ -21,7 +21,7 @@ export const Flatten: React.FC<Ctx> = (ctx) => {
   const flatSide = `${edge.xTop},0 ${W + 4},0 ${W + 4},${H} ${edge.xBottom},${H}`;
   const pitch = extras.pxPerMmS5 ? 8 * extras.pxPerMmS5 : STAGE.grid.pitchPx;
   const arrowP = ramp(t, arrow, MS.leader, 'outQuint');
-  const typed = typedPrefix(t, code, CODE_TEXT, film.fps);
+  const typed = typedPrefix(t, code, CODE_TEXT, film.fps, MS.codeCharsPerFrame);
   const lines = typed.split('\n');
   const lineH = TYPE.code * TYPE.codeLineHeight;
   const cursorOn = t >= code && blinkOn(t, code);

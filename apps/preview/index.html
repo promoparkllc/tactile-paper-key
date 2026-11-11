@@ -133,7 +133,7 @@
           </div>
           <ul class="keys" aria-label="Keyboard">
             <li><kbd>Space</kbd> <kbd>K</kbd> Play</li>
-            <li><kbd>←</kbd> <kbd>→</kbd> Seek 5 s</li>
+            <li><kbd>←</kbd> <kbd>→</kbd> Seek 10 s</li>
             <li><kbd>↑</kbd> <kbd>↓</kbd> Volume</li>
             <li><kbd>M</kbd> Mute</li>
             <li><kbd>C</kbd> Captions</li>
@@ -163,7 +163,7 @@
             </li>
             <li class="cell step">
               <span class="mono step-n">3 · THE OBJECT</span>
-              <img class="step-img" src="/img/origin-exploded.webp" width="1600" height="900" loading="lazy" alt="Exploded view of the keypad: keys, faders and display lifted above the body, with measurements" />
+              <img class="step-img" src="/img/origin-exploded.webp" width="1200" height="900" loading="lazy" alt="Exploded view of the keypad: keys, faders and display lifted above the body, with measurements" />
               <span class="step-t">Real parts, real numbers: Ø 44 keys, 2 mm travel, a 12×26 fader cap.</span>
             </li>
             <li class="cell step">
@@ -173,10 +173,7 @@
             </li>
             <li class="cell step">
               <span class="mono step-n">5 · THE SKIN</span>
-              <div class="step-art skin-card">
-                <img src="/img/footage-market.webp" width="1600" height="900" loading="lazy" alt="Busy flower market footage with the player's dock over it" />
-                <div class="mini-dock" aria-hidden="true"><span class="mini-play"></span><span class="mini-line"></span><span class="mini-key"></span><span class="mini-key"></span></div>
-              </div>
+              <img class="step-img" src="/img/step-skin.webp" width="1200" height="900" loading="lazy" alt="The real skin over the flower market: the bone dock with play, display, seek fader and keys" />
               <span class="step-t">What ships: the same object, now CSS, over any footage.</span>
             </li>
           </ol>
@@ -192,6 +189,7 @@
             <div class="anatomy-frame player-frame" id="anatomy-frame">
               <img class="hero-poster" src="/img/footage-studio.webp" width="1600" height="900" loading="lazy" alt="" />
             </div>
+            <span class="anatomy-hint" aria-hidden="true">TRY IT · DRAG THE FADER</span>
             <ol class="callouts" id="anatomy-callouts" aria-label="Parts, numbered as in the list below">
               <li class="callnum" data-part="play">1</li>
               <li class="callnum" data-part="display">2</li>
@@ -204,15 +202,16 @@
             </ol>
           </div>
           <ol class="g4 parts">
-            <li><span class="mono part-n">1 · PLAY KEY</span><span class="part-t">The only orange key. Its glyph morphs between play and pause.</span></li>
-            <li><span class="mono part-n">2 · DISPLAY</span><span class="part-t">State, speed and time in one black pill: PLAY 1.0×, PAUSED, LOADING, END.</span></li>
-            <li><span class="mono part-n">3 · SEEK FADER</span><span class="part-t">A ribbed cap on an engraved line. Hover for a framed preview of that moment.</span></li>
-            <li><span class="mono part-n">4 · MUTE</span><span class="part-t">Speaker glyph shows the level in waves; muted shows a cross.</span></li>
-            <li><span class="mono part-n">5 · VOLUME FADER</span><span class="part-t">A short bone fader. Arrow keys move it in 5 % steps.</span></li>
-            <li><span class="mono part-n">6 · CAPTIONS</span><span class="part-t">Latches down 1 px and takes a 2 px accent rim when on.</span></li>
-            <li><span class="mono part-n">7 · SETTINGS</span><span class="part-t">Speed, captions and quality, in a bone panel that opens from the key.</span></li>
-            <li><span class="mono part-n">8 · FULL SCREEN</span><span class="part-t">Corners out to enter, corners in to leave. The dock scales up to 1.25×.</span></li>
+            <li><button type="button" class="part-btn mono part-n" data-part="play" aria-label="Show 1: Play key" aria-describedby="part-t-1">1 · PLAY KEY</button><span class="part-t" id="part-t-1">The only orange key. Its glyph morphs between play and pause.</span></li>
+            <li><button type="button" class="part-btn mono part-n" data-part="display" aria-label="Show 2: Display" aria-describedby="part-t-2">2 · DISPLAY</button><span class="part-t" id="part-t-2">State, speed and time in one black pill: PLAY 1.0×, PAUSED, LOADING, END.</span></li>
+            <li><button type="button" class="part-btn mono part-n" data-part="seek" aria-label="Show 3: Seek fader" aria-describedby="part-t-3">3 · SEEK FADER</button><span class="part-t" id="part-t-3">A ribbed cap on an engraved line. Hover for a framed preview of that moment.</span></li>
+            <li><button type="button" class="part-btn mono part-n" data-part="mute" aria-label="Show 4: Mute key" aria-describedby="part-t-4">4 · MUTE</button><span class="part-t" id="part-t-4">Speaker glyph shows the level in waves; muted shows a cross.</span></li>
+            <li><button type="button" class="part-btn mono part-n" data-part="volume" aria-label="Show 5: Volume fader" aria-describedby="part-t-5">5 · VOLUME FADER</button><span class="part-t" id="part-t-5">A short bone fader. Arrow keys move it in 5 % steps.</span></li>
+            <li><button type="button" class="part-btn mono part-n" data-part="cc" aria-label="Show 6: Captions key" aria-describedby="part-t-6">6 · CAPTIONS</button><span class="part-t" id="part-t-6">Latches down 1 px and takes a 2 px accent rim when on.</span></li>
+            <li><button type="button" class="part-btn mono part-n" data-part="settings" aria-label="Show 7: Settings key" aria-describedby="part-t-7">7 · SETTINGS</button><span class="part-t" id="part-t-7">Speed, captions and quality, in a bone panel that opens from the key.</span></li>
+            <li><button type="button" class="part-btn mono part-n" data-part="fullscreen" aria-label="Show 8: Full screen key" aria-describedby="part-t-8">8 · FULL SCREEN</button><span class="part-t" id="part-t-8">Corners out to enter, corners in to leave. The dock scales up to 1.25×.</span></li>
           </ol>
+          <p class="mono note" id="parts-note" hidden></p>
         </section>
 
         <!-- 03 ANY SITE -->
@@ -230,7 +229,7 @@
               </div>
             </div>
             <div class="test-group">
-              <span class="lbl" id="accent-label">--media-accent-color</span>
+              <span class="lbl lbl-code" id="accent-label">--media-accent-color</span>
               <div class="swatches" role="group" aria-labelledby="accent-label" id="swatches"></div>
             </div>
             <div class="test-group">
@@ -254,15 +253,15 @@
           <h2 id="states-h" class="disp h2">Twelve moments. <span class="out">All designed.</span></h2>
           <p class="lead">Captured from the real player, not drawn. Mouse, keyboard and thumb.</p>
           <ol class="g4 states" id="states-grid">
-            <li class="stile"><img src="/states/01-ready.webp" width="1280" height="720" loading="lazy" alt="Ready: one large orange Play key over a dark key macro, the duration in a small pill" /><span class="mono stile-n">01 · START</span><span class="stile-t">Ready to play</span><span class="stile-h">One big key on the poster. Click, tap or Space.</span></li>
+            <li class="stile"><img src="/states/01-ready.webp" width="1280" height="720" loading="lazy" alt="Ready: one large orange Play key over the flower market poster, the duration in a small pill" /><span class="mono stile-n">01 · START</span><span class="stile-t">Ready to play</span><span class="stile-h">One big key on the poster. Click, tap or Space.</span></li>
             <li class="stile"><img src="/states/02-loading.webp" width="1280" height="720" loading="lazy" alt="Loading: the display reads LOADING with three stepping LEDs over a night street" /><span class="mono stile-n">02 · START</span><span class="stile-t">Loading</span><span class="stile-h">Three LEDs step in the display. Only after 400 ms.</span></li>
             <li class="stile"><img src="/states/03-playing.webp" width="1280" height="720" loading="lazy" alt="Playing: the full dock over a bright snowy ridge" /><span class="mono stile-n">03 · WATCHING</span><span class="stile-t">Playing</span><span class="stile-h">The dock: play, display, faders, keys.</span></li>
             <li class="stile"><img src="/states/04-hidden.webp" width="1280" height="720" loading="lazy" alt="Controls hidden: the podcast studio footage with no dock" /><span class="mono stile-n">04 · WATCHING</span><span class="stile-t">Controls hidden</span><span class="stile-h">Fades away when the pointer rests.</span></li>
-            <li class="stile"><img src="/states/05-seek-preview.webp" width="1280" height="720" loading="lazy" alt="Seek preview: a framed thumbnail and the time above the timeline" /><span class="mono stile-n">05 · FINDING</span><span class="stile-t">Seek preview</span><span class="stile-h">A framed thumbnail follows the pointer.</span></li>
+            <li class="stile"><img src="/states/05-seek-preview.webp" width="1280" height="720" loading="lazy" alt="Seek preview: a framed thumbnail of the studio and the time above the timeline" /><span class="mono stile-n">05 · FINDING</span><span class="stile-t">Seek preview</span><span class="stile-h">A framed thumbnail follows the pointer.</span></li>
             <li class="stile"><img src="/states/06-dragging.webp" width="1280" height="720" loading="lazy" alt="Dragging: the seek cap lifted while held, over the flower market" /><span class="mono stile-n">06 · FINDING</span><span class="stile-t">Dragging</span><span class="stile-h">The cap lifts 1 px while you hold it.</span></li>
-            <li class="stile"><img src="/states/07-muted.webp" width="1280" height="720" loading="lazy" alt="Muted: the speaker glyph with a cross, the volume fader keeps its level" /><span class="mono stile-n">07 · SOUND</span><span class="stile-t">Muted</span><span class="stile-h">Speaker with a cross; the fader keeps its level.</span></li>
+            <li class="stile"><img src="/states/07-muted.webp" width="1280" height="720" loading="lazy" alt="Muted: the speaker glyph with a cross, the volume fader down to zero" /><span class="mono stile-n">07 · SOUND</span><span class="stile-t">Muted</span><span class="stile-h">Speaker with a cross; the fader drops to zero.</span></li>
             <li class="stile"><img src="/states/08-captions.webp" width="1280" height="720" loading="lazy" alt="Captions on: the key latched with its accent rim and a caption above the dock" /><span class="mono stile-n">08 · CAPTIONS</span><span class="stile-t">Captions on</span><span class="stile-h">Key latches with an accent rim, text above the dock.</span></li>
-            <li class="stile"><img src="/states/09-settings.webp" width="1280" height="720" loading="lazy" alt="Settings open: the bone panel with Speed, Captions and Quality rows" /><span class="mono stile-n">09 · SETTINGS</span><span class="stile-t">Menu open</span><span class="stile-h">Speed, captions, quality in a bone panel.</span></li>
+            <li class="stile"><img src="/states/09-settings.webp" width="1280" height="720" loading="lazy" alt="Settings open: the bone panel with Speed and Captions rows" /><span class="mono stile-n">09 · SETTINGS</span><span class="stile-t">Menu open</span><span class="stile-h">Speed, captions, quality in a bone panel.</span></li>
             <li class="stile"><img src="/states/10-focus.webp" width="1280" height="720" loading="lazy" alt="Focus and tooltip: an ink ring around the mute key and a pill with its name and shortcut" /><span class="mono stile-n">10 · KEYBOARD</span><span class="stile-t">Focus + tooltip</span><span class="stile-h">Ink ring, name and shortcut in a pill.</span></li>
             <li class="stile"><img src="/states/11-replay.webp" width="1280" height="720" loading="lazy" alt="End: the large key returns with the replay glyph over END" /><span class="mono stile-n">11 · END</span><span class="stile-t">Replay</span><span class="stile-h">The big key returns with the replay glyph.</span></li>
             <li class="stile"><img src="/states/12-phone.webp" width="1280" height="720" loading="lazy" alt="Phone layout: a 60 px dock with play, times, seek, mute and full screen, settings in the corner" /><span class="mono stile-n">12 · PHONE</span><span class="stile-t">Phone layout</span><span class="stile-h">60 px dock, settings in the corner.</span></li>
@@ -387,7 +386,7 @@
             </li>
             <li class="inst-step">
               <span class="num" aria-hidden="true">02</span><span class="tag">TERMINAL</span>
-              <code class="cmd cmd-wrap"><span class="cmd-p" aria-hidden="true">$ </span><span class="cmd-text">npx degit promoparkllc/<wbr />tactile-paper-key/<wbr />src tactile-skin</span></code>
+              <code class="cmd cmd-wrap"><span class="cmd-p" aria-hidden="true">$ </span><span class="cmd-text"><span class="nw">npx degit promoparkllc/</span><wbr /><span class="nw">tactile-paper-key/</span><wbr /><span class="nw">src tactile-skin</span></span></code>
               <button type="button" class="ck" aria-label="Copy step 2: npx degit promoparkllc/tactile-paper-key/src tactile-skin"><span class="toast" aria-hidden="true"></span></button>
             </li>
             <li class="inst-step">

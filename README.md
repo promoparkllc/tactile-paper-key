@@ -42,7 +42,7 @@ Chrome.
   fill and cap, the rim of a latched key.
 - `--media-font-family`, `--media-border-radius`; `--tactile-scale` scales the whole controls layer (the skin sets
   1.25 in fullscreen on screens from 1280 px); `visibility="always"` on `media-controls` pins the dock.
-- Keyboard: Space / K play, ← → seek 5 s, ↑ ↓ volume, M mute, F fullscreen, C captions, Esc closes any menu and hands
+- Keyboard: Space / K play, ← → seek 10 s, ↑ ↓ volume, M mute, F fullscreen, C captions, Esc closes any menu and hands
   focus back. Every key has a tooltip with its name and shortcut; the status announcer reports state changes.
 
 | state | |

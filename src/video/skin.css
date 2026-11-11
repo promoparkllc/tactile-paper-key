@@ -1530,6 +1530,21 @@
       box-shadow: var(--tactile-shadow-play-latched);
     }
 
+    /* Under 520px of player the big key is 88 × 52 (glyph 21, the same 0.81 ratio), so it does not cover a third of
+       a small frame. */
+    @container media-root (width < 520px) {
+      .tactile-key.tactile-center-play {
+        width: 88px;
+        height: 52px;
+        border-radius: 26px;
+      }
+
+      .tactile-center-play > .tactile-icon {
+        width: 21px;
+        height: 21px;
+      }
+    }
+
     /* ---------------------------------------------------------------- Narrower players ----------------------- */
     /* Thresholds follow the 68px dock: each keeps the seek fader at 145px or more. Under 880px the volume fader
        goes; mute stays. */

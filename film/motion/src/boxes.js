@@ -3,8 +3,8 @@
 // else that is text. Positions mirror the components (layout.js + timing.js); widths use ADVANCE estimates.
 
 import { anchorsAt } from './data/anchorsAt.js';
-import { formatClock, formatTimecode, sceneAt } from './data/normalize.js';
-import { ADVANCE, CODE_TEXT, END_SMALL, END_TITLE, FLATTEN_WORDS, FONT, H, HOOK_WORDS, HUD_NAMES, STAGE, TYPE, W, hudTop, textColor } from './layout.js';
+import { formatClock, sceneAt } from './data/normalize.js';
+import { ADVANCE, CODE_TEXT, END_SMALL, END_TITLE, FLATTEN_WORDS, FONT, H, HOOK_WORDS, HUD_NAMES, STAGE, TYPE, W, hudColor, textColor } from './layout.js';
 import { MS } from './motion.js';
 import { CALLOUT_ORDER, calloutTiming, capRun, flattenTiming, rulerTiming } from './timing.js';
 
@@ -13,8 +13,8 @@ const width = (text, size, font) => Math.ceil(text.length * size * ADVANCE[font]
 const hud = (film, frame) => {
   const scene = sceneAt(film, frame);
   const label = `${String(scene.n).padStart(2, '0')} / ${HUD_NAMES[scene.id] ?? scene.name}`;
-  const w = width(label, TYPE.hudLabel, FONT.display) + STAGE.hud.gap + width(formatTimecode(frame, film.fps), TYPE.hudTime, FONT.mono);
-  return { name: 'hud', x: STAGE.hud.x - 4, y: hudTop(scene.id) - 6, w, h: TYPE.hudTime + 12, color: textColor(scene.id, frame) };
+  const w = width(label, TYPE.hudLabel, FONT.display);
+  return { name: 'hud', x: STAGE.hud.x - 4, y: STAGE.hud.top - 6, w, h: TYPE.hudLabel + 12, color: hudColor(frame) };
 };
 
 export function boxesFor(still, frame, film, anchorsS2, anchorsS6 = null) {
@@ -74,7 +74,7 @@ export function boxesFor(still, frame, film, anchorsS2, anchorsS6 = null) {
     const lines = CODE_TEXT.split('\n');
     const lineH = TYPE.code * TYPE.codeLineHeight;
     const typedFrames = Math.floor((t - code) * film.fps) + 1;
-    let budget = typedFrames;
+    let budget = typedFrames * MS.codeCharsPerFrame;
     lines.forEach((line, i) => {
       const glyphs = line.replace(/\s/g, '').length;
       if (budget <= 0) return;

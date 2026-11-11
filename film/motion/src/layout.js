@@ -42,7 +42,6 @@ export const TYPE = {
   codeLineHeight: 1.6,
   timecode: 24,          // fader ends, ≥ 22
   hudLabel: 16,
-  hudTime: 16,
   tab: 28,
 };
 
@@ -50,10 +49,23 @@ export const TYPE = {
 export const TONE = { S1: 'dark', S2: 'light', S3: 'dark', S4: 'light', S5: 'light', S6: 'light', S7: 'dark', S8: 'dark', END: 'light' };
 /**
  * Within S8 the live player's clip (snow) fades in over the dark field on f677–687 (Blender numbers): the frame turns
- * light mid-fade. From Blender f685 (0-based 684) ink beats cream at the HUD (4.8 vs 2.7:1) and the Tab chip
- * (3.7 vs 3.5:1); measured on the capture frames, see stills/film_27_5s_sync.md.
+ * light mid-fade. From Blender f685 (0-based 684) ink beats cream at the Tab chip (3.7 vs 3.5:1); measured on the
+ * capture frames, see stills/film_27_5s_sync.md.
  */
 export const TONE_SWITCH = { S8: { frame0: 684, to: 'light' } };
+/**
+ * The HUD label's own tone, measured on its box (top-left, 200 × 28 px at 60, 60) on every frame of the finished
+ * background (render + live capture) by scripts/hud-check.mjs: cream on the dark frames, ink on the light ones, each
+ * switch on the first frame where the other colour reads better (the 3D dissolves at the starts of S2 and S4, the
+ * S2 → S3 cut, S7's fade to black, the live clip's fade-in). 0-based frames; frames before the first entry take it.
+ */
+export const HUD_TONE_RUNS = [[0, 'dark'], [65, 'light'], [174, 'dark'], [280, 'light'], [573, 'dark'], [683, 'light']];
+/** @param {number} frame 0-based film frame */
+export const hudColor = (frame) => {
+  let tone = HUD_TONE_RUNS[0][1];
+  for (const [from, to] of HUD_TONE_RUNS) if (frame >= from) tone = to;
+  return tone === 'dark' ? COLOR.cream : COLOR.ink;
+};
 /** @param {string} sceneId @param {number | null} [frame] 0-based film frame; without it the scene's base tone */
 export const textColor = (sceneId, frame = null) => {
   const sw = TONE_SWITCH[sceneId];
@@ -81,25 +93,20 @@ export const STAGE = {
   ruler: { x: 660, y: 900, width: 600, tickPitch: 4, minorH: 24, majorH: 32, markH: 40, labelGap: 14, marksMs: [70, 200] },
   flattenTitle: { right: W - MARGIN, y: 156, arrowLen: 72, gap: 28 }, // right-aligned on the flat side, revealed by the wipe (the 3D side keeps the window bars: ink measures 2.5–4.1:1 there)
   grid: { pitchPx: 12.8, inkAlpha: 0.1 },                       // 8 px grid at ×1.6; overridden by scenes.json px_per_mm_s5 × 8
-  code: { x: 1120, y: 760 },                                    // below the dock on the flat field (8.9:1 measured); at y 300 it straddled the dock edge
+  code: { x: 1120, y: 720 },                                    // below the dock on the flat field (8.9:1 measured); at y 300 it straddled the dock edge; at y 760 the closing brace reached y 957, inside the page dock's 140 px band
   // S6: current time rides above the cap (anchors_s6 `cap` = cap top centre; the cap's top edge is 56–94 px above
   // it, so the text's bottom sits 128 px above → ≥ 34 px clear); duration 32 px right of `groove_end`
   fader: { capRise: 128, endGap: 32, edgeMargin: 100, minRun: 8 },
   tab: { right: MARGIN, top: MARGIN, padX: 18, height: 52, radius: 8 },
-  // S8: the dock (3D stand-in, then the live skin) fills the bottom from y 901 (inset 38 + height 141 at ×1.6), so
-  // the HUD moves 24 px above it for that scene; the hand-off caption sits centred, clear of it
-  // in S8 the dock fills the bottom and the focused Play key's tooltip sits where a lifted HUD would be, so the HUD
-  // moves to the top-left corner, level with the Tab chip
-  hud: { x: MARGIN, bottom: MARGIN, topOverDock: MARGIN, gap: 16, overDock: ['S8'] },
-  // keys: dock proportions (52 px key in the skin → 64 px here), their own row 40 px under the small row's baseline
+  // the scene label, top-left at the margin on every scene, level with the Tab chip: on the page the player's dock
+  // covers the bottom 140 px of the frame (at 1920), so nothing of the HUD sits there; no timecode (the player shows
+  // the time)
+  hud: { x: MARGIN, top: MARGIN },
+  // keys: dock proportions (44 px key in the skin, drawn at 64 px here), their own row 40 px under the small row's baseline
   // (measured 583), on the block's left edge. On the small row's baseline itself a 64 px key would cut into
   // PAPER KEY (its baseline is only 60 px above).
   end: { x: MARGIN, titleBaseline: 520, lineGap: 24, smallRowGap: 40, keys: { top: 624, size: 64, gap: 16 } },
 };
-
-/** Bottom margin of the HUD for a scene: 64 px, or above the dock where the dock fills the bottom. */
-/** The HUD's top edge: bottom-left at the margin, except over the dock (S8), where it sits top-left. */
-export const hudTop = (sceneId) => (STAGE.hud.overDock.includes(sceneId) ? STAGE.hud.topOverDock : H - STAGE.hud.bottom - TYPE.hudTime);
 
 /** Fan caps (S3) screen positions, FALLBACK measured on render/check/f0241.png (26 s timing, 960 × 540 → ×2). */
 export const FALLBACK_FAN = {
@@ -110,7 +117,8 @@ export const FALLBACK_FAN = {
 /** Wipe edge (S5) FALLBACK: screen x at the top and bottom of the frame as a function of wipe progress 0..1. */
 export const FALLBACK_WIPE = { xTop: [W + 24, -24], xBottom: [W + 24 - 0.14 * W, -24 - 0.14 * W] }; // slant 52 % → 38 % as SF5
 
-export const CODE_TEXT = '.key {\n  inline-size: 52px;\n  border: 1.25px solid #2A2724;\n  border-radius: 50%;\n}';
+// the real key (src/styles/themes/tactile.css, dock size B): --tactile-key-size 44px, --tactile-outline 1.25px solid --tactile-edge (= --tactile-ink #2a2724 on bone), border-radius 50%
+export const CODE_TEXT = '.key {\n  inline-size: 44px;\n  border: 1.25px solid #2A2724;\n  border-radius: 50%;\n}';
 export const HOOK_WORDS = ['EVERY', 'CONTROL'];
 export const FLATTEN_WORDS = ['OBJECT', 'INTERFACE'];
 export const END_TITLE = ['TACTILE', 'PAPER KEY'];
